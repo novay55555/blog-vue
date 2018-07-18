@@ -4,12 +4,16 @@ const Koa = require('koa')
 const Router = require('koa-router')
 const koaStatic = require('koa-static')
 const koaMount = require('koa-mount')
+const bodyParser = require('koa-bodyparser')
 const LRU = require('lru-cache')
+const ip = require('ip')
+const axios = require('axios')
 const { createBundleRenderer } = require('vue-server-renderer')
 const ssrDevServer = require('./ssr-dev-server')
 
 const isProd = process.env.NODE_ENV === 'production'
-const PORT = 3000
+const PORT = 3001
+const API_PORT = 3000
 const server = new Koa()
 const router = new Router()
 const staticFolders = ['js', 'css', 'img']
@@ -34,6 +38,10 @@ staticFolders.forEach(folder => {
     koaMount(`/${folder}`, koaStatic(path.join(__dirname, 'dist', folder)))
   )
 })
+
+server.use(bodyParser())
+
+server.use(proxyApi)
 
 router.get('*', async ctx => {
   if (!isProd) {
@@ -87,4 +95,19 @@ function initRenderder() {
   })
 
   return renderer
+}
+
+async function proxyApi(ctx, next) {
+  if (ctx.url.indexOf('/api') !== 0) return next()
+  const uri = `http://${ip.address()}:${API_PORT}${ctx.url}`
+  const method = ctx.method.toLowerCase()
+  const body = ctx.request.body
+  const options = {}
+  const args = Object.keys(body).length ? [uri, body, options] : [uri, options]
+  try {
+    const res = await axios[method].apply(null, args)
+    ctx.body = res.data
+  } catch (e) {
+    throw e
+  }
 }
