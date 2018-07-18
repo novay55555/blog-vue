@@ -1,7 +1,7 @@
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
+const base = require('./vue.webpack.base')
+const merge = require('webpack-merge')
 
-module.exports = {
-  entry: './src/entry-client.js',
-  target: 'web',
+module.exports = merge(base, {
   plugins: [new VueSSRClientPlugin()]
-}
+})
