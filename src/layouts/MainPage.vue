@@ -1,6 +1,10 @@
 <template>
   <div class="main-page">
-    <Asidebar :data="makeFeatures()" />
+    <Asidebar :data="asidebarIcons">
+      <!-- <ListGroup slot="glyphicon-folder-open"></ListGroup> -->
+      <Search slot="glyphicon-search" class="feature-search"></Search>
+      <!-- <ListGroup slot="glyphicon-send"></ListGroup> -->
+    </Asidebar>
     <div class="container-fluid">
       <div class="row">
         <div class='col-lg-2 col-sm-3'>
@@ -18,28 +22,24 @@
 
 <script>
 import Asidebar from '../components/Asidebar.vue'
+import ListGroup from '../components/ListGroup.vue'
+import Search from '../components/SearchInput.vue'
+
 export default {
   name: 'main-page',
   components: {
-    Asidebar
+    Asidebar,
+    ListGroup,
+    Search
   },
-  methods: {
-    makeFeatures() {
-      const features = [
-        {
-          btn: 'glyphicon-folder-open'
-        },
-        {
-          btn: 'glyphicon-search'
-        },
-        {
-          btn: 'glyphicon-send'
-        },
-        {
-          btn: 'glyphicon-th'
-        }
+  data() {
+    return {
+      asidebarIcons: [
+        'glyphicon-folder-open',
+        'glyphicon-search',
+        'glyphicon-send',
+        'glyphicon-th'
       ]
-      return features
     }
   }
 }

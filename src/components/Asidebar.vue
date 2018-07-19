@@ -1,11 +1,19 @@
 <template>
   <div class="asidebar">
     <div>
-      <ul>
-        <li v-for="(item, index) in data" :key="index">
-          <span :class="'glyphicon ' + (item.btn || '')"></span>
-          <div class="children">
-            {{item.content && item.content()}}
+      <ul ref="ul">
+        <li 
+          v-for="(item, index) in data" 
+          :key="index"
+          :class="activeIndex === index ? 'active' : ''"
+          @click.stop="toggleChildren(index)"
+        >
+          <span :class="'glyphicon ' + item"></span>
+          <div 
+            class="children" 
+            :style="{top: index === 0 ? index : (index * liHeight + liPaddingTop)}"
+          >
+            <slot :name="item" />
           </div>
         </li>
       </ul>
@@ -15,10 +23,42 @@
 </template>
 
 <script>
+import $ from 'jquery'
+
 export default {
   name: 'asidebar',
   props: {
     data: Array
+  },
+  data() {
+    return {
+      liHeight: 0,
+      liPaddingTop: 0,
+      activeIndex: -1
+    }
+  },
+  mounted() {
+    const $li = $(this.$el).find('li')
+
+    // TODO: style没有动态更新
+    this.liHeight = $li.outerHeight()
+    this.liPaddingTop = ($li.outerHeight() - $li.height()) / 2
+
+    document.addEventListener('click', this.hideChildren)
+  },
+  beforeDestroy() {
+    document.removeEventListener('click', this.hideChildren)
+  },
+  methods: {
+    toggleChildren(index) {
+      if (this.activeIndex === index) return (this.activeIndex = -1)
+      this.activeIndex = index
+    },
+    hideChildren(e) {
+      if ($(e.target).closest('ul') !== this.$refs.ul) {
+        this.activeIndex = -1
+      }
+    }
   }
 }
 </script>
@@ -49,7 +89,7 @@ export default {
       & > .glyphicon {
         color: #eee;
       }
-      &.children {
+      .children {
         transform: translate(100%, 0);
         transform: translate3d(100%, 0, 0);
       }
@@ -107,26 +147,6 @@ export default {
     &:hover,
     &.active {
       color: #eee;
-    }
-  }
-  .search {
-    position: relative;
-    margin-bottom: 0;
-    input {
-      padding-right: 30px;
-    }
-    .glyphicon {
-      position: absolute;
-      top: 50%;
-      right: 5px;
-      padding: 5px;
-      transform: translate(0, -50%);
-      font-size: 1.1em;
-      color: #333;
-      cursor: pointer;
-      &:hover {
-        color: #ff0000;
-      }
     }
   }
 }
