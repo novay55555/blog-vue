@@ -1,5 +1,6 @@
 <template>
   <div class="main-page">
+    <Asidebar :data="makeFeatures()" />
     <div class="container-fluid">
       <div class="row">
         <div class='col-lg-2 col-sm-3'>
@@ -16,13 +17,38 @@
 </template>
 
 <script>
+import Asidebar from '../components/Asidebar.vue'
 export default {
-  name: 'main-page'
+  name: 'main-page',
+  components: {
+    Asidebar
+  },
+  methods: {
+    makeFeatures() {
+      const features = [
+        {
+          btn: 'glyphicon-folder-open'
+        },
+        {
+          btn: 'glyphicon-search'
+        },
+        {
+          btn: 'glyphicon-send'
+        },
+        {
+          btn: 'glyphicon-th'
+        }
+      ]
+      return features
+    }
+  }
 }
 </script>
 
 <style lang="scss">
 .main-page {
+  padding-top: 10px;
+  padding-left: 75px;
   div[class*='col-lg-'] {
     float: right;
   }
