@@ -4,10 +4,12 @@
       v-for="(item, index) in data" 
       :key="index"
       :to="item.link"
+      :event="''"
       class="list-group-item"
+      @click.native="handler(item.link, item.handler)"
     >
-      {{list.count ? <span class='badge'>{list.count}</span> : ''}}
-      {{list.text}}
+      <span v-if="item.count" class='badge'>{{item.count}}</span>
+      {{item.text}}
     </router-link>
   </div>
 </template>
@@ -19,6 +21,14 @@ export default {
     data: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    handler(link, handler) {
+      if (handler) {
+        return handler(link)
+      }
+      this.$router.push(link)
     }
   }
 }

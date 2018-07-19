@@ -6,14 +6,14 @@
           v-for="(item, index) in data" 
           :key="index"
           :class="activeIndex === index ? 'active' : ''"
-          @click.stop="toggleChildren(index)"
+          @click="stopPropagationClick"
         >
-          <span :class="'glyphicon ' + item"></span>
+          <span :class="'glyphicon ' + item.icon" @click.stop="toggleChildren(index)"></span>
           <div 
             class="children" 
-            :style="{top: index === 0 ? index : (index * liHeight + liPaddingTop)}"
+            :style="{top: index === 0 ? index : (index * liHeight + liPaddingTop) + 'px'}"
           >
-            <slot :name="item" />
+            <slot :name="item.slotName || ''" />
           </div>
         </li>
       </ul>
@@ -40,9 +40,10 @@ export default {
   mounted() {
     const $li = $(this.$el).find('li')
 
-    // TODO: style没有动态更新
-    this.liHeight = $li.outerHeight()
-    this.liPaddingTop = ($li.outerHeight() - $li.height()) / 2
+    if ($li.length) {
+      this.liHeight = $li.outerHeight()
+      this.liPaddingTop = ($li.outerHeight() - $li.height()) / 2
+    }
 
     document.addEventListener('click', this.hideChildren)
   },
@@ -54,9 +55,13 @@ export default {
       if (this.activeIndex === index) return (this.activeIndex = -1)
       this.activeIndex = index
     },
-    hideChildren(e) {
-      if ($(e.target).closest('ul') !== this.$refs.ul) {
-        this.activeIndex = -1
+    hideChildren() {
+      this.activeIndex = -1
+    },
+    stopPropagationClick(e) {
+      e.stopPropagation()
+      if (e.target.tagName.toLowerCase() === 'li') {
+        this.hideChildren()
       }
     }
   }

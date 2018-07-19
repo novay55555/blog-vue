@@ -3,7 +3,8 @@
     <Asidebar :data="asidebarIcons">
       <!-- <ListGroup slot="glyphicon-folder-open"></ListGroup> -->
       <Search slot="glyphicon-search" class="feature-search"></Search>
-      <!-- <ListGroup slot="glyphicon-send"></ListGroup> -->
+      <ListGroup slot="glyphicon-send" :data="routeMap"></ListGroup>
+      <ListGroup slot="glyphicon-th" :data="userCtrls"></ListGroup>
     </Asidebar>
     <div class="container-fluid">
       <div class="row">
@@ -35,10 +36,48 @@ export default {
   data() {
     return {
       asidebarIcons: [
-        'glyphicon-folder-open',
-        'glyphicon-search',
-        'glyphicon-send',
-        'glyphicon-th'
+        {
+          icon: 'glyphicon-folder-open',
+          slotName: 'glyphicon-folder-open'
+        },
+        {
+          icon: 'glyphicon-search',
+          slotName: 'glyphicon-search'
+        },
+        {
+          icon: 'glyphicon-send',
+          slotName: 'glyphicon-send'
+        },
+        {
+          icon: 'glyphicon-th',
+          slotName: 'glyphicon-th'
+        }
+      ],
+      routeMap: [
+        {
+          link: '/study',
+          text: 'スタディー'
+        },
+        {
+          link: '/inside-world',
+          text: '里世界'
+        }
+      ],
+      userCtrls: [
+        {
+          link: '#',
+          text: '登录',
+          handler: function() {
+            alert('登录modal')
+          }
+        },
+        {
+          link: '#',
+          text: '注册',
+          handler: function() {
+            alert('注册')
+          }
+        }
       ]
     }
   }
