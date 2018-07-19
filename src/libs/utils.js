@@ -72,27 +72,39 @@ export const loadPlugin = function(pluginName) {
   return p
 }
 
-export function formatTime(fmt) {
-  //author: meizz
-  var o = {
-    'M+': this.getMonth() + 1, //月份
-    'd+': this.getDate(), //日
-    'h+': this.getHours(), //小时
-    'm+': this.getMinutes(), //分
-    's+': this.getSeconds(), //秒
-    'q+': Math.floor((this.getMonth() + 3) / 3), //季度
-    S: this.getMilliseconds() //毫秒
+/**
+ * 格式化时间
+ *
+ * @param  {number} timestamp 时间戳
+ * @param  {string} format 格式
+ * @return {string}        格式化过后的时间
+ */
+export const formatDate = function(timestamp, format) {
+  const source = new Date(timestamp)
+  const o = {
+    'M+': source.getMonth() + 1, // 月份
+    'd+': source.getDate(), // 日
+    'H+': source.getHours(), // 小时
+    'm+': source.getMinutes(), // 分
+    's+': source.getSeconds(), // 秒
+    'q+': Math.floor((source.getMonth() + 3) / 3), // 季度
+    'f+': source.getMilliseconds() // 毫秒
   }
-  if (/(y+)/.test(fmt))
-    fmt = fmt.replace(
+  if (/(y+)/.test(format)) {
+    format = format.replace(
       RegExp.$1,
-      (this.getFullYear() + '').substr(4 - RegExp.$1.length)
+      (source.getFullYear() + '').substr(4 - RegExp.$1.length)
     )
-  for (var k in o)
-    if (new RegExp('(' + k + ')').test(fmt))
-      fmt = fmt.replace(
+  }
+  for (let k in o) {
+    if (new RegExp('(' + k + ')').test(format)) {
+      format = format.replace(
         RegExp.$1,
-        RegExp.$1.length == 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length)
+        RegExp.$1.length === 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length)
       )
-  return fmt
+    }
+  }
+  return format
 }
+
+export const mockArray = (l = 10) => Array.apply(null, Array(l))
