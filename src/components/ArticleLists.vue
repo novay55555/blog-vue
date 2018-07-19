@@ -59,6 +59,7 @@ export default {
   }
   .label {
     font-size: 100%;
+    font-weight: 400;
   }
 }
 
