@@ -1,4 +1,5 @@
 import { createApp } from './app'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 const { app, router, store } = createApp()
 

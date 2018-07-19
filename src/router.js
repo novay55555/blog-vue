@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import MainPage from './layouts/MainPage.vue'
 import HelloWorld from './components/HelloWorld.vue'
 import Reposition from './views/Reposition.vue'
 import NotFound from './views/404.vue'
@@ -13,12 +14,24 @@ export function createRouter() {
       {
         path: '/',
         name: 'home',
-        redirect: '/helloworld'
+        redirect: '/articles'
       },
       {
         path: '/helloworld',
         name: 'helloworld',
         component: HelloWorld
+      },
+      {
+        path: '/articles',
+        name: 'articles',
+        component: MainPage,
+        children: [
+          {
+            path: ':page',
+            name: 'article-lists',
+            component: HelloWorld
+          }
+        ]
       },
       {
         path: '/repo/:type',
