@@ -2,9 +2,13 @@
   <div class="main-page">
     <Asidebar :data="asidebarIcons">
       <!-- <ListGroup slot="glyphicon-folder-open"></ListGroup> -->
-      <Search slot="glyphicon-search" class="feature-search"></Search>
-      <ListGroup slot="glyphicon-send" :data="routeMap"></ListGroup>
-      <ListGroup slot="glyphicon-th" :data="userCtrls"></ListGroup>
+      <Search 
+        slot="glyphicon-search" 
+        class="feature-search"
+        @on-search="search"
+      />
+      <ListGroup slot="glyphicon-send" :data="routeMap" />
+      <ListGroup slot="glyphicon-th" :data="userCtrls" />
     </Asidebar>
     <div class="container-fluid">
       <div class="row">
@@ -16,8 +20,8 @@
         </div>
       </div>
     </div>
-    <!-- signin modal -->
-    <!-- register modal -->
+    <SigninModal :visible.sync="signinModalVisible" />
+    <SignupModal :visible.sync="signupModalVisible" />
   </div>
 </template>
 
@@ -25,13 +29,17 @@
 import Asidebar from '../components/Asidebar.vue'
 import ListGroup from '../components/ListGroup.vue'
 import Search from '../components/SearchInput.vue'
+import SigninModal from '../components/ModalSignin.vue'
+import SignupModal from '../components/ModalSignup.vue'
 
 export default {
   name: 'main-page',
   components: {
     Asidebar,
     ListGroup,
-    Search
+    Search,
+    SigninModal,
+    SignupModal
   },
   data() {
     return {
@@ -67,18 +75,31 @@ export default {
         {
           link: '#',
           text: '登录',
-          handler: function() {
-            alert('登录modal')
+          handler: () => {
+            this.toggleSiginModal()
           }
         },
         {
           link: '#',
           text: '注册',
-          handler: function() {
-            alert('注册')
+          handler: () => {
+            this.toggleSigupModal()
           }
         }
-      ]
+      ],
+      signinModalVisible: false,
+      signupModalVisible: false
+    }
+  },
+  methods: {
+    toggleSiginModal() {
+      this.signinModalVisible = true
+    },
+    toggleSigupModal() {
+      this.signupModalVisible = true
+    },
+    search(value) {
+      alert(value)
     }
   }
 }

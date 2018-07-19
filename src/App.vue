@@ -48,7 +48,6 @@ body {
   position: relative;
   padding-bottom: 125px;
   min-height: 100%;
-  font-size: 16px;
 }
 
 main {
@@ -70,5 +69,6 @@ button {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
 }
 </style>

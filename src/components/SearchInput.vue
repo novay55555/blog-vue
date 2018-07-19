@@ -5,12 +5,12 @@
       type="text"
       v-model="value"
       :placeholder="placeholder"
+      @keyup.enter="search"
     />
     <a 
       href="#" 
       class="glyphicon glyphicon-search"
       @click.prevent="search"
-      @keyup.enter="search"
     />
   </div>
 </template>
@@ -19,23 +19,19 @@
 export default {
   name: 'search-input',
   props: {
-    onSearch: {
-      type: Function,
-      required: true
-    },
-    onKeyup: Function,
     placeholder: {
       type: String,
       default: 'Search something...'
-    },
-    value: {
-      type: String,
-      default: ''
+    }
+  },
+  data() {
+    return {
+      value: ''
     }
   },
   methods: {
     search() {
-      this.onSearch(this.value)
+      this.$emit('on-search', this.value)
     }
   }
 }
