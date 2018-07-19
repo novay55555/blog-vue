@@ -13,7 +13,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class='col-lg-2 col-sm-3'>
-          Author Component
+          <Author />
         </div>
         <div class='col-lg-10 col-sm-9'>
           <router-view />
@@ -31,6 +31,7 @@ import ListGroup from '../components/ListGroup.vue'
 import Search from '../components/SearchInput.vue'
 import SigninModal from '../components/ModalSignin.vue'
 import SignupModal from '../components/ModalSignup.vue'
+import Author from '../components/Author.vue'
 
 export default {
   name: 'main-page',
@@ -39,7 +40,8 @@ export default {
     ListGroup,
     Search,
     SigninModal,
-    SignupModal
+    SignupModal,
+    Author
   },
   data() {
     return {
@@ -115,6 +117,7 @@ export default {
 }
 @media (max-width: 767px) {
   .main-page {
+    padding-top: 0;
     div[class*='col-lg-'] {
       float: none;
     }
@@ -123,6 +126,12 @@ export default {
       color: #800080;
       background: linear-gradient(270deg, #b6fbff, #83a4d4);
     }
+  }
+}
+
+@media (max-width: 500px) {
+  .main-page {
+    padding-left: 0;
   }
 }
 </style>

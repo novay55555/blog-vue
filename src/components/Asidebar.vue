@@ -1,6 +1,6 @@
 <template>
   <div class="asidebar">
-    <div>
+    <div :class="'wrapper ' + (showMobileAside ? 'active' : '')">
       <ul ref="ul">
         <li 
           v-for="(item, index) in data" 
@@ -17,8 +17,11 @@
           </div>
         </li>
       </ul>
-      <span class="glyphicon glyphicon-align-justify"></span>
     </div>
+    <span 
+      class="glyphicon glyphicon-align-justify btn-mobile"
+      @click="toggleMobileAside"
+    />
   </div>
 </template>
 
@@ -34,7 +37,8 @@ export default {
     return {
       liHeight: 0,
       liPaddingTop: 0,
-      activeIndex: -1
+      activeIndex: -1,
+      showMobileAside: false
     }
   },
   mounted() {
@@ -63,6 +67,9 @@ export default {
       if (e.target.tagName.toLowerCase() === 'li') {
         this.hideChildren()
       }
+    },
+    toggleMobileAside() {
+      this.showMobileAside = !this.showMobileAside
     }
   }
 }
@@ -70,13 +77,15 @@ export default {
 
 <style lang="scss">
 .asidebar {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 75px;
-  background: #222;
-  z-index: 998;
+  .wrapper {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 75px;
+    background: #222;
+    z-index: 998;
+  }
   ul {
     margin-bottom: 0;
     position: absolute;
@@ -137,7 +146,7 @@ export default {
       }
     }
   }
-  .btn-slidebar-mobile {
+  .btn-mobile {
     padding: 8px;
     position: fixed;
     top: 25px;
@@ -152,6 +161,21 @@ export default {
     &:hover,
     &.active {
       color: #eee;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .asidebar {
+    .wrapper {
+      transition: transform 0.25s ease-in-out;
+      transform: translate3d(-100%, 0, 0);
+      &.active {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+    .btn-mobile {
+      display: block;
     }
   }
 }

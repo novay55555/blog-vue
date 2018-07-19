@@ -65,6 +65,26 @@ button {
     background 0.25s ease-in-out;
 }
 
+@media (min-width: 1024px) {
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 10px;
+  }
+  ::-webkit-scrollbar-button {
+    display: none;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: #fff;
+  }
+  ::-webkit-scrollbar-thumb {
+    min-height: 48px;
+    background-color: #d2d2d2;
+    border: 3px solid #fff;
+    border-radius: 10px;
+    background-clip: padding-box;
+  }
+}
+
 #app {
   font-size: 16px;
 }
