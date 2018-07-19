@@ -23,6 +23,8 @@ export default function(userAgent = '') {
 }
 
 function browserInfo(userAgent) {
+  var isBrowser = typeof window !== 'undefined'
+  if (!isBrowser) return {}
   var u = userAgent || window.navigator.userAgent
   var _this = {}
 
