@@ -2,12 +2,18 @@
   <div id="app">
     <router-view></router-view>
     <vue-progress-bar />
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
+import Footer from './components/Footer.vue'
+
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    Footer
+  }
 }
 </script>
 
