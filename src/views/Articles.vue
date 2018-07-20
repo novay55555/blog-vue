@@ -3,32 +3,40 @@
     <Lists :articles="articles" />
     <uiv-pagination 
       v-model="currentPage" 
-      :total-page="10"
+      :total-page="total"
       align="center"
     />
   </div>
 </template>
 
 <script>
-import { mockArray, formatDate } from '../libs/utils.js'
+import ArticlesStore from '../store/modules/articles.js'
 import Lists from '../components/ArticleLists.vue'
+
+const MODULE_NAME = 'articles'
 
 export default {
   name: 'articles',
   components: {
     Lists
   },
+  asyncData({ store }) {
+    store.registerModule(MODULE_NAME, ArticlesStore)
+    return store.dispatch(`${MODULE_NAME}/saveArticles`)
+  },
+  destroyed() {
+    this.$store.unregisterModule(MODULE_NAME)
+  },
   computed: {
-    currentPage: () => 1,
-    articles: () =>
-      mockArray().map((el, i) => ({
-        title: 'title',
-        author: 'author',
-        date: formatDate(Date.now(), 'yyyy-MM-dd'),
-        description: 'description',
-        link: `/article/${i}`,
-        articleType: 'articleType'
-      }))
+    articles() {
+      return this.$store.state[MODULE_NAME].items
+    },
+    currentPage() {
+      return this.$store.state[MODULE_NAME].page
+    },
+    total() {
+      return this.$store.state[MODULE_NAME].total
+    }
   }
 }
 </script>

@@ -1,69 +1,95 @@
-import $ from 'jquery'
+import axios from 'axios'
 import BrowserChecker from './browser'
+import { ManualError } from './utils'
 
 const browserChecker = BrowserChecker()
 
 const SUCCESS_CODE = 1
 const ERROR_MESSAGE = '服务器大姨妈, 请稍后再试 =. ='
 
-let defaultOpts = {
-  contentType: 'application/json; charset=utf-8',
-  dataType: 'json',
-  success: data => {
-    if (data.code === SUCCESS_CODE) {
-      Promise.resolve(data.content)
-    } else {
-      Promise.reject(new Error(data.msg))
-    }
-  },
-  error: () => Promise.reject(new Error(ERROR_MESSAGE))
+const request = function() {
+  let args = Array.prototype.slice.call(arguments)
+  const type = args.shift()
+  const opts = args[args.length - 1]
+  if (typeof window === 'undefined') {
+    args[0] = `http://${require('ip').address()}:${3001}${args[0]}`
+  }
+  return axios[type]
+    .apply(null, args)
+    .then(res => opts.success(res.data))
+    .catch(err => {
+      if (err.name === 'manualError') {
+        return Promise.reject(new Error(err.message))
+      }
+      return Promise.reject(new Error(ERROR_MESSAGE))
+    })
 }
 
-const get = (url, options = {}) =>
-  new Promise(() =>
-    $.ajax(
-      $.extend(
-        { url: browserChecker.isIE() ? `${url}?t=${Date.now()}` : url },
-        defaultOpts,
-        options
-      )
-    )
-  )
+let defaultOpts = {
+  timeout: 10000,
+  success: data => {
+    if (data.code === SUCCESS_CODE) {
+      return data.content
+    } else {
+      return Promise.reject(new ManualError(data.msg))
+    }
+  }
+}
 
-const post = (url, data = {}, options = {}) =>
-  new Promise(() =>
-    $.ajax(
-      $.extend(
-        {
-          url,
-          method: 'POST',
-          data: JSON.stringify(data)
-        },
-        defaultOpts,
-        options
-      )
-    )
-  )
+/**
+ * get 请求
+ *
+ * @param {string} url 请求的url
+ * @param {object} options axios配置项, 兼容data键值, 另外如果需要改变接口成功的回调函数, 可以通过success(data)来改变
+ * @return {promise} Promise对象
+ */
+const get = (url, options = {}) => {
+  let o = Object.assign({}, defaultOpts, options)
+  o.params = o.params || o.data || {}
+  return request('get', !browserChecker.isIE() ? url : `url?t=${Date.now()}`, o)
+}
 
-const put = (url, data = {}, options = {}) =>
-  new Promise(() =>
-    $.ajax(
-      $.extend(
-        {
-          url,
-          method: 'PUT',
-          data: JSON.stringify(data)
-        },
-        defaultOpts,
-        options
-      )
-    )
-  )
+/**
+ * post 请求
+ *
+ * @param {string} url 请求的url
+ * @param {object} data body数据
+ * @param {object} options axios配置项, 另外如果需要改变接口成功的回调函数, 可以通过success(data)来改变
+ * @return {promise} Promise对象
+ */
+const post = (url, data, options = {}) => {
+  const o = Object.assign({}, defaultOpts, options)
+  return request('post', url, data, o)
+}
 
-const del = (url, options = {}) =>
-  new Promise(() => $.ajax($.extend({ url }, defaultOpts, options)))
+/**
+ * put 请求
+ *
+ * @param {string} url 请求的url
+ * @param {object} data body数据
+ * @param {object} options axios配置项, 另外如果需要改变接口成功的回调函数, 可以通过success(data)来改变
+ * @return {promise} Promise对象
+ */
+const put = (url, data, options = {}) => {
+  const o = Object.assign({}, defaultOpts, options)
+  return request('put', url, data, o)
+}
 
-const setDefault = options => $.extend(true, defaultOpts, options)
+/**
+ * delete 请求
+ *
+ * @param {string} url 请求的url
+ * @param {object} options axios配置项, 另外如果需要改变接口成功的回调函数, 可以通过success(data)来改变
+ * @return {promise} Promise对象
+ */
+const del = (url, options = {}) => {
+  const o = Object.assign({}, defaultOpts, options)
+  return request('delete', url, o)
+}
+
+const setDefault = options => {
+  Object.assign(defaultOpts, options)
+}
 
 export default {
   get,

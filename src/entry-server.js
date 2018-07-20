@@ -20,6 +20,7 @@ export default context => {
         })
       )
         .then(() => {
+          console.log(store.state)
           context.state = store.state
           resolve(app)
         })

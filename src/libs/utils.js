@@ -107,4 +107,13 @@ export const formatDate = function(timestamp, format) {
   return format
 }
 
+export function ManualError(message) {
+  this.name = 'manualError'
+  this.message = message
+  this.stack = new Error().stack
+}
+
+ManualError.prototype = Object.create(Error.prototype)
+ManualError.prototype.constructor = ManualError
+
 export const mockArray = (l = 10) => Array.apply(null, Array(l))
