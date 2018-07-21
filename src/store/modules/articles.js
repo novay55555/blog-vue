@@ -3,6 +3,7 @@ import { formatDate } from '../../libs/utils'
 
 export default {
   namespaced: true,
+  registered: false,
   state: () => ({
     total: 1,
     page: 1,
@@ -14,7 +15,7 @@ export default {
     saveArticles({ commit }, page = 1) {
       return Api.fetchArticles(page).then(result =>
         commit('SAVE_ARTICLES', {
-          total: result.total,
+          total: Math.ceil(result.total / 10),
           page: result.page,
           items: result.articles.map(el => {
             el.date = formatDate(el.date, 'yyyy-MM-dd')

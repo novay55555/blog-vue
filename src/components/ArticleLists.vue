@@ -2,7 +2,7 @@
   <div class="article-lists">
     <ul class="list-group">
       <li v-for="(item, index) in data" :key="index">
-        <router-link :to="'article' + item._id" class="list-group-item">
+        <router-link :to="'/article/' + item._id" class="list-group-item">
           <h3>{{item.title}}</h3>
           <p>
             <span>作者: {{item.author}}</span>
