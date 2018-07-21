@@ -1,4 +1,5 @@
 import * as Api from '../../apis/articles'
+import { formatDate } from '../../libs/utils'
 
 export default {
   namespaced: true,
@@ -15,7 +16,10 @@ export default {
         commit('SAVE_ARTICLES', {
           total: result.total,
           page: result.page,
-          items: result.articles
+          items: result.articles.map(el => {
+            el.date = formatDate(el.date, 'yyyy-MM-dd')
+            return el
+          })
         })
       )
     },
