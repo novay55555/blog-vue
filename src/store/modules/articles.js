@@ -58,10 +58,12 @@ export default {
   },
   mutations: {
     SAVE_ARTICLES(state, payload) {
-      state = {
-        ...state,
-        ...payload
-      }
+      // TODO: 不能使用类似assign方法用一个新对象替换state
+      // 我猜测是state是个函数返回的实例, 只能直接内部修改
+      // 如果是多层级嵌套, 应该可以针对某个属性进行assign修改
+      Object.keys(payload).forEach(key => {
+        state[key] = payload[key]
+      })
     },
     SAVE_ARTICLE_TYPES(state, types) {
       state.types = types

@@ -1,6 +1,6 @@
 <template>
   <div class="articles">
-    <Lists :articles="articles" />
+    <Lists :data="articles" />
     <uiv-pagination 
       v-model="currentPage" 
       :total-page="total"

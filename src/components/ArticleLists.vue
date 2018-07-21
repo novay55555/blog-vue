@@ -1,8 +1,8 @@
 <template>
   <div class="article-lists">
     <ul class="list-group">
-      <li v-for="(item, index) in articles" :key="index">
-        <router-link :to="item.link" class="list-group-item">
+      <li v-for="(item, index) in data" :key="index">
+        <router-link :to="'article' + item._id" class="list-group-item">
           <h3>{{item.title}}</h3>
           <p>
             <span>作者: {{item.author}}</span>
@@ -20,7 +20,7 @@
 export default {
   name: 'article-lists',
   props: {
-    articles: {
+    data: {
       type: Array,
       required: true
     }
