@@ -23,18 +23,19 @@ export default {
     Lists
   },
   asyncData({ store }) {
-    store.registerModule(MODULE_NAME, ArticlesStore)
-    ArticlesStore.registered = true
+    if (!ArticlesStore.registered) {
+      store.registerModule(MODULE_NAME, ArticlesStore)
+      ArticlesStore.registered = true
+    }
     return store.dispatch(`${MODULE_NAME}/saveArticles`)
   },
-  destroyed() {
-    this.$store.unregisterModule(MODULE_NAME)
-  },
   beforeCreate() {
-    !ArticlesStore.registered &&
+    if (!ArticlesStore.registered) {
       this.$store.registerModule(MODULE_NAME, ArticlesStore, {
         preserveState: true
       })
+      ArticlesStore.registered = true
+    }
   },
   computed: mapState(MODULE_NAME, {
     articles: state => state.items,

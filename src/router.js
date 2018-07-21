@@ -2,8 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import MainPage from './layouts/MainPage.vue'
 import Articles from './views/Articles.vue'
-import HelloWorld from './components/HelloWorld.vue'
-import Reposition from './views/Reposition.vue'
+import OneArticle from './views/Article.vue'
 import NotFound from './views/404.vue'
 
 Vue.use(Router)
@@ -18,11 +17,6 @@ export function createRouter() {
         redirect: '/articles/1'
       },
       {
-        path: '/helloworld',
-        name: 'helloworld',
-        component: HelloWorld
-      },
-      {
         path: '/articles',
         name: 'articles',
         component: MainPage,
@@ -35,9 +29,16 @@ export function createRouter() {
         ]
       },
       {
-        path: '/repo/:type',
-        name: 'repo',
-        component: Reposition
+        path: '/article',
+        name: 'oneArticle',
+        component: MainPage,
+        children: [
+          {
+            path: ':id',
+            name: 'article-content',
+            component: OneArticle
+          }
+        ]
       },
       {
         path: '*',
