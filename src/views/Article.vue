@@ -19,11 +19,7 @@ export default {
     ArticleContent
   },
   asyncData({ store, route }) {
-    return Promise.all([
-      store.dispatch('articles/saveArticleTypes'),
-      store.dispatch('articles/saveArticle', route.params.id),
-      store.dispatch('account/getAdmin')
-    ])
+    return store.dispatch('articles/saveArticle', route.params.id)
   },
   mixins: [mixinArticle],
   computed: {

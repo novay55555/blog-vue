@@ -152,11 +152,8 @@ export default {
       return arr
     }
   },
-  created() {
-    if (!this.username) this.getSession()
-  },
   methods: {
-    ...mapActions('account', ['signin', 'signup', 'signout', 'getSession']),
+    ...mapActions('account', ['signin', 'signup', 'signout']),
     toggleSiginModal() {
       this.signinModalVisible = true
     },

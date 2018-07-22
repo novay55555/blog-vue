@@ -88,6 +88,7 @@ function commitSaveArticlesHelper(commit, result) {
     page: result.page,
     items: result.articles.map(el => {
       el.date = formatDate(el.date, 'yyyy-MM-dd')
+      delete el.content
       return el
     })
   })

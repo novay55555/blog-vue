@@ -18,8 +18,6 @@ import { mixinArticle } from '../libs/mixins.js'
 import Layout from '../layouts/MainPage.vue'
 import Lists from '../components/ArticleLists.vue'
 
-const MODULE_NAME = 'articles'
-
 export default {
   name: 'article-search',
   components: {
@@ -27,18 +25,11 @@ export default {
     Lists
   },
   asyncData({ store, route }) {
-    let tasks = [
-      store.dispatch('articles/saveArticleTypes'),
-      store.dispatch('account/getAdmin')
-    ]
-
     if (route.query.type)
-      tasks.push(store.dispatch('articles/searchArticlesByType', route.query))
+      return store.dispatch('articles/searchArticlesByType', route.query)
 
     if (route.query.title)
-      tasks.push(store.dispatch('articles/searchArticlesByTitle', route.query))
-
-    return Promise.all(tasks)
+      return store.dispatch('articles/searchArticlesByTitle', route.query)
   },
   mixins: [mixinArticle],
   watch: {
@@ -57,7 +48,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(MODULE_NAME, [
+    ...mapActions('articles', [
       'searchArticlesByTitle',
       'searchArticlesByType'
     ]),

@@ -19,11 +19,7 @@ import Layout from '../layouts/MainPage.vue'
 import Lists from '../components/ArticleLists.vue'
 
 const fetchInitData = function(store, route) {
-  return Promise.all([
-    store.dispatch('articles/saveArticles', route.params.page),
-    store.dispatch('articles/saveArticleTypes'),
-    store.dispatch('account/getAdmin')
-  ])
+  return store.dispatch('articles/saveArticles', route.params.page)
 }
 
 export default {

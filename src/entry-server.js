@@ -6,27 +6,32 @@ export default context => {
 
     router.push(context.url)
 
-    router.onReady(() => {
-      const matchedComponents = router.getMatchedComponents()
+    Promise.all([
+      store.dispatch('articles/saveArticleTypes'),
+      store.dispatch('account/getAdmin')
+    ])
+      .then(() => {
+        router.onReady(() => {
+          const matchedComponents = router.getMatchedComponents()
 
-      Promise.all(
-        matchedComponents.map(component => {
-          if (component.asyncData) {
-            return component.asyncData({
-              store,
-              route: {
-                ...router.currentRoute,
-                query: context.query
+          Promise.all(
+            matchedComponents.map(component => {
+              if (component.asyncData) {
+                return component.asyncData({
+                  store,
+                  route: {
+                    ...router.currentRoute,
+                    query: context.query
+                  }
+                })
               }
             })
-          }
-        })
-      )
-        .then(() => {
-          context.state = store.state
-          resolve(app)
-        })
-        .catch(reject)
-    }, reject)
+          ).then(() => {
+            context.state = store.state
+            resolve(app)
+          })
+        }, reject)
+      })
+      .catch(reject)
   })
 }
