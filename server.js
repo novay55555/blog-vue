@@ -64,7 +64,8 @@ function render(ctx) {
 
   const context = {
     title: 'Hello, SSR!',
-    url: ctx.path
+    url: ctx.path,
+    query: ctx.query
   }
 
   return renderer.renderToString(context)
