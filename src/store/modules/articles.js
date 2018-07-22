@@ -18,9 +18,10 @@ export default {
 
       if (!state.isSearch && state.page === page) return Promise.resolve()
 
-      return Api.fetchArticles(page).then(result =>
+      return Api.fetchArticles(page).then(result => {
+        result.isSearch = false
         commitSaveArticlesHelper(commit, result)
-      )
+      })
     },
     saveArticleTypes({ state, commit }) {
       if (state.typesId) return Promise.resolve()
@@ -58,7 +59,6 @@ export default {
 
       return Api.fetchArticle(id).then(result => {
         result.date = formatDate(result.date, 'yyyy-MM-dd')
-        result.isSearch = false
         commit('SAVE_ARTICLE', result)
       })
     }
