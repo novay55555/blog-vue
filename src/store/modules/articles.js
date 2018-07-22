@@ -9,13 +9,14 @@ export default {
     items: [],
     types: [],
     typesId: '',
+    isSearch: false,
     current: {}
   },
   actions: {
     saveArticles({ state, commit }, page = 1) {
       page = Number(page)
 
-      if (state.page === page) return Promise.resolve()
+      if (!state.isSearch && state.page === page) return Promise.resolve()
 
       return Api.fetchArticles(page).then(result =>
         commitSaveArticlesHelper(commit, result)
@@ -34,9 +35,10 @@ export default {
 
       const { title, page } = payload
 
-      return Api.fetchArticlesByTitle(title, page).then(result =>
+      return Api.fetchArticlesByTitle(title, page).then(result => {
+        result.isSearch = true
         commitSaveArticlesHelper(commit, result)
-      )
+      })
     },
     searchArticlesByType({ commit }, payload = {}) {
       payload.type = payload.type || ''
@@ -44,9 +46,10 @@ export default {
 
       const { type, page } = payload
 
-      return Api.fetchArticlesByType(type, page).then(result =>
+      return Api.fetchArticlesByType(type, page).then(result => {
+        result.isSearch = true
         commitSaveArticlesHelper(commit, result)
-      )
+      })
     },
     saveArticle({ state, commit }, id) {
       id = Number(id)
@@ -55,6 +58,7 @@ export default {
 
       return Api.fetchArticle(id).then(result => {
         result.date = formatDate(result.date, 'yyyy-MM-dd')
+        result.isSearch = false
         commit('SAVE_ARTICLE', result)
       })
     }
@@ -79,6 +83,7 @@ export default {
 
 function commitSaveArticlesHelper(commit, result) {
   commit('SAVE_ARTICLES', {
+    ...result,
     total: Math.ceil(result.total / 10),
     page: result.page,
     items: result.articles.map(el => {

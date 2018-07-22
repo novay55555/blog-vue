@@ -31,8 +31,8 @@ export const mixinArticle = {
     articles: state => state.items,
     currentPage: state => state.page,
     total: state => state.total,
-    articleTypes: state =>
-      state.types.map(el => ({
+    articleTypes: state => {
+      let types = state.types.map(el => ({
         link: {
           path: '/search',
           query: {
@@ -42,5 +42,14 @@ export const mixinArticle = {
         },
         text: el
       }))
+      types.unshift({
+        link: {
+          path: '/articles/1',
+          query: {}
+        },
+        text: '/'
+      })
+      return types
+    }
   })
 }
