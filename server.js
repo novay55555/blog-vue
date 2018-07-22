@@ -16,7 +16,7 @@ const PORT = 3001
 const API_PORT = 3000
 const server = new Koa()
 const router = new Router()
-const staticFolders = ['js', 'css', 'img', 'vendor']
+const staticFolders = ['js', 'css', 'img', 'vendor', 'fonts']
 
 let renderer
 let ssrDevServerReady

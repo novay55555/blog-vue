@@ -42,7 +42,7 @@ export const loadPlugin = function(pluginName) {
       new Promise(resolve => {
         if (!window.hasOwnProperty('hljs')) {
           Promise.all([
-            loadScript('/vendor/highlightjs/highlight.js'),
+            loadScript('/vendor/highlightjs/highlight.min.js'),
             loadStylesheet('/vendor/highlightjs/monokai-sublime.css')
           ]).then(() => resolve())
           return
@@ -55,8 +55,8 @@ export const loadPlugin = function(pluginName) {
           Promise.all(
             loadScripts(
               [
-                '/vendor/markdown-editor/bootstrap-markdown.js',
-                '/vendor/markdown-editor/jquery.hotkeys.js'
+                '/vendor/markdown-editor/bootstrap-markdown.min.js',
+                '/vendor/markdown-editor/jquery.hotkeys.min.js'
               ].concat(
                 loadStylesheet(
                   '/vendor/markdown-editor/bootstrap-markdown.min.css'
