@@ -3,14 +3,13 @@ import { formatDate } from '../../libs/utils'
 
 export default {
   namespaced: true,
-  registered: false,
-  state: () => ({
+  state: {
     total: 1,
     page: 1,
     items: [],
     types: [],
     current: {}
-  }),
+  },
   actions: {
     saveArticles({ commit }, page = 1) {
       return Api.fetchArticles(page).then(result =>

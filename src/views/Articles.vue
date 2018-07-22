@@ -12,7 +12,6 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import ArticlesStore from '../store/modules/articles.js'
 import Lists from '../components/ArticleLists.vue'
 
 const MODULE_NAME = 'articles'
@@ -23,19 +22,7 @@ export default {
     Lists
   },
   asyncData({ store }) {
-    if (!ArticlesStore.registered) {
-      store.registerModule(MODULE_NAME, ArticlesStore)
-      ArticlesStore.registered = true
-    }
     return store.dispatch(`${MODULE_NAME}/saveArticles`)
-  },
-  beforeCreate() {
-    if (!ArticlesStore.registered) {
-      this.$store.registerModule(MODULE_NAME, ArticlesStore, {
-        preserveState: true
-      })
-      ArticlesStore.registered = true
-    }
   },
   computed: mapState(MODULE_NAME, {
     articles: state => state.items,

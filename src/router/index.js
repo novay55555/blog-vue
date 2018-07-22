@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import MainPage from './layouts/MainPage.vue'
-import Articles from './views/Articles.vue'
-import OneArticle from './views/Article.vue'
-import NotFound from './views/404.vue'
+import MainPage from '../layouts/MainPage.vue'
+import Articles from '../views/Articles.vue'
+import OneArticle from '../views/Article.vue'
+import NotFound from '../views/404.vue'
 
 Vue.use(Router)
 

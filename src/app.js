@@ -2,8 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import * as Uiv from 'uiv'
 import VueProgressBar from 'vue-progressbar'
-import { createRouter } from './router'
-import { createStore } from './store'
+import { createRouter } from './router/index'
+import { createStore } from './store/index'
 
 Vue.use(Uiv, { prefix: 'uiv' })
 Vue.use(VueProgressBar, { thickness: '4px', color: '#42b983' })
