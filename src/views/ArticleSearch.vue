@@ -1,5 +1,5 @@
 <template>
-  <Layout :article-types="articleTypes">
+  <Layout>
     <div v-if="articles.length" class="article-search">
       <Lists :data="articles" />
       <uiv-pagination 

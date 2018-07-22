@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Asidebar from '../components/Asidebar.vue'
 import ListGroup from '../components/ListGroup.vue'
 import Search from '../components/SearchInput.vue'
@@ -42,9 +43,6 @@ export default {
     SigninModal,
     SignupModal,
     Author
-  },
-  props: {
-    articleTypes: Array
   },
   data() {
     return {
@@ -96,6 +94,28 @@ export default {
       signupModalVisible: false
     }
   },
+  computed: mapState('articles', {
+    articleTypes: state => {
+      let types = state.types.map(el => ({
+        link: {
+          path: '/search',
+          query: {
+            type: el,
+            page: 1
+          }
+        },
+        text: el
+      }))
+      types.unshift({
+        link: {
+          path: '/articles/1',
+          query: {}
+        },
+        text: '/'
+      })
+      return types
+    }
+  }),
   methods: {
     toggleSiginModal() {
       this.signinModalVisible = true
@@ -103,8 +123,15 @@ export default {
     toggleSigupModal() {
       this.signupModalVisible = true
     },
-    search(value) {
-      alert(value)
+    search(title) {
+      if (!title.trim()) return this.$router.push({ path: '/articles/1' })
+      this.$router.push({
+        path: '/search',
+        query: {
+          title,
+          page: 1
+        }
+      })
     }
   }
 }

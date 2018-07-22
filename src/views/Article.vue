@@ -1,5 +1,5 @@
 <template>
-  <Layout :article-types="articleTypes">
+  <Layout>
     <div class="article">
       <ArticleContent :data="article" />
     </div>
