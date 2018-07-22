@@ -21,21 +21,33 @@ export default {
   components: {
     Lists
   },
-  asyncData({ store }) {
-    return store.dispatch(`${MODULE_NAME}/saveArticles`)
+  asyncData({ store, route }) {
+    return store.dispatch(
+      `${MODULE_NAME}/saveArticles`,
+      Number(route.params.page)
+    )
   },
   computed: mapState(MODULE_NAME, {
     articles: state => state.items,
     currentPage: state => state.page,
     total: state => state.total
   }),
+  watch: {
+    $route: async function(n, o) {
+      if (n.params.page !== o.params.page) {
+        this.$Progress.start()
+        await this.saveArticles(n.params.page)
+        window.scrollTo(0, 0)
+        this.$Progress.finish()
+      }
+    }
+  },
   methods: {
     ...mapActions(MODULE_NAME, ['saveArticles']),
-    async changePage(page) {
-      this.$Progress.start()
-      await this.saveArticles(page)
-      window.scrollTo(0, 0)
-      this.$Progress.finish()
+    changePage(page) {
+      this.$router.push({
+        path: `/articles/${page}`
+      })
     }
   }
 }
