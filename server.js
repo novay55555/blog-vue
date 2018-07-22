@@ -90,6 +90,10 @@ function initRenderder() {
     path.join(__dirname, 'src/index.template.html'),
     'utf-8'
   )
+
+  clientManifest.all = clientManifest.all.filter(el => !/^vendor/.test(el))
+  clientManifest.async = []
+
   const renderer = createRenderer(bundle, {
     template,
     clientManifest
