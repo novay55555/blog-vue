@@ -1,19 +1,25 @@
 <template>
   <div class="author">
     <div class='photo'>
-      <img src="https://aijiang.ga/img/avatar-1505029156458.jpeg" alt={name} />
+      <img src="https://aijiang.ga/img/avatar-1505029156458.jpeg" :alt="data.name" />
     </div>
     <div class='intro'>
-      <p>{name}</p>
-      <p>{job}</p>
-      <p>{intro}</p>
+      <p>{{data.name}}</p>
+      <p>{{data.job}}</p>
+      <p>{{data.intro}}</p>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'author'
+  name: 'author',
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  }
 }
 </script>
 

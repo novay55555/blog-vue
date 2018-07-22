@@ -94,4 +94,8 @@ button {
 #app {
   font-size: 16px;
 }
+
+.alert {
+  z-index: 99999;
+}
 </style>

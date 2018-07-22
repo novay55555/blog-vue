@@ -96,7 +96,7 @@ export default {
       this.canSubmit = canSubmit
     },
     submit() {
-      console.log('submit: ', this.username, this.password)
+      this.$emit('signin', this.username, this.password)
     }
   }
 }

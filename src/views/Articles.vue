@@ -18,12 +18,11 @@ import { mixinArticle } from '../libs/mixins.js'
 import Layout from '../layouts/MainPage.vue'
 import Lists from '../components/ArticleLists.vue'
 
-const MODULE_NAME = 'articles'
-
 const fetchInitData = function(store, route) {
   return Promise.all([
-    store.dispatch(`${MODULE_NAME}/saveArticles`, route.params.page),
-    store.dispatch(`${MODULE_NAME}/saveArticleTypes`)
+    store.dispatch('articles/saveArticles', route.params.page),
+    store.dispatch('articles/saveArticleTypes'),
+    store.dispatch('account/getAdmin')
   ])
 }
 
@@ -53,7 +52,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(MODULE_NAME, ['saveArticles']),
+    ...mapActions('articles', ['saveArticles']),
     changePage(page) {
       this.$router.push({
         path: `/articles/${page}`

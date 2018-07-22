@@ -27,17 +27,16 @@ export default {
     Lists
   },
   asyncData({ store, route }) {
-    let tasks = [store.dispatch(`${MODULE_NAME}/saveArticleTypes`)]
+    let tasks = [
+      store.dispatch('articles/saveArticleTypes'),
+      store.dispatch('account/getAdmin')
+    ]
 
     if (route.query.type)
-      tasks.push(
-        store.dispatch(`${MODULE_NAME}/searchArticlesByType`, route.query)
-      )
+      tasks.push(store.dispatch('articles/searchArticlesByType', route.query))
 
     if (route.query.title)
-      tasks.push(
-        store.dispatch(`${MODULE_NAME}/searchArticlesByTitle`, route.query)
-      )
+      tasks.push(store.dispatch('articles/searchArticlesByTitle', route.query))
 
     return Promise.all(tasks)
   },

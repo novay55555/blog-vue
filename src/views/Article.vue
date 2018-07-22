@@ -12,8 +12,6 @@ import { mixinArticle } from '../libs/mixins.js'
 import Layout from '../layouts/MainPage.vue'
 import ArticleContent from '../components/ArticleContent.vue'
 
-const MODULE_NAME = 'articles'
-
 export default {
   name: 'one-article',
   components: {
@@ -23,12 +21,13 @@ export default {
   asyncData({ store, route }) {
     return Promise.all([
       store.dispatch('articles/saveArticleTypes'),
-      store.dispatch(`${MODULE_NAME}/saveArticle`, route.params.id)
+      store.dispatch('articles/saveArticle', route.params.id),
+      store.dispatch('account/getAdmin')
     ])
   },
   mixins: [mixinArticle],
   computed: {
-    ...mapState(MODULE_NAME, {
+    ...mapState('articles', {
       article: state => state.current
     })
   }
