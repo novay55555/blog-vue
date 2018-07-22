@@ -27,49 +27,52 @@ export const querySelectors = (selector, context = document) =>
 
 export const loadPlugin = function(pluginName) {
   const pluginMap = {
-    cropper: new Promise(resolve => {
-      if (typeof $.fn.cropper === 'undefined') {
-        Promise.all([
-          loadScript('/vendor/cropper/cropper.min.js'),
-          loadStylesheet('/vendor/cropper/cropper.min.css')
-        ]).then(() => resolve())
-        return
-      }
-      resolve()
-    }),
-    highlightjs: new Promise(resolve => {
-      if (!window.hasOwnProperty('hljs')) {
-        Promise.all([
-          loadScript('/vendor/highlightjs/highlight.js'),
-          loadStylesheet('/vendor/highlightjs/monokai-sublime.css')
-        ]).then(() => resolve())
-        return
-      }
-      resolve()
-    }),
-    markdownEditor: new Promise(resolve => {
-      if (typeof $.fn.markdown === 'undefined') {
-        Promise.all(
-          loadScripts(
-            [
-              '/vendor/markdown-editor/bootstrap-markdown.js',
-              '/vendor/markdown-editor/jquery.hotkeys.js'
-            ].concat(
-              loadStylesheet(
-                '/vendor/markdown-editor/bootstrap-markdown.min.css'
+    cropper: () =>
+      new Promise(resolve => {
+        if (typeof $.fn.cropper === 'undefined') {
+          Promise.all([
+            loadScript('/vendor/cropper/cropper.min.js'),
+            loadStylesheet('/vendor/cropper/cropper.min.css')
+          ]).then(() => resolve())
+          return
+        }
+        resolve()
+      }),
+    highlightjs: () =>
+      new Promise(resolve => {
+        if (!window.hasOwnProperty('hljs')) {
+          Promise.all([
+            loadScript('/vendor/highlightjs/highlight.js'),
+            loadStylesheet('/vendor/highlightjs/monokai-sublime.css')
+          ]).then(() => resolve())
+          return
+        }
+        resolve()
+      }),
+    markdownEditor: () =>
+      new Promise(resolve => {
+        if (typeof $.fn.markdown === 'undefined') {
+          Promise.all(
+            loadScripts(
+              [
+                '/vendor/markdown-editor/bootstrap-markdown.js',
+                '/vendor/markdown-editor/jquery.hotkeys.js'
+              ].concat(
+                loadStylesheet(
+                  '/vendor/markdown-editor/bootstrap-markdown.min.css'
+                )
               )
             )
-          )
-        ).then(() => resolve())
-      }
-    })
+          ).then(() => resolve())
+        }
+      })
   }
-  const p = pluginMap[pluginName]
-  if (!p)
+  const func = pluginMap[pluginName]
+  if (!func)
     return Promise.reject(
       new Error(`No plugin named ${pluginName} defined in the map`)
     )
-  return p
+  return func()
 }
 
 /**

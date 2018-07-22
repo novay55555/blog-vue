@@ -9,6 +9,7 @@
 
 <script>
 import marked from 'marked'
+import { loadPlugin, querySelectors } from '../libs/utils.js'
 import Intro from './ArticleIntro.vue'
 
 export default {
@@ -19,7 +20,13 @@ export default {
   props: {
     data: Object
   },
-
+  mounted() {
+    loadPlugin('highlightjs').then(() => {
+      querySelectors('pre code', this.$el).forEach(block => {
+        hljs.highlightBlock(block)
+      })
+    })
+  },
   methods: {
     markedContent(text = '') {
       return marked(text)

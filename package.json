@@ -45,6 +45,7 @@
     "@vue/cli-service": "^3.0.0-rc.3",
     "@vue/eslint-config-prettier": "^3.0.0-rc.3",
     "chokidar": "^2.0.4",
+    "copy-webpack-plugin": "^4.5.2",
     "cross-env": "^5.2.0",
     "koa-webpack-middleware": "^1.0.7",
     "lint-staged": "^6.0.0",
@@ -64,13 +65,18 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": [
-      "vue-cli-service lint",
-      "git add"
-    ],
-    "*.vue": [
-      "vue-cli-service lint",
-      "git add"
+    "linters": {
+      "*.js": [
+        "vue-cli-service lint",
+        "git add"
+      ],
+      "*.vue": [
+        "vue-cli-service lint",
+        "git add"
+      ]
+    },
+    "ignore": [
+      "src/vendor/**/*.min.js"
     ]
   }
 }
