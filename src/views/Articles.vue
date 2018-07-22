@@ -1,6 +1,6 @@
 <template>
   <Layout :article-types="articleTypes">
-    <div class="articles">
+    <div v-if="articles.length" class="articles">
       <Lists :data="articles" />
       <uiv-pagination 
         :value="currentPage" 
@@ -20,6 +20,13 @@ import Lists from '../components/ArticleLists.vue'
 
 const MODULE_NAME = 'articles'
 
+const fetchInitData = function(store, route) {
+  return Promise.all([
+    store.dispatch(`${MODULE_NAME}/saveArticles`, route.params.page),
+    store.dispatch(`${MODULE_NAME}/saveArticleTypes`)
+  ])
+}
+
 export default {
   name: 'articles',
   components: {
@@ -27,12 +34,14 @@ export default {
     Lists
   },
   asyncData({ store, route }) {
-    return Promise.all([
-      store.dispatch(`${MODULE_NAME}/saveArticles`, route.params.page),
-      store.dispatch('articles/saveArticleTypes')
-    ])
+    return fetchInitData(store, route)
   },
   mixins: [mixinArticle],
+  async created() {
+    if (!this.articles.length) {
+      await fetchInitData(this.$store, this.$route)
+    }
+  },
   watch: {
     $route: async function(n, o) {
       if (n.params.page !== o.params.page) {

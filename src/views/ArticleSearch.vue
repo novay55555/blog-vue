@@ -1,6 +1,6 @@
 <template>
   <Layout :article-types="articleTypes">
-    <div class="article-search">
+    <div v-if="articles.length" class="article-search">
       <Lists :data="articles" />
       <uiv-pagination 
         :value="currentPage" 
