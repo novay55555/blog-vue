@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import MainPage from '../layouts/MainPage.vue'
 import Articles from '../views/Articles.vue'
-import OneArticle from '../views/Article.vue'
+import Article from '../views/Article.vue'
+import ArticleSearch from '../views/ArticleSearch.vue'
 import NotFound from '../views/404.vue'
 
 Vue.use(Router)
@@ -17,28 +17,19 @@ export function createRouter() {
         redirect: '/articles/1'
       },
       {
-        path: '/articles',
+        path: '/articles/:page',
         name: 'articles',
-        component: MainPage,
-        children: [
-          {
-            path: ':page',
-            name: 'articles-lists',
-            component: Articles
-          }
-        ]
+        component: Articles
       },
       {
-        path: '/article',
+        path: '/article/:id',
         name: 'oneArticle',
-        component: MainPage,
-        children: [
-          {
-            path: ':id',
-            name: 'article-content',
-            component: OneArticle
-          }
-        ]
+        component: Article
+      },
+      {
+        path: '/search',
+        name: 'article-search',
+        component: ArticleSearch
       },
       {
         path: '*',

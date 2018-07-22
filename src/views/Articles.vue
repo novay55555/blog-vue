@@ -1,17 +1,21 @@
 <template>
-  <div class="articles">
-    <Lists :data="articles" />
-    <uiv-pagination 
-      :value="currentPage" 
-      :total-page="total"
-      align="center"
-      @change="changePage"
-    />
-  </div>
+  <Layout :article-types="articleTypes">
+    <div class="articles">
+      <Lists :data="articles" />
+      <uiv-pagination 
+        :value="currentPage" 
+        :total-page="total"
+        align="center"
+        @change="changePage"
+      />
+    </div>
+  </Layout>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
+import { mixinArticle } from '../libs/mixins.js'
+import Layout from '../layouts/MainPage.vue'
 import Lists from '../components/ArticleLists.vue'
 
 const MODULE_NAME = 'articles'
@@ -19,19 +23,16 @@ const MODULE_NAME = 'articles'
 export default {
   name: 'articles',
   components: {
+    Layout,
     Lists
   },
   asyncData({ store, route }) {
-    return store.dispatch(
-      `${MODULE_NAME}/saveArticles`,
-      Number(route.params.page)
-    )
+    return Promise.all([
+      store.dispatch(`${MODULE_NAME}/saveArticles`, route.params.page),
+      store.dispatch('articles/saveArticleTypes')
+    ])
   },
-  computed: mapState(MODULE_NAME, {
-    articles: state => state.items,
-    currentPage: state => state.page,
-    total: state => state.total
-  }),
+  mixins: [mixinArticle],
   watch: {
     $route: async function(n, o) {
       if (n.params.page !== o.params.page) {

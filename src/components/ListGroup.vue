@@ -1,16 +1,14 @@
 <template>
   <div class="list-group">
-    <router-link 
+    <a 
       v-for="(item, index) in data" 
       :key="index"
-      :to="item.link"
-      :event="''"
       class="list-group-item"
-      @click.native="handler(item.link, item.handler)"
+      @click.prevent="handler(item.link, item.handler)"
     >
       <span v-if="item.count" class='badge'>{{item.count}}</span>
       {{item.text}}
-    </router-link>
+    </a>
   </div>
 </template>
 

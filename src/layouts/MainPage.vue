@@ -1,7 +1,7 @@
 <template>
   <div class="main-page">
     <Asidebar :data="asidebarIcons">
-      <!-- <ListGroup slot="glyphicon-folder-open"></ListGroup> -->
+      <ListGroup slot="glyphicon-folder-open" :data="articleTypes" />
       <Search 
         slot="glyphicon-search" 
         class="feature-search"
@@ -16,7 +16,7 @@
           <Author />
         </div>
         <div class='col-lg-10 col-sm-9'>
-          <router-view />
+          <slot></slot>
         </div>
       </div>
     </div>
@@ -42,6 +42,9 @@ export default {
     SigninModal,
     SignupModal,
     Author
+  },
+  props: {
+    articleTypes: Array
   },
   data() {
     return {

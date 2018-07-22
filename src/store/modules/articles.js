@@ -4,59 +4,55 @@ import { formatDate } from '../../libs/utils'
 export default {
   namespaced: true,
   state: {
-    total: 1,
-    page: 1,
+    total: 0,
+    page: 0,
     items: [],
     types: [],
+    typesId: '',
     current: {}
   },
   actions: {
-    saveArticles({ commit }, page = 1) {
+    saveArticles({ state, commit }, page = 1) {
+      page = Number(page)
+
+      if (state.page === page) return Promise.resolve()
+
       return Api.fetchArticles(page).then(result =>
-        commit('SAVE_ARTICLES', {
-          total: Math.ceil(result.total / 10),
-          page: result.page,
-          items: result.articles.map(el => {
-            el.date = formatDate(el.date, 'yyyy-MM-dd')
-            return el
-          })
-        })
+        commitSaveArticlesHelper(commit, result)
       )
     },
-    saveArticleTypes({ commit }) {
+    saveArticleTypes({ state, commit }) {
+      if (state.typesId) return Promise.resolve()
+
       return Api.fetchArticleTypes().then(result =>
         commit('SAVE_ARTICLE_TYPES', result)
       )
     },
     searchArticlesByTitle({ commit }, payload = {}) {
-      payload.title = payload.title || 'awesome'
+      payload.title = payload.title || ''
       payload.page = payload.page || 1
 
       const { title, page } = payload
 
       return Api.fetchArticlesByTitle(title, page).then(result =>
-        commit('SAVE_ARTICLES', {
-          total: result.total,
-          page: result.page,
-          items: result.articles
-        })
+        commitSaveArticlesHelper(commit, result)
       )
     },
     searchArticlesByType({ commit }, payload = {}) {
-      payload.type = payload.type || 'awesome'
+      payload.type = payload.type || ''
       payload.page = payload.page || 1
 
       const { type, page } = payload
 
       return Api.fetchArticlesByType(type, page).then(result =>
-        commit('SAVE_ARTICLES', {
-          total: result.total,
-          page: result.page,
-          items: result.articles
-        })
+        commitSaveArticlesHelper(commit, result)
       )
     },
-    saveArticle({ commit }, id) {
+    saveArticle({ state, commit }, id) {
+      id = Number(id)
+
+      if (state.current._id === id) return Promise.resolve()
+
       return Api.fetchArticle(id).then(result => {
         result.date = formatDate(result.date, 'yyyy-MM-dd')
         commit('SAVE_ARTICLE', result)
@@ -71,11 +67,23 @@ export default {
         state[key] = payload[key]
       })
     },
-    SAVE_ARTICLE_TYPES(state, types) {
-      state.types = types
+    SAVE_ARTICLE_TYPES(state, payload) {
+      state.types = payload.type
+      state.typesId = payload._id
     },
     SAVE_ARTICLE(state, payload) {
       state.current = payload
     }
   }
+}
+
+function commitSaveArticlesHelper(commit, result) {
+  commit('SAVE_ARTICLES', {
+    total: Math.ceil(result.total / 10),
+    page: result.page,
+    items: result.articles.map(el => {
+      el.date = formatDate(el.date, 'yyyy-MM-dd')
+      return el
+    })
+  })
 }

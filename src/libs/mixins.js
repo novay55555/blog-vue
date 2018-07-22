@@ -1,3 +1,5 @@
+import { mapState } from 'vuex'
+
 export const mixinModal = {
   props: {
     visible: {
@@ -22,4 +24,23 @@ export const mixinModal = {
       this.$emit('update:visible', v)
     }
   }
+}
+
+export const mixinArticle = {
+  computed: mapState('articles', {
+    articles: state => state.items,
+    currentPage: state => state.page,
+    total: state => state.total,
+    articleTypes: state =>
+      state.types.map(el => ({
+        link: {
+          path: '/search',
+          query: {
+            type: el,
+            page: 1
+          }
+        },
+        text: el
+      }))
+  })
 }
