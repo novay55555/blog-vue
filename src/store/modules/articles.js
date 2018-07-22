@@ -57,7 +57,10 @@ export default {
       )
     },
     saveArticle({ commit }, id) {
-      return Api.fetchArticle(id).then(result => commit('SAVE_ARTICLE', result))
+      return Api.fetchArticle(id).then(result => {
+        result.date = formatDate(result.date, 'yyyy-MM-dd')
+        commit('SAVE_ARTICLE', result)
+      })
     }
   },
   mutations: {

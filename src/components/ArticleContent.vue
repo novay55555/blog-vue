@@ -1,11 +1,7 @@
 <template>
   <div class="article-content">
     <h2>{{data.title}}</h2>
-    <p>
-      <span>{{data.author}}</span>
-      <span>{{data.date}}</span>
-      <span>{{data.articleType}}</span>
-    </p>
+    <Intro :data="data" />
     <div v-html="markedContent(data.content)" class="text">
     </div>
   </div>
@@ -13,12 +9,17 @@
 
 <script>
 import marked from 'marked'
+import Intro from './ArticleIntro.vue'
 
 export default {
   name: 'article-content',
+  components: {
+    Intro
+  },
   props: {
     data: Object
   },
+
   methods: {
     markedContent(text = '') {
       return marked(text)
@@ -29,9 +30,6 @@ export default {
 
 <style lang="scss">
 .article-content {
-  & > p > span {
-    margin-right: 15px;
-  }
   ol {
     padding-left: 20px;
     list-style-type: decimal;
@@ -63,9 +61,6 @@ export default {
 
 @media (max-width: 500px) {
   .article-content {
-    & > p > span:nth-child(1) {
-      display: none;
-    }
     .text {
       code {
         width: 150%;
