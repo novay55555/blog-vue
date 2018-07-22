@@ -110,6 +110,28 @@ export const formatDate = function(timestamp, format) {
   return format
 }
 
+/**
+ * 仿jquery迭代器
+ * 通常用于可中断的迭代, 如不需中断, 请用js其他的迭代方法
+ *
+ * @param {array, object} data 遍历的对象
+ * @param {function} callback 回调函数
+ * @param {any} scope 回调函数执行的context
+ */
+export const each = function(data, callback, scope) {
+  if (typeof data === 'object' && data.constructor === Array) {
+    for (let i = 0, l = data.length; i < l; i++) {
+      const r = callback.call(scope, data[i], i, data)
+      if (r === false) break
+    }
+  } else if (typeof data === 'object' && data.constructor === Object) {
+    for (let key in data) {
+      const r = callback.call(scope, data[key], key, data)
+      if (r === false) break
+    }
+  }
+}
+
 export function ManualError(message) {
   this.name = 'manualError'
   this.message = message
