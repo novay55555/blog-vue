@@ -65,7 +65,8 @@ function render(ctx) {
   const context = {
     title: 'Hello, SSR!',
     url: ctx.path,
-    query: ctx.query
+    query: ctx.query,
+    headers: ctx.headers
   }
 
   return renderer.renderToString(context)
@@ -103,10 +104,15 @@ async function proxyApi(ctx, next) {
   const uri = `http://${ip.address()}:${API_PORT}${ctx.url}`
   const method = ctx.method.toLowerCase()
   const body = ctx.request.body
-  const options = {}
+  const options = {
+    headers: ctx.headers
+  }
   const args = Object.keys(body).length ? [uri, body, options] : [uri, options]
   try {
     const res = await axios[method].apply(null, args)
+    Object.keys(res.headers).forEach(key => {
+      ctx.set(key, res.headers[key])
+    })
     ctx.body = res.data
   } catch (e) {
     throw e

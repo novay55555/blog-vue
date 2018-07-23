@@ -8,7 +8,8 @@ export default context => {
 
     Promise.all([
       store.dispatch('articles/saveArticleTypes'),
-      store.dispatch('account/getAdmin')
+      store.dispatch('account/getAdmin'),
+      store.dispatch('account/getSession', { headers: context.headers })
     ])
       .then(() => {
         router.onReady(() => {
