@@ -108,7 +108,7 @@ export default {
 
       if (this.isAdmin)
         arr.push({
-          link: '/inside-world',
+          link: '/inside-world/articles',
           text: '里世界'
         })
 
