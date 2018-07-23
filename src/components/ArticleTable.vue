@@ -7,7 +7,7 @@
           <a href='#'>编辑</a>
           <a href='#'>删除</a>
         </span>
-        <span v-else>{{props.text}}</span>
+        <span v-else>{{props.value}}</span>
       </template>
     </Table>
   </div>

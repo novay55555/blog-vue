@@ -8,7 +8,7 @@
     <tbody>
       <tr v-for="data in datasource" :key="data.id">
         <td v-for="column in columns" :key="column.key">
-          <slot :text="column.key" :record="data">
+          <slot :text="column.key" :value="data[column.key]" :record="data">
           </slot>
         </td>
       </tr>

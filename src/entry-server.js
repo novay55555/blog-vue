@@ -13,6 +13,13 @@ export default context => {
     ])
       .then(() => {
         router.onReady(() => {
+          if (
+            context.url.indexOf('/inside-world') !== -1 &&
+            !store.state.account.isAdmin
+          ) {
+            reject(new Error('U R NOT ADMIN'))
+          }
+
           const matchedComponents = router.getMatchedComponents()
 
           Promise.all(

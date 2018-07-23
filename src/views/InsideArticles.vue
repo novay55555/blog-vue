@@ -6,7 +6,7 @@
           <div class="search-wrapper">
             <Search placeholder="search articles..." />
           </div>
-          <Table :data="tableData" />
+          <Table :data="articles" />
         </div>
       </uiv-tab>
       <uiv-tab title="文章发布">
@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import { mixinArticle } from '../libs/mixins.js'
 import Layout from '../layouts/Inside.vue'
 import Search from '../components/SearchInput.vue'
 import Table from '../components/ArticleTable.vue'
@@ -28,20 +30,20 @@ export default {
     Search,
     Table
   },
-  data() {
-    return {
-      tableData: [
-        {
-          id: 1,
-          title: 'title',
-          articleType: 'javascript',
-          date: '2018.10.10',
-          description: 'description',
-          link: '/article/30'
-        }
-      ]
-    }
-  }
+  asyncData({ store }) {
+    return store.dispatch('articles/saveArticles')
+  },
+  mounted() {
+    console.log(this.articles)
+  },
+  mixins: [mixinArticle],
+  computed: mapState('articles', {
+    articles: state =>
+      state.items.map(el => {
+        el.link = `/article/${el._id}`
+        return el
+      })
+  })
 }
 </script>
 
