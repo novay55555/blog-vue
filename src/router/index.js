@@ -3,6 +3,9 @@ import Router from 'vue-router'
 import Articles from '../views/Articles.vue'
 import Article from '../views/Article.vue'
 import ArticleSearch from '../views/ArticleSearch.vue'
+import InsideArticles from '../views/InsideArticles.vue'
+import InsideUsers from '../views/InsideUsers.vue'
+import InsideAdmin from '../views/InsideAdmin.vue'
 import NotFound from '../views/404.vue'
 
 Vue.use(Router)
@@ -30,6 +33,21 @@ export function createRouter() {
         path: '/search',
         name: 'article-search',
         component: ArticleSearch
+      },
+      {
+        path: '/inside-world/articles',
+        name: 'inside-articles',
+        component: InsideArticles
+      },
+      {
+        path: '/inside-world/users',
+        name: 'inside-users',
+        component: InsideUsers
+      },
+      {
+        path: '/inside-world/admin',
+        name: 'inside-admin',
+        component: InsideAdmin
       },
       {
         path: '*',

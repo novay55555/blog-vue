@@ -8,10 +8,18 @@ export default context => {
 
     Promise.all([
       store.dispatch('articles/saveArticleTypes'),
-      store.dispatch('account/getAdmin')
+      store.dispatch('account/getAdmin'),
+      store.dispatch('account/getSession', { headers: context.headers })
     ])
       .then(() => {
         router.onReady(() => {
+          if (
+            context.url.indexOf('/inside-world') !== -1 &&
+            !store.state.account.isAdmin
+          ) {
+            reject(new Error('U R NOT ADMIN'))
+          }
+
           const matchedComponents = router.getMatchedComponents()
 
           Promise.all(

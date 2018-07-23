@@ -9,6 +9,6 @@ export const fetchRegister = (username, password, email) =>
 
 export const fetchSignout = () => ajax.get('/api/signout')
 
-export const fetchSession = () => ajax.get('/api/checkout')
+export const fetchSession = options => ajax.get('/api/checkout', options)
 
 export const fetchAdmin = () => ajax.get('/api/admin')

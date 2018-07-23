@@ -27,8 +27,8 @@ export default {
     getAdmin({ commit }) {
       return Api.fetchAdmin().then(result => commit('GET_ADMIN', result))
     },
-    getSession({ commit }) {
-      return Api.fetchSession()
+    getSession({ commit }, options = {}) {
+      return Api.fetchSession(options)
         .then(result =>
           commit('SIGNIN', {
             username: result.username,
