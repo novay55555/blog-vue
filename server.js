@@ -66,7 +66,9 @@ function render(ctx) {
     title: 'Hello, SSR!',
     url: ctx.path,
     query: ctx.query,
-    headers: ctx.headers
+    headers: {
+      Cookie: ctx.get('Cookie')
+    }
   }
 
   return renderer.renderToString(context)
@@ -105,9 +107,12 @@ async function proxyApi(ctx, next) {
   const method = ctx.method.toLowerCase()
   const body = ctx.request.body
   const options = {
-    headers: ctx.headers
+    headers: {
+      Cookie: ctx.get('Cookie')
+    }
   }
   const args = Object.keys(body).length ? [uri, body, options] : [uri, options]
+
   try {
     const res = await axios[method].apply(null, args)
     Object.keys(res.headers).forEach(key => {
