@@ -33,9 +33,6 @@ export default {
   asyncData({ store }) {
     return store.dispatch('articles/saveArticles')
   },
-  mounted() {
-    console.log(this.articles)
-  },
   mixins: [mixinArticle],
   computed: mapState('articles', {
     articles: state =>
