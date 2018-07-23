@@ -56,5 +56,85 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+.article-table {
+  .table {
+    table-layout: fixed;
+  }
+  tbody > tr > td,
+  thead > tr > th {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    text-align: center;
+  }
+
+  thead > tr > th {
+    &:first-child {
+      width: 40%;
+    }
+    &:nth-child(2),
+    &:nth-child(3) {
+      width: 120px;
+    }
+    &:nth-child(4) {
+      width: 60%;
+    }
+    &:last-child {
+      width: 100px;
+    }
+  }
+
+  tbody > tr > td {
+    &:first-child {
+      a {
+        display: block;
+        color: #333;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        &:hover {
+          color: #5bc0de;
+        }
+      }
+    }
+    &:nth-child(4) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    &:last-child {
+      a {
+        &:hover {
+          color: #5bc0de;
+        }
+        &:nth-child(1) {
+          float: left;
+        }
+        &:nth-child(2) {
+          float: right;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .article-table {
+    tbody > tr > td {
+      &:nth-child(2),
+      &:nth-child(3) {
+        display: none;
+      }
+    }
+    thead > tr > th {
+      &:nth-child(2),
+      &:nth-child(3) {
+        display: none;
+      }
+      &:last-child {
+        width: 85px;
+      }
+    }
+  }
+}
 </style>

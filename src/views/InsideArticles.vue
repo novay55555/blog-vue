@@ -7,6 +7,12 @@
             <Search placeholder="search articles..." />
           </div>
           <Table :data="articles" />
+          <uiv-pagination 
+            :value="currentPage" 
+            :total-page="total"
+            align="center"
+            @change="changePage"
+          />
         </div>
       </uiv-tab>
       <uiv-tab title="文章发布">
@@ -17,7 +23,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import { mixinArticle } from '../libs/mixins.js'
 import Layout from '../layouts/Inside.vue'
 import Search from '../components/SearchInput.vue'
@@ -40,7 +46,13 @@ export default {
         el.link = `/article/${el._id}`
         return el
       })
-  })
+  }),
+  methods: {
+    ...mapActions('articles', ['saveArticles']),
+    changePage(page) {
+      this.saveArticles(page)
+    }
+  }
 }
 </script>
 
