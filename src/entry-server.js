@@ -30,14 +30,17 @@ export default context => {
                   route: {
                     ...router.currentRoute,
                     query: context.query
-                  }
+                  },
+                  ctx: context
                 })
               }
             })
-          ).then(() => {
-            context.state = store.state
-            resolve(app)
-          })
+          )
+            .then(() => {
+              context.state = store.state
+              resolve(app)
+            })
+            .catch(reject)
         }, reject)
       })
       .catch(reject)

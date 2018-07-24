@@ -1,15 +1,8 @@
 import ajax from '../libs/ajax'
 import md5 from 'blueimp-md5'
 
-export const fetchInsideArticles = (page = 1) =>
-  ajax.get(`/api/inside/articles/${page}`)
-
-export const fetchInsideArticlesByTitle = (title, page = 1) =>
-  ajax.get(`/api/inside/articles/search/title/${title}/${page}`)
-
-export const fetchInsideArticle = id => ajax.get(`/api/article/${id}`)
-
-export const fetchUsers = (page = 1) => ajax.get(`/api/inside/users/${page}`)
+export const fetchUsers = (page = 1, options = {}) =>
+  ajax.get(`/api/inside/users/${page}`, options)
 
 export const fetchUsersByName = (name, page = 1) =>
   ajax.get(`/api/inside/users/search/${name}/${page}`)
