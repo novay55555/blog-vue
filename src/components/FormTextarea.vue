@@ -1,5 +1,5 @@
 <template>
-  <div :class="'form-input form-group ' + status">
+  <div class="form-textarea form-group">
     <label 
       v-if="label"
       class="control-label" 
@@ -7,14 +7,14 @@
     >
       {{errMsg || label}}
     </label>
-    <input
+    <textarea 
       ref="input"
-      class="form-control" 
-      :type="type"
+      :class="'form-control ' + className" 
       :value="value"
       :placeholder="placeholder"
       :maxlength="maxlength"
       :minlength="minlength"
+      :readonly="readonly"
       @input="change($event)"
     />
   </div>
@@ -24,12 +24,10 @@
 import { mixinInput } from '../libs/mixins.js'
 
 export default {
-  name: 'form-input',
+  name: 'form-textarea',
   props: {
-    type: {
-      type: String,
-      default: 'text'
-    }
+    className: String,
+    readonly: String
   },
   mixins: [mixinInput]
 }

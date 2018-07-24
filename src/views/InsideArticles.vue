@@ -16,7 +16,9 @@
         </div>
       </uiv-tab>
       <uiv-tab title="文章发布">
-        发布form
+        <Form 
+          :article-types="articleTypes"
+        />
       </uiv-tab>
     </uiv-tabs>
   </Layout>
@@ -28,13 +30,15 @@ import { mixinArticle } from '../libs/mixins.js'
 import Layout from '../layouts/Inside.vue'
 import Search from '../components/SearchInput.vue'
 import Table from '../components/ArticleTable.vue'
+import Form from '../components/ArticleForm.vue'
 
 export default {
   name: 'inside-articles',
   components: {
     Layout,
     Search,
-    Table
+    Table,
+    Form
   },
   asyncData({ store }) {
     return store.dispatch('articles/saveArticles')
@@ -45,7 +49,8 @@ export default {
       state.items.map(el => {
         el.link = `/article/${el._id}`
         return el
-      })
+      }),
+    articleTypes: state => state.types
   }),
   methods: {
     ...mapActions('articles', ['saveArticles']),
