@@ -10,6 +10,7 @@
         <span v-else>{{props.value}}</span>
       </template>
     </Table>
+    <div class="loading" v-if="loading"></div>
   </div>
 </template>
 
@@ -25,6 +26,15 @@ export default {
     data: {
       type: Array,
       required: true
+    },
+    loading: {
+      type: Boolean,
+      default: false
+    }
+  },
+  watch: {
+    loading(n) {
+      console.log(n)
     }
   },
   data() {
@@ -66,6 +76,7 @@ export default {
 
 <style lang="scss">
 .article-table {
+  position: relative;
   .table {
     table-layout: fixed;
   }
@@ -123,6 +134,16 @@ export default {
         }
       }
     }
+  }
+
+  .loading {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.5);
+    z-index: 9998;
   }
 }
 

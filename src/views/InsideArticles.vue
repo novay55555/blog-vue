@@ -2,7 +2,7 @@
   <Layout class="inside-articles">
     <uiv-tabs v-model="activeTabIndex" @change="changeTab">
       <uiv-tab title="文章列表">
-        <div class="clearfix" style="position:relative;">
+        <div class="clearfix">
           <div class="search-wrapper">
             <Search 
               placeholder="search articles..." 
@@ -11,18 +11,19 @@
               @on-search="search"
             />
           </div>
-          <Table 
-            :data="articles" 
-            @on-delete="removeArticle" 
-            @on-edit="showEditArticle"
-          />
-          <uiv-pagination 
-            :value="currentPage" 
-            :total-page="total"
-            align="center"
-            @change="changePage"
-          />
         </div>
+        <Table 
+          :data="articles" 
+          :loading="loadingTable"
+          @on-delete="removeArticle" 
+          @on-edit="showEditArticle"
+        />
+        <uiv-pagination 
+          :value="currentPage" 
+          :total-page="total"
+          align="center"
+          @change="changePage"
+        />
       </uiv-tab>
       <uiv-tab title="文章发布">
         <Form 
@@ -63,7 +64,7 @@ export default {
     return {
       activeTabIndex: 0,
       articleMode: 'add',
-      isFetching: false
+      loadingTable: false
     }
   },
   computed: mapState('articles', {
@@ -85,10 +86,9 @@ export default {
       'searchArticlesByTitle'
     ]),
     async changePage(page) {
-      this.isFetching = true
-      console.log(this.isFetching)
-      this.saveArticles(page)
-      this.isFetching = false
+      this.loadingTable = true
+      await this.saveArticles(page)
+      this.loadingTable = false
     },
     async submitArticle(article) {
       if (this.articleMode === 'add') {
