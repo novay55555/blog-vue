@@ -60,6 +60,7 @@ export const loadPlugin = function(pluginName) {
             loadStylesheet('/vendor/markdown-editor/bootstrap-markdown.min.css')
           ]).then(() => resolve())
         }
+        resolve()
       })
   }
   const func = pluginMap[pluginName]

@@ -90,7 +90,7 @@ function createRenderer(bundle, options = {}) {
     Object.assign(options, {
       runInNewContext: false,
       cache: LRU({
-        max: 10000
+        max: process.env.NODE_ENV === 'prodution' ? 10000 : 100
       })
     })
   )

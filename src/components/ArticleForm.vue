@@ -151,6 +151,7 @@ export default {
             this[key] = this.article[key]
           })
           this.id = this.article._id
+          this.canSubmit = true
           return
         }
 
