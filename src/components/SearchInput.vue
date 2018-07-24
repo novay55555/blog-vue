@@ -6,6 +6,8 @@
       v-model="value"
       :placeholder="placeholder"
       @keyup.enter="search"
+      @focus="focus($event)"
+      @blur="blur($event)"
     />
     <a 
       href="#" 
@@ -32,6 +34,12 @@ export default {
   methods: {
     search() {
       this.$emit('on-search', this.value)
+    },
+    focus(e) {
+      this.$emit('on-focus', e)
+    },
+    blur(e) {
+      this.$emit('on-blur', e)
     }
   }
 }

@@ -2,9 +2,14 @@
   <Layout class="inside-articles">
     <uiv-tabs v-model="activeTabIndex" @change="changeTab">
       <uiv-tab title="文章列表">
-        <div class="clearfix">
+        <div class="clearfix" style="position:relative;">
           <div class="search-wrapper">
-            <Search placeholder="search articles..." />
+            <Search 
+              placeholder="search articles..." 
+              @on-focus="searchFocus"
+              @on-blur="searchBlur"
+              @on-search="search"
+            />
           </div>
           <Table 
             :data="articles" 
@@ -34,6 +39,7 @@
 </template>
 
 <script>
+import $ from 'jquery'
 import { mapState, mapActions } from 'vuex'
 import { mixinArticle } from '../libs/mixins.js'
 import Layout from '../layouts/Inside.vue'
@@ -56,7 +62,8 @@ export default {
   data() {
     return {
       activeTabIndex: 0,
-      articleMode: 'add'
+      articleMode: 'add',
+      isFetching: false
     }
   },
   computed: mapState('articles', {
@@ -74,10 +81,14 @@ export default {
       'addArticle',
       'deleteArticle',
       'saveArticle',
-      'editArticle'
+      'editArticle',
+      'searchArticlesByTitle'
     ]),
-    changePage(page) {
+    async changePage(page) {
+      this.isFetching = true
+      console.log(this.isFetching)
       this.saveArticles(page)
+      this.isFetching = false
     },
     async submitArticle(article) {
       if (this.articleMode === 'add') {
@@ -122,6 +133,21 @@ export default {
     },
     changeMode(mode) {
       this.articleMode = mode
+    },
+    searchFocus(e) {
+      $(e.target)
+        .closest('.search-wrapper')
+        .addClass('active')
+    },
+    searchBlur(e) {
+      $(e.target)
+        .closest('.search-wrapper')
+        .removeClass('active')
+    },
+    async search(title) {
+      if (!title.trim()) return this.saveArticles()
+
+      await this.searchArticlesByTitle({ title })
     }
   }
 }
