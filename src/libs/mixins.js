@@ -45,7 +45,10 @@ export const mixinInput = {
     validates: {
       type: Array
     },
-    onReset: Function,
+    currentValue: {
+      type: String,
+      required: true
+    },
     maxlength: Number,
     minlength: Number
   },
@@ -114,10 +117,10 @@ export const mixinInput = {
       return validator
     },
     change(e) {
-      this.value = e.target.value
-      this.validator.start && this.validator.start(this.value)
+      const value = e.target.value
+      this.validator.start && this.validator.start(value)
       this.$emit('get-info', {
-        value: this.value,
+        value,
         errMsg: this.errMsg
       })
     }

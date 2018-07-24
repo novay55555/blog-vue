@@ -15,6 +15,7 @@
         errMsg: '用户名不能为空'
       }]"
       :maxlength="12"
+      :current-value="username"
       @get-info="getUsernameInfo"
     />
     <Input
@@ -22,6 +23,7 @@
       name="password"
       type="password"
       placeholder="请输入密码"
+      :current-value="password"
       :validates="[
         {
           rule: 'isNotEmpty',

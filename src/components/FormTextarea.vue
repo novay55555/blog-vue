@@ -1,5 +1,5 @@
 <template>
-  <div class="form-textarea form-group">
+  <div :class="'form-textarea form-group ' + status">
     <label 
       v-if="label"
       class="control-label" 
@@ -10,7 +10,7 @@
     <textarea 
       ref="input"
       :class="'form-control ' + className" 
-      :value="value"
+      :value="currentValue"
       :placeholder="placeholder"
       :maxlength="maxlength"
       :minlength="minlength"

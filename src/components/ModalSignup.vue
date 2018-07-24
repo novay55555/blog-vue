@@ -10,6 +10,7 @@
       label="用户名"
       placeholder="请输入用户名"
       name="username"
+      :current-value="username"
       :validates="[{
         rule: 'isNotEmpty',
         errMsg: '用户名不能为空'
@@ -22,6 +23,7 @@
       name="password"
       type="password"
       placeholder="请输入密码"
+      :current-value="password"
       :validates="[
         {
           rule: 'isNotEmpty',
@@ -39,6 +41,7 @@
       label="邮箱"
       name="email"
       placeholder="请输入邮箱"
+      :current-value="email"
       :validates="[
         {
           rule: 'isNotEmpty',

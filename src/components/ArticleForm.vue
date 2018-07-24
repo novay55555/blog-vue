@@ -7,7 +7,8 @@
         rule: 'isNotEmpty',
         errMsg: '文章标题不能为空'
       }]"
-      :value="title"
+      :current-value="title"
+      @get-info="getTitleInfo"
     />
     <Input 
       label="作者"
@@ -16,7 +17,8 @@
         rule: 'isNotEmpty',
         errMsg: '作者不能为空'
       }]"
-      :value="author"
+      :current-value="author"
+      @get-info="getAuthorInfo"
     />
     <uiv-dropdown class="form-group">
       <label for="date">请选择时间</label>
@@ -37,9 +39,10 @@
       placeholder="请输入文章描述"
       :validates="[{
         rule: 'isNotEmpty',
-        errMsg: '时间不能为空'
+        errMsg: '文章描述不能为空'
       }]"
-      :value="description"
+      :current-value="description"
+      @get-info="getDescriptionInfo"
     />
     <div class="form-group types">
       <label for="article-types">文章类型</label>
@@ -47,7 +50,8 @@
         <button 
           v-for="(item, index) in articleTypes" 
           :key="index"
-          class="btn"
+          :class="'btn ' + (articleType === item ? 'btn-primary' : '')"
+          @click="changeType(item)"
         >
           {{item}}
         </button>
@@ -62,9 +66,17 @@
         rule: 'isNotEmpty',
         errMsg: '文章内容不能为空'
       }]"
+      :current-value="content"
+      @get-info="getContentInfo"
     />
     <div class="form-group">
-      <button class="btn btn-info">Submit</button>
+      <button 
+        class="btn btn-info" 
+        :disabled="!canSubmit"
+        @click="submit"
+      >
+        Submit
+      </button>
     </div>
   </div>
 </template>
@@ -72,7 +84,7 @@
 <script>
 import $ from 'jquery'
 import marked from 'marked'
-import { formatDate, loadPlugin, querySelectors } from '../libs/utils.js'
+import { formatDate, loadPlugin, querySelectors, each } from '../libs/utils.js'
 import Input from './FormInput.vue'
 import Textarea from './FormTextarea.vue'
 
@@ -87,7 +99,63 @@ export default {
       type: Array,
       required: true
     },
-    article: Object
+    article: {
+      type: Object,
+      default: function() {
+        return {}
+      }
+    },
+    activeIndex: {
+      type: Number,
+      required: true
+    },
+    currentIndex: {
+      type: Number,
+      required: true
+    }
+  },
+  data() {
+    return {
+      id: '',
+      title: '',
+      titleErrMsg: '',
+      author: '',
+      authorErrMsg: '',
+      description: '',
+      descriptionErrMsg: '',
+      content: '',
+      contentErrMsg: '',
+      date: formatDate(Date.now(), 'yyyy-MM-dd'),
+      articleType: '',
+      canSubmit: false,
+      timer: null
+    }
+  },
+  watch: {
+    activeIndex(n) {
+      if (n === this.currentIndex) {
+        if (this.article._id) {
+          const keys = [
+            'title',
+            'author',
+            'description',
+            'content',
+            'date',
+            'articleType'
+          ]
+          keys.forEach(key => {
+            this[key] = this.article[key]
+          })
+          this.id = this.article._id
+          return
+        }
+
+        this.articleType = this.articleTypes[0]
+        this.author = this.$store.state.account.username
+      } else {
+        this.reset()
+      }
+    }
   },
   mounted() {
     Promise.all([loadPlugin('markdownEditor'), loadPlugin('highlightjs')]).then(
@@ -116,12 +184,82 @@ export default {
       }
     )
   },
-  data() {
-    return {
-      title: '',
-      author: '',
-      description: '',
-      date: formatDate(Date.now(), 'yyyy-MM-dd')
+  methods: {
+    getTitleInfo(o) {
+      this.title = o.value
+      this.titleErrMsg = o.errMsg
+      this.checkoutSubmit()
+    },
+    getAuthorInfo(o) {
+      this.author = o.value
+      this.authorErrMsg = o.errMsg
+      this.checkoutSubmit()
+    },
+    getDescriptionInfo(o) {
+      this.description = o.value
+      this.descriptionErrMsg = o.errMsg
+      this.checkoutSubmit()
+    },
+    getContentInfo(o) {
+      this.content = o.value
+      this.contentErrMsg = o.errMsg
+      this.checkoutSubmit()
+    },
+    checkoutSubmit() {
+      clearTimeout(this.timer)
+      let cansubmit = true
+      this.timer = setTimeout(() => {
+        each(
+          [this.title, this.author, this.description, this.content],
+          value => {
+            if (!value.trim()) {
+              cansubmit = false
+              return false
+            }
+          }
+        )
+
+        each(
+          [
+            this.titleErrMsg,
+            this.authorErrMsg,
+            this.descriptionErrMsg,
+            this.contentErrMsg
+          ],
+          errMsg => {
+            if (errMsg) {
+              cansubmit = false
+              return false
+            }
+          }
+        )
+
+        this.canSubmit = cansubmit
+      }, 250)
+    },
+    submit() {
+      let o = {}
+      const keys = [
+        'id',
+        'title',
+        'author',
+        'date',
+        'description',
+        'articleType',
+        'content'
+      ]
+      keys.forEach(key => {
+        o[key] = this[key]
+      })
+      this.$emit('submit-article', o)
+    },
+    changeType(type) {
+      this.articleType = type
+    },
+    reset() {
+      // 重置为初始化数据
+      // refer: https://github.com/vuejs/vue/issues/702
+      Object.assign(this.$data, this.$options.data())
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <Layout class="inside-articles">
-    <uiv-tabs>
+    <uiv-tabs v-model="activeTabIndex" @change="changeTab">
       <uiv-tab title="文章列表">
         <div class="clearfix">
           <div class="search-wrapper">
@@ -18,6 +18,9 @@
       <uiv-tab title="文章发布">
         <Form 
           :article-types="articleTypes"
+          :active-index="activeTabIndex"
+          :current-index="1"
+          @submit-article="submitArticle"
         />
       </uiv-tab>
     </uiv-tabs>
@@ -44,6 +47,11 @@ export default {
     return store.dispatch('articles/saveArticles')
   },
   mixins: [mixinArticle],
+  data() {
+    return {
+      activeTabIndex: 0
+    }
+  },
   computed: mapState('articles', {
     articles: state =>
       state.items.map(el => {
@@ -53,9 +61,25 @@ export default {
     articleTypes: state => state.types
   }),
   methods: {
-    ...mapActions('articles', ['saveArticles']),
+    ...mapActions('articles', ['saveArticles', 'addArticle']),
     changePage(page) {
       this.saveArticles(page)
+    },
+    async submitArticle(article) {
+      if (article.id) {
+        return false
+      } else {
+        delete article.id
+        await this.addArticle(article)
+      }
+
+      this.$uiv_notify({
+        type: 'success',
+        content: '发布成功'
+      })
+    },
+    changeTab(index) {
+      this.activeTabIndex = index
     }
   }
 }

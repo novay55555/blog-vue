@@ -11,7 +11,7 @@
       ref="input"
       class="form-control" 
       :type="type"
-      :value="value"
+      :value="currentValue"
       :placeholder="placeholder"
       :maxlength="maxlength"
       :minlength="minlength"
