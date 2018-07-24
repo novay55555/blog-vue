@@ -32,11 +32,6 @@ export default {
       default: false
     }
   },
-  watch: {
-    loading(n) {
-      console.log(n)
-    }
-  },
   data() {
     return {
       columns: [
@@ -80,12 +75,6 @@ export default {
   .table {
     table-layout: fixed;
   }
-  tbody > tr > td,
-  thead > tr > th {
-    padding-top: 15px !important;
-    padding-bottom: 15px !important;
-    text-align: center;
-  }
 
   thead > tr > th {
     &:first-child {
@@ -111,9 +100,6 @@ export default {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        &:hover {
-          color: #5bc0de;
-        }
       }
     }
     &:nth-child(4) {
@@ -123,9 +109,6 @@ export default {
     }
     &:last-child {
       a {
-        &:hover {
-          color: #5bc0de;
-        }
         &:nth-child(1) {
           float: left;
         }

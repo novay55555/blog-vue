@@ -53,16 +53,9 @@ export default {
 
 <style lang="scss">
 .user-table {
-  tbody > tr > td,
-  thead > tr > th {
-    padding-top: 15px !important;
-    padding-bottom: 15px !important;
-    text-align: center;
-  }
   th {
     width: 33%;
   }
-
   td:last-child a:nth-child(1) {
     margin-right: 5%;
   }
