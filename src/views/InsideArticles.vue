@@ -9,6 +9,7 @@
           <Table 
             :data="articles" 
             @on-delete="removeArticle" 
+            @on-edit="showEditArticle"
           />
           <uiv-pagination 
             :value="currentPage" 
@@ -23,6 +24,8 @@
           :article-types="articleTypes"
           :active-index="activeTabIndex"
           :current-index="1"
+          :article="currentArticle"
+          :mode="articleMode"
           @submit-article="submitArticle"
         />
       </uiv-tab>
@@ -52,7 +55,8 @@ export default {
   mixins: [mixinArticle],
   data() {
     return {
-      activeTabIndex: 0
+      activeTabIndex: 0,
+      articleMode: 'add'
     }
   },
   computed: mapState('articles', {
@@ -61,24 +65,30 @@ export default {
         el.link = `/article/${el._id}`
         return el
       }),
-    articleTypes: state => state.types
+    articleTypes: state => state.types,
+    currentArticle: state => state.current
   }),
   methods: {
-    ...mapActions('articles', ['saveArticles', 'addArticle', 'deleteArticle']),
+    ...mapActions('articles', [
+      'saveArticles',
+      'addArticle',
+      'deleteArticle',
+      'saveArticle',
+      'editArticle'
+    ]),
     changePage(page) {
       this.saveArticles(page)
     },
     async submitArticle(article) {
-      if (article.id) {
-        return false
-      } else {
-        delete article.id
+      if (this.articleMode === 'add') {
         await this.addArticle(article)
+      } else {
+        await this.editArticle(article)
       }
 
       this.$uiv_notify({
         type: 'success',
-        content: '发布成功'
+        content: this.articleMode === 'add' ? '发布成功' : '编辑成功'
       })
     },
     removeArticle(id) {
@@ -98,8 +108,20 @@ export default {
         })
         .catch(() => {})
     },
+    async showEditArticle(id) {
+      await this.saveArticle(id)
+      this.changeMode('edit')
+      this.changeTab(1)
+    },
     changeTab(index) {
+      if (index !== 1) {
+        this.changeMode('add')
+      }
+
       this.activeTabIndex = index
+    },
+    changeMode(mode) {
+      this.articleMode = mode
     }
   }
 }

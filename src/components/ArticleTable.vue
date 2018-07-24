@@ -4,7 +4,7 @@
       <template slot-scope="props">
         <router-link v-if="props.text === 'title'" :to="props.record.link">{{props.record.title}}</router-link>
         <span v-else-if="props.text === 'operate'">
-          <a href='#'>编辑</a>
+          <a @click.prevent="editArticle(props.record._id)" href='#'>编辑</a>
           <a @click.prevent="deleteArticle(props.record._id)" href='#'>删除</a>
         </span>
         <span v-else>{{props.value}}</span>
@@ -56,6 +56,9 @@ export default {
   methods: {
     deleteArticle(id) {
       this.$emit('on-delete', id)
+    },
+    editArticle(id) {
+      this.$emit('on-edit', id)
     }
   }
 }
@@ -68,8 +71,8 @@ export default {
   }
   tbody > tr > td,
   thead > tr > th {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
     text-align: center;
   }
 

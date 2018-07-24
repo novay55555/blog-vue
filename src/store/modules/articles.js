@@ -69,6 +69,13 @@ export default {
     },
     deleteArticle({ commit }, id) {
       return Api.fetchDeleteArticle(id).then(() => commit('DELETE_ARTICLE', id))
+    },
+    editArticle({ commit }, payload) {
+      return Api.fetchEditArticle(payload).then(() => {
+        payload._id = payload.id
+        delete payload.id
+        commit('EDIT_ARTICLE', payload)
+      })
     }
   },
   mutations: {
@@ -84,7 +91,10 @@ export default {
       state.typesId = payload._id
     },
     SAVE_ARTICLE(state, payload) {
-      state.current = payload
+      state.current = {
+        ...state.current,
+        ...payload
+      }
     },
     ADD_ARTICLE(state, payload) {
       state.items.unshift(payload)
@@ -92,6 +102,13 @@ export default {
     },
     DELETE_ARTICLE(state, id) {
       state.items = state.items.filter(el => el._id !== id)
+    },
+    EDIT_ARTICLE(state, payload) {
+      state.current = payload
+      state.items = state.items.map(el => {
+        if (el._id === payload._id) return Object.assign(el, payload)
+        return el
+      })
     }
   }
 }

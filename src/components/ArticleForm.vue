@@ -112,6 +112,10 @@ export default {
     currentIndex: {
       type: Number,
       required: true
+    },
+    mode: {
+      type: String,
+      default: 'add'
     }
   },
   data() {
@@ -134,7 +138,7 @@ export default {
   watch: {
     activeIndex(n) {
       if (n === this.currentIndex) {
-        if (this.article._id) {
+        if (this.mode !== 'add') {
           const keys = [
             'title',
             'author',
@@ -251,6 +255,9 @@ export default {
       keys.forEach(key => {
         o[key] = this[key]
       })
+
+      if (this.mode === 'add') delete o.id
+
       this.$emit('submit-article', o)
     },
     changeType(type) {
