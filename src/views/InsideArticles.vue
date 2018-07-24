@@ -6,7 +6,10 @@
           <div class="search-wrapper">
             <Search placeholder="search articles..." />
           </div>
-          <Table :data="articles" />
+          <Table 
+            :data="articles" 
+            @on-delete="removeArticle" 
+          />
           <uiv-pagination 
             :value="currentPage" 
             :total-page="total"
@@ -61,7 +64,7 @@ export default {
     articleTypes: state => state.types
   }),
   methods: {
-    ...mapActions('articles', ['saveArticles', 'addArticle']),
+    ...mapActions('articles', ['saveArticles', 'addArticle', 'deleteArticle']),
     changePage(page) {
       this.saveArticles(page)
     },
@@ -77,6 +80,23 @@ export default {
         type: 'success',
         content: '发布成功'
       })
+    },
+    removeArticle(id) {
+      this.$uiv_confirm({
+        title: '删除文章',
+        content: '确认删除该文章?'
+      })
+        .then(() => {
+          this.$uiv_notify('正在删除...')
+          this.deleteArticle(id)
+        })
+        .then(() => {
+          this.$uiv_notify({
+            type: 'success',
+            content: '删除成功'
+          })
+        })
+        .catch(() => {})
     },
     changeTab(index) {
       this.activeTabIndex = index

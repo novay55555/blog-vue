@@ -7,16 +7,7 @@ export const fetchInsideArticles = (page = 1) =>
 export const fetchInsideArticlesByTitle = (title, page = 1) =>
   ajax.get(`/api/inside/articles/search/title/${title}/${page}`)
 
-export const fetchAddArticle = article =>
-  ajax.post(`/api/inside/article/publish`, article)
-
 export const fetchInsideArticle = id => ajax.get(`/api/article/${id}`)
-
-export const fetchDeleteArticle = id =>
-  ajax.delete(`/api/inside/article/delete/${id}`)
-
-export const fetchEditArticle = article =>
-  ajax.put(`/api/inside/article/update`, article)
 
 export const fetchUsers = (page = 1) => ajax.get(`/api/inside/users/${page}`)
 

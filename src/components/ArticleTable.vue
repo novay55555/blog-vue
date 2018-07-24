@@ -5,7 +5,7 @@
         <router-link v-if="props.text === 'title'" :to="props.record.link">{{props.record.title}}</router-link>
         <span v-else-if="props.text === 'operate'">
           <a href='#'>编辑</a>
-          <a href='#'>删除</a>
+          <a @click.prevent="deleteArticle(props.record._id)" href='#'>删除</a>
         </span>
         <span v-else>{{props.value}}</span>
       </template>
@@ -51,6 +51,11 @@ export default {
           key: 'operate'
         }
       ]
+    }
+  },
+  methods: {
+    deleteArticle(id) {
+      this.$emit('on-delete', id)
     }
   }
 }

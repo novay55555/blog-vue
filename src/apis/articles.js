@@ -11,3 +11,12 @@ export const fetchArticlesByTitle = (title, page = 1) =>
 
 export const fetchArticlesByType = (type, page = 1) =>
   ajax.get(`/api/articles/search/type/${type}/${page}`)
+
+export const fetchAddArticle = article =>
+  ajax.post(`/api/inside/article/publish`, article)
+
+export const fetchDeleteArticle = id =>
+  ajax.delete(`/api/inside/article/delete/${id}`)
+
+export const fetchEditArticle = article =>
+  ajax.put(`/api/inside/article/update`, article)

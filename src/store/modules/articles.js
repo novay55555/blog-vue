@@ -1,5 +1,4 @@
 import * as Api from '../../apis/articles'
-import * as ApiInside from '../../apis/inside'
 import { formatDate } from '../../libs/utils'
 
 export default {
@@ -64,9 +63,12 @@ export default {
       })
     },
     addArticle({ commit }, payload) {
-      return ApiInside.fetchAddArticle(payload).then(result =>
+      return Api.fetchAddArticle(payload).then(result =>
         commit('ADD_ARTICLE', result)
       )
+    },
+    deleteArticle({ commit }, id) {
+      return Api.fetchDeleteArticle(id).then(() => commit('DELETE_ARTICLE', id))
     }
   },
   mutations: {
@@ -87,6 +89,9 @@ export default {
     ADD_ARTICLE(state, payload) {
       state.items.unshift(payload)
       state.items = state.items.filter((el, i, array) => i !== array.length - 1)
+    },
+    DELETE_ARTICLE(state, id) {
+      state.items = state.items.filter(el => el._id !== id)
     }
   }
 }
