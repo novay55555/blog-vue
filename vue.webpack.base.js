@@ -10,5 +10,8 @@ module.exports = {
         to: 'vendor'
       }
     ])
-  ]
+  ],
+  externals: {
+    jquery: 'jQuery'
+  }
 }

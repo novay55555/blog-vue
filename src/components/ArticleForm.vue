@@ -71,7 +71,8 @@
 
 <script>
 import $ from 'jquery'
-import { formatDate, loadPlugin } from '../libs/utils.js'
+import marked from 'marked'
+import { formatDate, loadPlugin, querySelectors } from '../libs/utils.js'
 import Input from './FormInput.vue'
 import Textarea from './FormTextarea.vue'
 
@@ -89,9 +90,31 @@ export default {
     article: Object
   },
   mounted() {
-    loadPlugin('markdownEditor').then(() => {
-      $(this.$el).find
-    })
+    Promise.all([loadPlugin('markdownEditor'), loadPlugin('highlightjs')]).then(
+      () => {
+        $(this.$el)
+          .find('.editor')
+          .removeAttr('readonly')
+          .attr('spellcheck', false)
+          .markdown({
+            onPreview: function(e) {
+              // onPreview钩子是没插入到DOM的, hljs没办法高亮, 目前延迟解决该问题
+              setTimeout(
+                () =>
+                  querySelectors('pre code').forEach(block =>
+                    hljs.highlightBlock(block)
+                  ),
+                50
+              )
+
+              return marked(
+                e.getContent() ||
+                  'You should write something to preiview, right?'
+              )
+            }
+          })
+      }
+    )
   },
   data() {
     return {
@@ -107,9 +130,6 @@ export default {
 <style lang="scss">
 .article-form {
   position: relative;
-  textarea {
-    height: 400px;
-  }
   .form-group {
     &:last-of-type {
       text-align: right;
@@ -144,6 +164,9 @@ export default {
     ul {
       padding-left: 20px;
       list-style-type: disc;
+    }
+    textarea {
+      height: 400px;
     }
     & > textarea {
       padding: 6px 12px;

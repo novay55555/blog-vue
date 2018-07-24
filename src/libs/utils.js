@@ -52,18 +52,13 @@ export const loadPlugin = function(pluginName) {
     markdownEditor: () =>
       new Promise(resolve => {
         if (typeof $.fn.markdown === 'undefined') {
-          Promise.all(
-            loadScripts(
-              [
-                '/vendor/markdown-editor/bootstrap-markdown.min.js',
-                '/vendor/markdown-editor/jquery.hotkeys.min.js'
-              ].concat(
-                loadStylesheet(
-                  '/vendor/markdown-editor/bootstrap-markdown.min.css'
-                )
-              )
-            )
-          ).then(() => resolve())
+          Promise.all([
+            loadScripts([
+              '/vendor/markdown-editor/bootstrap-markdown.min.js',
+              '/vendor/markdown-editor/jquery.hotkeys.min.js'
+            ]),
+            loadStylesheet('/vendor/markdown-editor/bootstrap-markdown.min.css')
+          ]).then(() => resolve())
         }
       })
   }
