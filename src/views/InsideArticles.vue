@@ -3,14 +3,11 @@
     <uiv-tabs v-model="activeTabIndex" @change="changeTab">
       <uiv-tab title="文章列表">
         <div class="clearfix">
-          <div class="search-wrapper">
-            <Search 
-              placeholder="search articles..." 
-              @on-focus="searchFocus"
-              @on-blur="searchBlur"
-              @on-search="search"
-            />
-          </div>
+          <Search 
+            class="search"
+            placeholder="search articles..." 
+            @on-search="search"
+          />
         </div>
         <Table 
           :data="articles" 
@@ -40,11 +37,10 @@
 </template>
 
 <script>
-import $ from 'jquery'
 import { mapState, mapActions } from 'vuex'
 import { mixinArticle } from '../libs/mixins.js'
 import Layout from '../layouts/Inside.vue'
-import Search from '../components/SearchInput.vue'
+import Search from '../components/SearchInputAnimated.vue'
 import Table from '../components/ArticleTable.vue'
 import Form from '../components/ArticleForm.vue'
 
@@ -134,16 +130,6 @@ export default {
     changeMode(mode) {
       this.articleMode = mode
     },
-    searchFocus(e) {
-      $(e.target)
-        .closest('.search-wrapper')
-        .addClass('active')
-    },
-    searchBlur(e) {
-      $(e.target)
-        .closest('.search-wrapper')
-        .removeClass('active')
-    },
     async search(title) {
       if (!title.trim()) return this.saveArticles()
 
@@ -158,13 +144,8 @@ export default {
   .nav-tabs {
     margin-bottom: 20px;
   }
-  .search-wrapper {
+  .search {
     float: right;
-    width: 200px;
-    transition: width 0.25s;
-    &.active {
-      width: 100%;
-    }
   }
 }
 </style>

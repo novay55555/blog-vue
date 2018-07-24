@@ -1,5 +1,8 @@
 <template>
-  <Layout>
+  <Layout class="inside-users">
+    <div class="clearfix">
+      <Search placeholder="search user..." />
+    </div>
     <Table :data="users" />
     <uiv-pagination 
       :value="currentPage" 
@@ -13,12 +16,14 @@
 import { mapState, mapActions } from 'vuex'
 import Layout from '../layouts/Inside.vue'
 import Table from '../components/UserTable.vue'
+import Search from '../components/SearchInputAnimated.vue'
 
 export default {
   name: 'inside-users',
   components: {
     Layout,
-    Table
+    Table,
+    Search
   },
   asyncData({ store, ctx }) {
     return store.dispatch(
@@ -37,5 +42,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+.inside-users {
+  .search {
+    float: right;
+  }
+}
 </style>
