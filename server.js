@@ -73,7 +73,7 @@ function render(ctx) {
   ctx.set('Content-Type', 'text/html')
 
   const context = {
-    title: 'Hello, SSR!',
+    title: '艾酱的理想鄉',
     url: ctx.path,
     query: ctx.query,
     headers: {

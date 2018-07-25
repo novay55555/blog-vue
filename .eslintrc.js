@@ -15,6 +15,7 @@ module.exports = {
     parser: 'babel-eslint'
   },
   globals: {
-    hljs: true
+    hljs: true,
+    VUE_RUNTIME: true
   }
 }

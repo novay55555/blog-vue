@@ -31,6 +31,9 @@ export default {
     if (route.query.title)
       return store.dispatch('articles/searchArticlesByTitle', route.query)
   },
+  title() {
+    return 'Search'
+  },
   mixins: [mixinArticle],
   watch: {
     $route: async function(n) {

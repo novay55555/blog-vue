@@ -26,13 +26,16 @@ export const mixinModal = {
   }
 }
 
-export const mixinArticle = {
-  computed: mapState('articles', {
-    articles: state => state.items,
-    currentPage: state => state.page,
-    total: state => state.total
-  })
-}
+export const mixinArticle = Object.assign(
+  {
+    computed: mapState('articles', {
+      articles: state => state.items,
+      currentPage: state => state.page,
+      total: state => state.total
+    })
+  },
+  getTitleMixin(VUE_RUNTIME)
+)
 
 export const mixinInput = {
   props: {
@@ -125,4 +128,33 @@ export const mixinInput = {
       })
     }
   }
+}
+
+export const titleMixin = getTitleMixin(VUE_RUNTIME)
+
+function getTitle(vm) {
+  const { title = '艾酱的理想鄉' } = vm.$options
+
+  return typeof title === 'function' ? title.call(vm) : title
+}
+
+function getTitleMixin(runtime) {
+  const mixin = {
+    client: {
+      created() {
+        const title = getTitle(this)
+
+        document.title = title
+      }
+    },
+    server: {
+      created() {
+        const title = getTitle(this)
+
+        this.$ssrContext.title = title
+      }
+    }
+  }
+
+  return mixin[runtime]
 }

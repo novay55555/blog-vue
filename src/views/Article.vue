@@ -21,6 +21,9 @@ export default {
   asyncData({ store, route }) {
     return store.dispatch('articles/saveArticle', route.params.id)
   },
+  title() {
+    return this.article.title
+  },
   mixins: [mixinArticle],
   computed: {
     ...mapState('articles', {
