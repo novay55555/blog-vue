@@ -3,8 +3,8 @@
     <Table :columns="columns" :datasource="data">
       <template slot-scope="props">
         <span v-if="props.text === 'operate'">
-          <a href="#">编辑</a>
-          <a href="#">删除</a>
+          <a @click.prevent="editUser(props.record._id)" href="#">编辑</a>
+          <a @click.prevent="deleteUser(props.record._id)" href="#">删除</a>
         </span>
         <span v-else>{{props.value}}</span>
       </template>
@@ -46,6 +46,14 @@ export default {
           key: 'operate'
         }
       ]
+    }
+  },
+  methods: {
+    deleteUser(id) {
+      this.$emit('on-delete', id)
+    },
+    editUser(id) {
+      this.$emit('on-edit', id)
     }
   }
 }

@@ -1,13 +1,22 @@
 <template>
   <Layout class="inside-users">
     <div class="clearfix">
-      <Search placeholder="search user..." />
+      <Search @on-search="findUsers" placeholder="search user..." />
     </div>
-    <Table :data="users" />
+    <Table 
+      :data="users" 
+      @on-delete="removeUser"
+      @on-edit="getUser"
+    />
     <uiv-pagination 
       :value="currentPage" 
       :total-page="total"
       align="center"
+    />
+    <Modal 
+      :data="currentUser" 
+      :visible.sync="modalVisible" 
+      @on-submit="editUserInfo"
     />
   </Layout>
 </template>
@@ -17,13 +26,15 @@ import { mapState, mapActions } from 'vuex'
 import Layout from '../layouts/Inside.vue'
 import Table from '../components/UserTable.vue'
 import Search from '../components/SearchInputAnimated.vue'
+import Modal from '../components/UserModal.vue'
 
 export default {
   name: 'inside-users',
   components: {
     Layout,
     Table,
-    Search
+    Search,
+    Modal
   },
   asyncData({ store, ctx }) {
     return store.dispatch(
@@ -31,13 +42,63 @@ export default {
       ctx ? { options: { headers: ctx.headers } } : {}
     )
   },
+  data() {
+    return {
+      modalVisible: false
+    }
+  },
   computed: mapState('users', {
     users: state => state.items,
     currentPage: state => state.page,
-    total: state => Math.ceil(state.total / 10)
+    total: state => Math.ceil(state.total / 10),
+    currentUser: state => state.current
   }),
   methods: {
-    ...mapActions('users', ['saveUsers'])
+    ...mapActions('users', [
+      'saveUsers',
+      'searchUsers',
+      'deleteUser',
+      'getCurrentUser',
+      'editUser'
+    ]),
+    findUsers(username) {
+      if (!username.trim()) return this.saveUsers()
+
+      this.searchUsers({ username })
+    },
+    removeUser(id) {
+      this.$uiv_confirm({
+        title: '删除用户',
+        content: '确定删除该用户?'
+      })
+        .then(() => this.deleteUser(id))
+        .then(() => {
+          this.$uiv_notify({
+            type: 'success',
+            content: '删除成功'
+          })
+        })
+        .catch(() => {})
+    },
+    getUser(id) {
+      this.getCurrentUser(id)
+      this.setModalVisible(true)
+    },
+    setModalVisible(visible) {
+      this.modalVisible = visible
+    },
+    async editUserInfo(id, password, email) {
+      await this.editUser({
+        id,
+        password,
+        email
+      })
+
+      this.$uiv_notify({
+        type: 'success',
+        content: '修改成功'
+      })
+    }
   }
 }
 </script>
