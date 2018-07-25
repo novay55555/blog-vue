@@ -1,6 +1,6 @@
 <template>
   <Layout class="inside-admin">
-    <Upload :photo="admin.photo" @on-upload="uploadAdminAvatar" />
+    <Upload :photo="photoUrl" @on-upload="uploadAdminAvatar" />
     <Input 
       label="管理员帐号"
       placeholder="请输入管理员帐号"
@@ -15,6 +15,13 @@
       label="管理员密码"
       placeholder="请输入管理员密码"
       :current-value="password"
+      :validates="[
+        {
+          rule: 'minLength:6',
+          errMsg: '密码长度不少于6个'
+        }
+      ]"
+      :maxlength="16"
       @get-info="getPasswordInfo"
     />
     <Input 
@@ -45,9 +52,9 @@
       :current-value="intro"
       @get-info="getIntroInfo"
     />
-
+    <ArticleTypes :data.sync="articleTypes" />
     <div class="form-group">
-      <button class="btn btn-info">Submit</button>
+      <button class="btn btn-info" :disabled="!canSubmit" @click="renewBlog">Submit</button>
     </div>
   </Layout>
 </template>
@@ -58,13 +65,15 @@ import { each } from '../libs/utils.js'
 import Layout from '../layouts/Inside.vue'
 import Input from '../components/FormInput.vue'
 import Upload from '../components/UploadAvatar.vue'
+import ArticleTypes from '../components/ArticleTypeTags.vue'
 
 export default {
   name: 'inside-admin',
   components: {
     Layout,
     Input,
-    Upload
+    Upload,
+    ArticleTypes
   },
   asyncData({ store, ctx }) {
     return store.dispatch(
@@ -82,7 +91,9 @@ export default {
       emailErrMsg: '',
       job: '',
       intro: '',
-      photo: ''
+      photoUrl: '',
+      articleTypes: [],
+      canSubmit: true
     }
   },
   computed: {
@@ -90,15 +101,17 @@ export default {
       admin: state => state.admin
     }),
     ...mapState('articles', {
-      articleTypes: state => state.types
+      types: state => state.types,
+      typesId: state => state.typesId
     })
   },
   created() {
     Object.assign(this.$data, this.admin)
     this.password = ''
+    this.articleTypes = this.types.concat()
   },
   methods: {
-    ...mapActions('account', ['uploadAvatar']),
+    ...mapActions('account', ['uploadAvatar', 'updateBlog']),
     getAccountInfo(o) {
       this.name = o.value
       this.nameErrMsg = o.errMsg
@@ -106,7 +119,13 @@ export default {
     },
     getPasswordInfo(o) {
       this.password = o.value
-      this.passwordErrMsg = o.errMsg
+
+      if (o.value) {
+        this.passwordErrMsg = o.errMsg
+      } else {
+        this.passwordErrMsg = ''
+      }
+      this.checkoutSubmit()
     },
     getEmailInfo(o) {
       this.email = o.value
@@ -131,7 +150,7 @@ export default {
         }
       })
 
-      each([this.nameErrMsg, this.emailErrMsg], errMsg => {
+      each([this.nameErrMsg, this.passwordErrMsg, this.emailErrMsg], errMsg => {
         if (errMsg) {
           canSubmit = false
           return false
@@ -146,13 +165,38 @@ export default {
         b64
       })
 
-      this.photo = result.avatar
+      this.photoUrl = result.avatar
       uploadVm.$cropper.attr('src', '')
       uploadVm.isUploadMode = false
+    },
+    async renewBlog() {
+      const { name, password, email, job, intro, articleTypes } = this
+      const admin = {
+        name,
+        password,
+        email,
+        job,
+        intro
+      }
+      const types = {
+        id: this.typesId,
+        data: articleTypes
+      }
+
+      await this.updateBlog({ admin, types })
+      this.$uiv_notify({
+        type: 'success',
+        content: '更新成功'
+      })
     }
   }
 }
 </script>
 
-<style>
+<style lang="scss">
+.inside-admin {
+  .form-group:last-of-type {
+    text-align: right;
+  }
+}
 </style>

@@ -1,7 +1,8 @@
 import * as Api from '../../apis/account'
 import {
   fetchAdmin as fetchFullAdmin,
-  fetchUploadAvatar
+  fetchUploadAvatar,
+  fetchUpdateBlog
 } from '../../apis/inside'
 
 export default {
@@ -50,6 +51,20 @@ export default {
       const { id, b64 } = payload
 
       return fetchUploadAvatar(id, b64)
+    },
+    updateBlog({ commit }, payload) {
+      return fetchUpdateBlog(payload).then(() => {
+        commit('GET_ADMIN', payload.admin)
+        commit('SIGNIN', {
+          username: payload.admin.name,
+          isAdmin: true
+        })
+        commit(
+          'articles/SAVE_ARTICLE_TYPES',
+          { type: payload.types.data },
+          { root: true }
+        )
+      })
     }
   },
   mutations: {
