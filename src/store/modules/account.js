@@ -1,4 +1,8 @@
 import * as Api from '../../apis/account'
+import {
+  fetchAdmin as fetchFullAdmin,
+  fetchUploadAvatar
+} from '../../apis/inside'
 
 export default {
   namespaced: true,
@@ -36,6 +40,16 @@ export default {
           })
         )
         .catch(() => commit('SIGNOUT'))
+    },
+    getFullAdmin({ state, commit }, options = {}) {
+      if (state.admin.password) return Promise.resolve()
+
+      return fetchFullAdmin(options).then(result => commit('GET_ADMIN', result))
+    },
+    uploadAvatar(store, payload) {
+      const { id, b64 } = payload
+
+      return fetchUploadAvatar(id, b64)
     }
   },
   mutations: {
@@ -48,7 +62,10 @@ export default {
       state.isAdmin = false
     },
     GET_ADMIN(state, payload) {
-      state.admin = payload
+      state.admin = {
+        ...state.admin,
+        ...payload
+      }
     }
   }
 }

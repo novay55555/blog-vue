@@ -22,7 +22,8 @@ export const fetchUpdateBlog = updateData => {
   return ajax.put(`/api/inside/blog`, updateData)
 }
 
-export const fetchAdmin = () => ajax.get(`/api/inside/admin`)
+export const fetchAdmin = (options = {}) =>
+  ajax.get(`/api/inside/admin`, options)
 
-export const fetchUploadAdminAvatar = (id, avatar) =>
+export const fetchUploadAvatar = (id, avatar) =>
   ajax.put(`/api/user/avatar/${id}`, { avatar })
