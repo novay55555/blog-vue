@@ -42,7 +42,6 @@ export default {
       if (n.params.page !== o.params.page) {
         this.$Progress.start()
         await this.saveArticles(n.params.page)
-        window.scrollTo(0, 0)
         this.$Progress.finish()
       }
     }
