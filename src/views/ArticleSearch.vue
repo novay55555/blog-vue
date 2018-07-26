@@ -32,22 +32,28 @@ export default {
       return store.dispatch('articles/searchArticlesByTitle', route.query)
   },
   title() {
-    return 'Search'
+    const { type, title } = this.$route.query
+
+    return `Search - ${type || title}`
   },
   mixins: [mixinArticle],
   watch: {
     $route: async function(n) {
-      if (n.query.type) {
+      const { type, title } = n.query
+
+      if (type) {
         this.$Progress.start()
         await this.searchArticlesByType(n.query)
         this.$Progress.finish()
       }
 
-      if (n.query.title) {
+      if (title) {
         this.$Progress.start()
         await this.searchArticlesByTitle(n.query)
         this.$Progress.finish()
       }
+
+      document.title = `Search - ${type || title}`
     }
   },
   methods: {

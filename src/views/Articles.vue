@@ -31,6 +31,12 @@ export default {
   asyncData({ store, route }) {
     return fetchInitData(store, route)
   },
+  meta() {
+    return {
+      keywords: ['文章列表', '博客', 'articles', 'blog'],
+      description: 'This is a blog powered by a frontend developer.'
+    }
+  },
   mixins: [mixinArticle],
   async created() {
     if (!this.articles.length) {

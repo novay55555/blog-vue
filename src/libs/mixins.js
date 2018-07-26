@@ -1,4 +1,5 @@
 import { mapState } from 'vuex'
+import { renderMeta } from '../libs/utils'
 
 export const mixinModal = {
   props: {
@@ -34,7 +35,7 @@ export const mixinArticle = Object.assign(
       total: state => state.total
     })
   },
-  getTitleMixin(VUE_RUNTIME)
+  getMixinHead(VUE_RUNTIME)
 )
 
 export const mixinInput = {
@@ -130,15 +131,19 @@ export const mixinInput = {
   }
 }
 
-export const titleMixin = getTitleMixin(VUE_RUNTIME)
-
 function getTitle(vm) {
   const { title = '艾酱的理想鄉' } = vm.$options
 
   return typeof title === 'function' ? title.call(vm) : title
 }
 
-function getTitleMixin(runtime) {
+function getMeta(vm) {
+  const { meta = {} } = vm.$options
+
+  return typeof meta === 'function' ? meta.call(vm) : meta
+}
+
+export function getMixinHead(runtime) {
   const mixin = {
     client: {
       created() {
@@ -149,12 +154,25 @@ function getTitleMixin(runtime) {
     },
     server: {
       created() {
+        const metaData = getMeta(this)
         const title = getTitle(this)
 
         this.$ssrContext.title = title
+        this.$ssrContext.meta = renderMeta(
+          Object.assign(
+            {
+              url: 'https://aijiang.ga',
+              title,
+              creator: 'gunhawk',
+              image: `https://aijiang.ga${require('../assets/kato.jpg')}`,
+              sizeName: "aijiang's blog"
+            },
+            metaData
+          )
+        )
       }
     }
   }
 
-  return mixin[runtime]
+  return mixin[runtime] || {}
 }

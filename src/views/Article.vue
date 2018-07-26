@@ -24,6 +24,12 @@ export default {
   title() {
     return this.article.title
   },
+  meta() {
+    return {
+      keywords: [this.article.articleType],
+      description: this.article.description
+    }
+  },
   mixins: [mixinArticle],
   computed: {
     ...mapState('articles', {
