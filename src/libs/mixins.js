@@ -164,7 +164,7 @@ export function getMixinHead(runtime) {
               url: 'https://aijiang.ga',
               title,
               creator: 'gunhawk',
-              image: require('../assets/kato.jpg'),
+              image: `https://aijiang.ga${require('../assets/kato.jpg')}`,
               sizeName: "aijiang's blog"
             },
             metaData
