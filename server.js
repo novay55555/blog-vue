@@ -13,11 +13,14 @@ const { createBundleRenderer } = require('vue-server-renderer')
 const ssrDevServer = require('./ssr-dev-server')
 
 const isProd = process.env.NODE_ENV === 'production'
-const PORT = process.env.NODE_ENV === 'production' ? 3002 : 3001
+const PORT = isProd ? 3002 : 3001
 const API_PORT = 3000
 const server = new Koa()
 const router = new Router()
 const staticFolders = ['js', 'css', 'img', 'vendor', 'fonts']
+const pageCache = LRU({
+  maxAge: isProd ? 10000 : 0
+})
 
 let renderer
 let ssrDevServerReady
@@ -61,8 +64,13 @@ router.get('*', async ctx => {
     await ssrDevServerReady
   }
 
-  const result = await render(ctx)
-  ctx.body = result
+  let hit = pageCache.get(ctx.path)
+
+  if (!hit) {
+    hit = await render(ctx)
+  }
+
+  ctx.body = hit
 })
 
 server.use(router.routes()).use(router.allowedMethods())
@@ -84,7 +92,11 @@ function render(ctx) {
     }
   }
 
-  return renderer.renderToString(context)
+  return renderer.renderToString(context).then(result => {
+    pageCache.set(ctx.path, result)
+
+    return Promise.resolve(result)
+  })
 }
 
 function createRenderer(bundle, options = {}) {
@@ -94,7 +106,7 @@ function createRenderer(bundle, options = {}) {
       inject: false,
       runInNewContext: false,
       cache: LRU({
-        max: process.env.NODE_ENV === 'prodution' ? 10000 : 100
+        max: isProd ? 0 : 1000
       })
     })
   )
