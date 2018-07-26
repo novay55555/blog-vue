@@ -46,7 +46,8 @@ let defaultOpts = {
 const get = (url, options = {}) => {
   let o = Object.assign({}, defaultOpts, options)
   o.params = o.params || o.data || {}
-  return request('get', !browserChecker.isIE() ? url : `url?t=${Date.now()}`, o)
+  browserChecker.isIE() && Object.assign(o.params, { t: Date.now() })
+  return request('get', url, o)
 }
 
 /**
