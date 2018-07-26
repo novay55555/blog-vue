@@ -1,4 +1,5 @@
 import { mapState } from 'vuex'
+import { renderMeta } from '../libs/utils'
 
 export const mixinModal = {
   props: {
@@ -26,13 +27,16 @@ export const mixinModal = {
   }
 }
 
-export const mixinArticle = {
-  computed: mapState('articles', {
-    articles: state => state.items,
-    currentPage: state => state.page,
-    total: state => state.total
-  })
-}
+export const mixinArticle = Object.assign(
+  {
+    computed: mapState('articles', {
+      articles: state => state.items,
+      currentPage: state => state.page,
+      total: state => state.total
+    })
+  },
+  getMixinHead(VUE_RUNTIME)
+)
 
 export const mixinInput = {
   props: {
@@ -125,4 +129,50 @@ export const mixinInput = {
       })
     }
   }
+}
+
+function getTitle(vm) {
+  const { title = '艾酱的理想鄉' } = vm.$options
+
+  return typeof title === 'function' ? title.call(vm) : title
+}
+
+function getMeta(vm) {
+  const { meta = {} } = vm.$options
+
+  return typeof meta === 'function' ? meta.call(vm) : meta
+}
+
+export function getMixinHead(runtime) {
+  const mixin = {
+    client: {
+      created() {
+        const title = getTitle(this)
+
+        document.title = title
+      }
+    },
+    server: {
+      created() {
+        const metaData = getMeta(this)
+        const title = getTitle(this)
+
+        this.$ssrContext.title = title
+        this.$ssrContext.meta = renderMeta(
+          Object.assign(
+            {
+              url: 'https://aijiang.ga',
+              title,
+              creator: 'gunhawk',
+              image: require('../assets/kato.jpg'),
+              sizeName: "aijiang's blog"
+            },
+            metaData
+          )
+        )
+      }
+    }
+  }
+
+  return mixin[runtime] || {}
 }

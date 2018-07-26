@@ -134,6 +134,29 @@ export function ManualError(message) {
   this.stack = new Error().stack
 }
 
+export function renderMeta(data) {
+  return `
+    <meta name="keywords" content="${
+      data.keywords ? data.keywords.join(',') : ''
+    }" />
+    <meta name="description" content="${data.description || ''}" />
+    <meta itemprop="name" content="${data.title || ''}" />
+    <meta itemprop="description" content="${data.description || ''}" />
+    <meta itemprop="image" content="${data.image || ''}" />
+    <meta name="twitter:card" content="${data.card || ''}" />
+    <meta name="twitter:site" content="${data.url || ''}" />
+    <meta name="twitter:title" content="${data.title || ''}" />
+    <meta name="twitter:description" content="${data.description || ''}" />
+    <meta name="twitter:creator" content="${data.creator || ''}" />
+    <meta property="og:title" content="${data.title || ''}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="${data.url || ''}" />
+    <meta property="og:image" content="${data.image || ''}" />
+    <meta property="og:description" content="${data.description || ''}" />
+    <meta property="og:site_name" content="${data.sizeName}" />
+  `
+}
+
 ManualError.prototype = Object.create(Error.prototype)
 ManualError.prototype.constructor = ManualError
 
