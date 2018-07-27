@@ -66,6 +66,11 @@ router.get('*', async ctx => {
     await ssrDevServerReady
   }
 
+  if (ctx.path === '/robots.txt') {
+    ctx.body = fs.readFileSync(path.join(__dirname, 'dist/robots.txt'))
+    return
+  }
+
   let hit = pageCache.get(ctx.path)
 
   if (!hit) {
