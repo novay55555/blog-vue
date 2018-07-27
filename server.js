@@ -60,6 +60,8 @@ server.use(bodyParser())
 server.use(proxyApi)
 
 router.get('*', async ctx => {
+  ctx.set('Content-Type', 'text/html')
+
   if (!isProd) {
     await ssrDevServerReady
   }
@@ -81,8 +83,6 @@ server.listen(PORT, err => {
 })
 
 function render(ctx) {
-  ctx.set('Content-Type', 'text/html')
-
   const context = {
     title: '艾酱的理想鄉',
     url: ctx.path,
