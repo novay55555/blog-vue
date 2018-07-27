@@ -25,6 +25,7 @@ export default {
 
 <style lang="scss">
 .author {
+  margin-bottom: 10px;
   padding: 15px 0;
   word-break: break-all;
   text-align: center;
