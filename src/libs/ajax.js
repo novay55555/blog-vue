@@ -6,7 +6,7 @@ const browserChecker = BrowserChecker()
 
 const SUCCESS_CODE = 1
 const ERROR_MESSAGE = '服务器大姨妈, 请稍后再试 =. ='
-const isProd = process.env.NODE_ENV === 'produtions'
+const isProd = process.env.NODE_ENV === 'production'
 
 const request = function() {
   let args = Array.prototype.slice.call(arguments)
