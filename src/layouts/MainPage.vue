@@ -76,23 +76,38 @@ export default {
   },
   computed: {
     ...mapState('articles', {
-      articleTypes: state => {
-        let types = state.types.map(el => ({
-          link: {
-            path: '/search',
-            query: {
-              type: el,
-              page: 1
+      articleTypes: function(state) {
+        let types = state.types.map(el => {
+          let o = {
+            link: {
+              path: '/search',
+              query: {
+                type: el,
+                page: 1
+              }
+            },
+            text: el,
+            handler: async to => {
+              this.$Progress.start()
+              await this.searchArticlesByType(to.query)
+              this.$Progress.finish()
+              this.$router.push(to)
             }
-          },
-          text: el
-        }))
+          }
+          return o
+        })
         types.unshift({
           link: {
             path: '/articles/1',
             query: {}
           },
-          text: '/'
+          text: '/',
+          handler: async to => {
+            this.$Progress.start()
+            await this.saveArticles(1)
+            this.$Progress.finish()
+            this.$router.push(to)
+          }
         })
         return types
       }
@@ -154,21 +169,36 @@ export default {
   },
   methods: {
     ...mapActions('account', ['signin', 'signup', 'signout']),
+    ...mapActions('articles', [
+      'searchArticlesByTitle',
+      'searchArticlesByType',
+      'saveArticles'
+    ]),
     toggleSiginModal() {
       this.signinModalVisible = true
     },
     toggleSigupModal() {
       this.signupModalVisible = true
     },
-    search(title) {
-      if (!title.trim()) return this.$router.push({ path: '/articles/1' })
-      this.$router.push({
-        path: '/search',
-        query: {
+    async search(title) {
+      this.$Progress.start()
+      if (!title.trim()) {
+        await this.saveArticles(1)
+        this.$router.push({ path: '/articles/1' })
+      } else {
+        await this.searchArticlesByTitle({
           title,
           page: 1
-        }
-      })
+        })
+        this.$router.push({
+          path: '/search',
+          query: {
+            title,
+            page: 1
+          }
+        })
+      }
+      this.$Progress.finish()
     },
     login(username, password) {
       this.signin({

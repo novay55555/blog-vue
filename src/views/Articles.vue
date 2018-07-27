@@ -43,18 +43,12 @@ export default {
       await fetchInitData(this.$store, this.$route)
     }
   },
-  watch: {
-    $route: async function(n, o) {
-      if (n.params.page !== o.params.page) {
-        this.$Progress.start()
-        await this.saveArticles(n.params.page)
-        this.$Progress.finish()
-      }
-    }
-  },
   methods: {
     ...mapActions('articles', ['saveArticles']),
-    changePage(page) {
+    async changePage(page) {
+      this.$Progress.start()
+      await this.saveArticles(page)
+      this.$Progress.finish()
       this.$router.push({
         path: `/articles/${page}`
       })

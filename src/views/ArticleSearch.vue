@@ -37,34 +37,28 @@ export default {
     return `Search - ${type || title}`
   },
   mixins: [mixinArticle],
-  watch: {
-    $route: async function(n) {
-      const { type, title } = n.query
-
-      if (type) {
-        this.$Progress.start()
-        await this.searchArticlesByType(n.query)
-        this.$Progress.finish()
-      }
-
-      if (title) {
-        this.$Progress.start()
-        await this.searchArticlesByTitle(n.query)
-        this.$Progress.finish()
-      }
-
-      document.title = `Search - ${type || title}`
-    }
-  },
   methods: {
     ...mapActions('articles', [
       'searchArticlesByTitle',
       'searchArticlesByType'
     ]),
-    changePage(page) {
+    async changePage(page) {
       let query = Object.assign({}, this.$route.query)
-      query.page = page
+      const { type, title } = query
 
+      query.page = page
+      this.$Progress.start()
+
+      if (type) {
+        await this.searchArticlesByType(query)
+      }
+
+      if (title) {
+        await this.searchArticlesByTitle(query)
+      }
+
+      this.$Progress.finish()
+      document.title = `Search - ${type || title}`
       this.$router.push({
         path: '/search',
         query
