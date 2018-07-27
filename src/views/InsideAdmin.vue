@@ -1,6 +1,12 @@
 <template>
   <Layout class="inside-admin">
-    <Upload :photo="photoUrl" @on-upload="uploadAdminAvatar" />
+    <div class="photo">
+      <img :src="photoUrl" alt="">
+    </div>
+    <div class="form-group">
+      <label for="">管理员头像</label>
+      <input v-model="photoUrl" type="text" class="form-control" placeholder="请输入头像链接">
+    </div>
     <Input 
       label="管理员帐号"
       placeholder="请输入管理员帐号"
@@ -170,13 +176,14 @@ export default {
       uploadVm.isUploadMode = false
     },
     async renewBlog() {
-      const { name, password, email, job, intro, articleTypes } = this
+      const { name, photoUrl, password, email, job, intro, articleTypes } = this
       const admin = {
         name,
         password,
         email,
         job,
-        intro
+        intro,
+        photoUrl
       }
       const types = {
         id: this.typesId,
@@ -197,6 +204,26 @@ export default {
 .inside-admin {
   .form-group:last-of-type {
     text-align: right;
+  }
+  .photo {
+    position: relative;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    width: 150px;
+    height: 150px;
+    border: 4px solid #eee;
+    border-radius: 50%;
+    overflow: hidden;
+    transform: translateZ(0);
+    transition: all 0.25s ease-in-out;
+    img {
+      width: 100%;
+      height: 100%;
+      transition: all, 0.5s ease-in-out;
+      &:hover {
+        transform: scale(1.2, 1.2) translate(-5%, 7%);
+      }
+    }
   }
 }
 </style>

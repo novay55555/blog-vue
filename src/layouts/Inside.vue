@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Header from '../components/Header.vue'
 
 export default {
@@ -17,7 +18,6 @@ export default {
   },
   data() {
     return {
-      logo: 'https://aijiang.ga/img/avatar-1505029156458.jpeg',
       navs: [
         {
           text: '文章管理',
@@ -33,7 +33,10 @@ export default {
         }
       ]
     }
-  }
+  },
+  computed: mapState('account', {
+    logo: state => state.admin.photoUrl
+  })
 }
 </script>
 

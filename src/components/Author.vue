@@ -1,7 +1,7 @@
 <template>
   <div class="author">
     <div class='photo'>
-      <img src="https://aijiang.ga/img/avatar-1505029156458.jpeg" :alt="data.name" />
+      <img :src="data.photoUrl" :alt="data.name" />
     </div>
     <div class='intro'>
       <p>{{data.name}}</p>
