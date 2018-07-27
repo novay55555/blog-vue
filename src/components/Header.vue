@@ -6,7 +6,11 @@
       </router-link>
       <template slot="collapse">
         <uiv-navbar-nav>
-          <li v-for="(item, index) in data" :key="index">
+          <li 
+            v-for="(item, index) in data" 
+            :key="index"
+            :class="$route.path === item.path ? 'active' : ''"
+          >
             <router-link :to="item.path">{{item.text}}</router-link>
           </li>
         </uiv-navbar-nav>
@@ -47,6 +51,16 @@ export default {
     img {
       width: 100%;
       height: 100%;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    .navbar-brand {
+      position: absolute;
+      left: 0;
+      top: 0;
     }
   }
 }

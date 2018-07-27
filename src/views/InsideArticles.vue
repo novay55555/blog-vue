@@ -82,9 +82,9 @@ export default {
       'searchArticlesByTitle'
     ]),
     async changePage(page) {
-      this.loadingTable = true
+      this.setLoading(true)
       await this.saveArticles(page)
-      this.loadingTable = false
+      this.setLoading(false)
     },
     async submitArticle(article) {
       if (this.articleMode === 'add') {
@@ -116,7 +116,9 @@ export default {
         .catch(() => {})
     },
     async showEditArticle(id) {
+      this.setLoading(true)
       await this.saveArticle(id)
+      this.setLoading(false)
       this.changeMode('edit')
       this.changeTab(1)
     },
@@ -134,6 +136,9 @@ export default {
       if (!title.trim()) return this.saveArticles()
 
       await this.searchArticlesByTitle({ title })
+    },
+    setLoading(isLoding) {
+      this.loadingTable = isLoding
     }
   }
 }

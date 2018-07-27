@@ -50,7 +50,8 @@
         <button 
           v-for="(item, index) in articleTypes" 
           :key="index"
-          :class="'btn ' + (articleType === item ? 'btn-primary' : '')"
+          class="btn"
+          :class="articleType === item ? 'btn-primary' : 'btn-default'"
           @click="changeType(item)"
         >
           {{item}}
@@ -286,6 +287,7 @@ export default {
   }
   .types {
     button {
+      margin-bottom: 5px;
       margin-right: 5px;
     }
   }
