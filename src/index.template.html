@@ -18,18 +18,26 @@
   <meta name="x5-fullscreen" content="true">
   <meta name="browsermode" content="application">
   <meta name="x5-page-mode" content="app">
-  <meta name="msapplication-tap-highlight" content="no">
-  {{{meta}}}
-  {{{ renderResourceHints() }}}
+  <meta name="msapplication-tap-highlight" content="no"> 
+  {{{meta}}} 
+  {{{ renderResourceHints() }}} 
   {{{ renderStyles() }}}
   <title>{{title}}</title>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-101213043-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-101213043-1');
+  </script>
+
 </head>
 
 <body>
   <!--vue-ssr-outlet-->
   {{{ renderState() }}}
-  <script src="/vendor/jquery.min.js"></script>
-  {{{ renderScripts() }}}
+  <script src="/vendor/jquery.min.js"></script> {{{ renderScripts() }}}
 </body>
 
 </html>

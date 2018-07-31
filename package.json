@@ -7,7 +7,7 @@
     "start": "npm run dev:server",
     "dev:client": "vue-cli-service serve",
     "dev:server": "node server",
-    "build": "npm run build:server && mv dist/vue-ssr-server-bundle.json bundle && npm run build:client && mv bundle dist/vue-ssr-server-bundle.json &&cp robots.txt dist/",
+    "build": "npm run build:server && mv dist/vue-ssr-server-bundle.json bundle && npm run build:client && mv bundle dist/vue-ssr-server-bundle.json && cp robots.txt dist/",
     "build:client": "cross-env WEBPACK_ENV=client vue-cli-service build",
     "build:server": "cross-env WEBPACK_ENV=node vue-cli-service build",
     "lint": "vue-cli-service lint",
