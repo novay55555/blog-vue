@@ -43,7 +43,7 @@ export const loadPlugin = function(pluginName) {
         if (!window.hasOwnProperty('hljs')) {
           Promise.all([
             loadScript('/vendor/highlightjs/highlight.min.js'),
-            loadStylesheet('/vendor/highlightjs/monokai-sublime.css')
+            loadStylesheet('/vendor/highlightjs/monokai-sublime.min.css')
           ]).then(() => resolve())
           return
         }
@@ -53,10 +53,11 @@ export const loadPlugin = function(pluginName) {
       new Promise(resolve => {
         if (typeof $.fn.markdown === 'undefined') {
           Promise.all([
-            loadScripts([
-              '/vendor/markdown-editor/bootstrap-markdown.min.js',
-              '/vendor/markdown-editor/jquery.hotkeys.min.js'
-            ]),
+            loadScript(
+              '/vendor/markdown-editor/bootstrap-markdown.min.js'
+            ).then(() =>
+              loadScript('/vendor/markdown-editor/jquery.hotkeys.min.js')
+            ),
             loadStylesheet('/vendor/markdown-editor/bootstrap-markdown.min.css')
           ]).then(() => resolve())
         }
