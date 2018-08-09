@@ -1,10 +1,9 @@
 <template>
   <div class="footer">
     <h5>Powered by&nbsp;
-      <a href='https://vuejs.org/index.html/' target='_blank'>Vue</a>&nbsp;
-      <a href='http://getbootstrap.com/' target='_blank'>Bootstrap</a>&nbsp;
+      <a href='https://vuejs.org/' target='_blank'>Vue</a>&nbsp;
+      <a href='https://uiv.wxsm.space/' target='_blank'>Uiv</a>&nbsp;
       <a href='https://jquery.com/' target='_blank'>jQuery</a>&nbsp;
-      <a href='http://expressjs.com/' target='_blank'>Express</a>
     </h5>
     <p>Coding with my faith!</p>
   </div>
