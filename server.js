@@ -19,7 +19,7 @@ const server = new Koa()
 const router = new Router()
 const staticFolders = ['js', 'css', 'img', 'vendor', 'fonts']
 const pageCache = LRU({
-  maxAge: isProd ? 10000 : 0
+  maxAge: getLruMaxAge()
 })
 
 let renderer
@@ -83,7 +83,7 @@ router.get('*', async ctx => {
 server.use(router.routes()).use(router.allowedMethods())
 
 server.listen(PORT, err => {
-  if (err) console.log(err.message)
+  if (err) return console.log(err.message)
   console.log(`Listen on port: ${PORT}`)
 })
 
@@ -98,7 +98,12 @@ function render(ctx) {
   }
 
   return renderer.renderToString(context).then(result => {
-    pageCache.set(ctx.path, result)
+    // search路由是根据query动态获取页面数据的, 缓存时间需要大幅缩短
+    pageCache.set(
+      ctx.path,
+      result,
+      getLruMaxAge(context.url !== '/search' ? 7777 : 250)
+    )
 
     return Promise.resolve(result)
   })
@@ -157,4 +162,8 @@ async function proxyApi(ctx, next) {
   } catch (e) {
     throw e
   }
+}
+
+function getLruMaxAge(prodMaxAge = 7777, devMaxAge = 10) {
+  return isProd ? prodMaxAge : devMaxAge
 }

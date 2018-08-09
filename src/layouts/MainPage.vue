@@ -88,9 +88,14 @@ export default {
             },
             text: el,
             handler: async to => {
-              this.$Progress.start()
-              await this.searchArticlesByType(to.query)
-              this.$Progress.finish()
+              // search路由是根据query变化而请求相应的数据的
+              // 因此路由组件是相同的, 所以要在这里换取相应的数据
+              // 其他路由则根据asyncData来获取数据
+              if (to.path === this.$route.path) {
+                this.$Progress.start()
+                await this.searchArticlesByType(to.query)
+                this.$Progress.finish()
+              }
               this.$router.push(to)
             }
           }
