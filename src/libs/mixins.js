@@ -131,6 +131,8 @@ export const mixinInput = {
   }
 }
 
+export const mixinSeo = getMixinHead(VUE_RUNTIME)
+
 function getTitle(vm) {
   const { title = '艾酱的理想鄉' } = vm.$options
 

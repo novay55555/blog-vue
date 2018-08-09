@@ -67,6 +67,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import { mixinSeo } from '../libs/mixins.js'
 import { each } from '../libs/utils.js'
 import Layout from '../layouts/Inside.vue'
 import Input from '../components/FormInput.vue'
@@ -102,6 +103,7 @@ export default {
       canSubmit: true
     }
   },
+  mixins: [mixinSeo],
   computed: {
     ...mapState('account', {
       admin: state => state.admin

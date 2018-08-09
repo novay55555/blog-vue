@@ -25,7 +25,7 @@
 
 <script>
 import Layout from '../layouts/MainPage.vue'
-
+import { mixinSeo } from '../libs/mixins.js'
 let timer = null
 
 export default {
@@ -40,6 +40,7 @@ export default {
       isBack: false
     }
   },
+  mixins: [mixinSeo],
   mounted() {
     const progressBar = this.$refs.progressBar
     const animateFunc = () => {

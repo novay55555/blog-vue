@@ -23,6 +23,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import { mixinSeo } from '../libs/mixins.js'
 import Layout from '../layouts/Inside.vue'
 import Table from '../components/UserTable.vue'
 import Search from '../components/SearchInputAnimated.vue'
@@ -47,6 +48,7 @@ export default {
       modalVisible: false
     }
   },
+  mixins: [mixinSeo],
   computed: mapState('users', {
     users: state => state.items,
     currentPage: state => state.page,
