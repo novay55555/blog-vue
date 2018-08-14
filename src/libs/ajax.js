@@ -13,7 +13,7 @@ const _request = function() {
   let args = [...arguments]
   const type = args.shift()
 
-  before && before.call(null, args)
+  typeof before === 'function' && before.call(null, args)
 
   return axios[type]
     .apply(null, args)
