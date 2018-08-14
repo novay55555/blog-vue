@@ -33,6 +33,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import { asyncHandler } from '../libs/utils.js'
 import Asidebar from '../components/Asidebar.vue'
 import ListGroup from '../components/ListGroup.vue'
 import Search from '../components/SearchInput.vue'
@@ -87,14 +88,12 @@ export default {
               }
             },
             text: el,
-            handler: async to => {
+            handler: to => {
               // search路由是根据query变化而请求相应的数据的
               // 因此路由组件是相同的, 所以要在这里换取相应的数据
-              // 其他路由则根据asyncData来获取数据
+              // 其他路由则根据ata来获取数据
               if (to.path === this.$route.path) {
-                this.$Progress.start()
-                await this.searchArticlesByType(to.query)
-                this.$Progress.finish()
+                asyncHandler(() => this.searchArticlesByType(to.query))
               }
               this.$router.push(to)
             }
@@ -107,11 +106,10 @@ export default {
             query: {}
           },
           text: '/',
-          handler: async to => {
-            this.$Progress.start()
-            await this.saveArticles(1)
-            this.$Progress.finish()
-            this.$router.push(to)
+          handler: to => {
+            asyncHandler(() =>
+              this.saveArticles(1).then(() => this.$router.push(to))
+            )
           }
         })
         return types
@@ -185,25 +183,30 @@ export default {
     toggleSigupModal() {
       this.signupModalVisible = true
     },
-    async search(title) {
-      this.$Progress.start()
+    search(title) {
       if (!title.trim()) {
-        await this.saveArticles(1)
-        this.$router.push({ path: '/articles/1' })
+        asyncHandler(() =>
+          this.saveArticles(1).then(() =>
+            this.$router.push({ path: '/articles/1' })
+          )
+        )
       } else {
-        await this.searchArticlesByTitle({
-          title,
-          page: 1
-        })
-        this.$router.push({
-          path: '/search',
-          query: {
+        asyncHandler(() => {
+          return this.searchArticlesByTitle({
             title,
             page: 1
-          }
+          }).then(() => {
+            this.$router.push({
+              path: '/search',
+              query: {
+                title,
+                page: 1
+              }
+            })
+          })
         })
       }
-      this.$Progress.finish()
+      console.log('end')
     },
     login(username, password) {
       this.signin({

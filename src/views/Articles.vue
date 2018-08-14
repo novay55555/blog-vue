@@ -15,6 +15,7 @@
 <script>
 import { mapActions } from 'vuex'
 import { mixinArticle } from '../libs/mixins.js'
+import { asyncHandler } from '../libs/utils.js'
 import Layout from '../layouts/MainPage.vue'
 import Lists from '../components/ArticleLists.vue'
 
@@ -38,20 +39,21 @@ export default {
     }
   },
   mixins: [mixinArticle],
-  async created() {
+  created() {
     if (!this.articles.length) {
-      await fetchInitData(this.$store, this.$route)
+      asyncHandler(() => fetchInitData(this.$store, this.$route))
     }
   },
   methods: {
     ...mapActions('articles', ['saveArticles']),
-    async changePage(page) {
-      this.$Progress.start()
-      await this.saveArticles(page)
-      this.$Progress.finish()
-      this.$router.push({
-        path: `/articles/${page}`
-      })
+    changePage(page) {
+      asyncHandler(() =>
+        this.saveArticles(page).then(() => {
+          this.$router.push({
+            path: `/articles/${page}`
+          })
+        })
+      )
     }
   }
 }

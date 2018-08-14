@@ -1,4 +1,7 @@
+import Vue from 'vue'
 import $ from 'jquery'
+
+const vm = new Vue()
 
 export const loadScript = url =>
   new Promise(resolve => {
@@ -129,12 +132,6 @@ export const each = function(data, callback, scope) {
   }
 }
 
-export function ManualError(message) {
-  this.name = 'manualError'
-  this.message = message
-  this.stack = new Error().stack
-}
-
 export function renderMeta(data) {
   return `
     <meta name="keywords" content="${
@@ -158,7 +155,45 @@ export function renderMeta(data) {
   `
 }
 
+/**
+ * 异步请求的统一处理函数
+ *
+ * @param {function} func 异步请求函数
+ * @param {object} steps 个性化请求处理配置
+ * @param {function} steps.start 请求中的状态处理函数
+ * @param {function} steps.error 请求失败处理函数
+ * @param {function} steps.end 请求完成处理函数
+ */
+export async function asyncHandler(func, steps = {}) {
+  const handles = Object.assign(
+    {
+      start: () => vm.$Progress.start(),
+      end: () => vm.$Progress.finish()
+    },
+    steps
+  )
+
+  handles.start()
+
+  try {
+    await func()
+  } catch (e) {
+    if (handles.error) return handles.error(e)
+
+    vm.$uiv_notify({
+      type: 'danger',
+      content: e.message
+    })
+  } finally {
+    handles.end()
+  }
+}
+
+export function ManualError(message) {
+  this.name = 'manualError'
+  this.message = message
+  this.stack = new Error().stack
+}
+
 ManualError.prototype = Object.create(Error.prototype)
 ManualError.prototype.constructor = ManualError
-
-export const mockArray = (l = 10) => Array.apply(null, Array(l))

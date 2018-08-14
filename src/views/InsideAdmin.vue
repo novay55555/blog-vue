@@ -68,7 +68,7 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import { mixinSeo } from '../libs/mixins.js'
-import { each } from '../libs/utils.js'
+import { each, asyncHandler } from '../libs/utils.js'
 import Layout from '../layouts/Inside.vue'
 import Input from '../components/FormInput.vue'
 import Upload from '../components/UploadAvatar.vue'
@@ -167,17 +167,7 @@ export default {
 
       this.canSubmit = canSubmit
     },
-    async uploadAdminAvatar(b64, uploadVm) {
-      const result = await this.uploadAvatar({
-        id: this.admin._id,
-        b64
-      })
-
-      this.photoUrl = result.avatar
-      uploadVm.$cropper.attr('src', '')
-      uploadVm.isUploadMode = false
-    },
-    async renewBlog() {
+    renewBlog() {
       const { name, photoUrl, password, email, job, intro, articleTypes } = this
       const admin = {
         name,
@@ -192,11 +182,14 @@ export default {
         data: articleTypes
       }
 
-      await this.updateBlog({ admin, types })
-      this.$uiv_notify({
-        type: 'success',
-        content: '更新成功'
-      })
+      asyncHandler(() =>
+        this.updateBlog({ admin, types }).then(() =>
+          this.$uiv_notify({
+            type: 'success',
+            content: '更新成功'
+          })
+        )
+      )
     }
   }
 }

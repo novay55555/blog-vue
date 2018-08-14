@@ -28,6 +28,7 @@ import Layout from '../layouts/Inside.vue'
 import Table from '../components/UserTable.vue'
 import Search from '../components/SearchInputAnimated.vue'
 import Modal from '../components/UserModal.vue'
+import { asyncHandler } from '../libs/utils.js'
 
 export default {
   name: 'inside-users',
@@ -89,17 +90,19 @@ export default {
     setModalVisible(visible) {
       this.modalVisible = visible
     },
-    async editUserInfo(id, password, email) {
-      await this.editUser({
-        id,
-        password,
-        email
-      })
-
-      this.$uiv_notify({
-        type: 'success',
-        content: '修改成功'
-      })
+    editUserInfo(id, password, email) {
+      asyncHandler(() =>
+        this.editUser({
+          id,
+          password,
+          email
+        }).then(() =>
+          this.$uiv_notify({
+            type: 'success',
+            content: '修改成功'
+          })
+        )
+      )
     }
   }
 }

@@ -45,7 +45,10 @@ router.onReady(() => {
       })
       .catch(() => {
         app.$Progress.finish()
-        next()
+        app.$uiv_notify({
+          type: 'danger',
+          content: '服务器大姨妈, 请稍候再试'
+        })
       })
   })
 

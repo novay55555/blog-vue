@@ -39,6 +39,7 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import { mixinArticle } from '../libs/mixins.js'
+import { asyncHandler } from '../libs/utils.js'
 import Layout from '../layouts/Inside.vue'
 import Search from '../components/SearchInputAnimated.vue'
 import Table from '../components/ArticleTable.vue'
@@ -81,22 +82,28 @@ export default {
       'editArticle',
       'searchArticlesByTitle'
     ]),
-    async changePage(page) {
-      this.setLoading(true)
-      await this.saveArticles(page)
-      this.setLoading(false)
+    changePage(page) {
+      asyncHandler(() => this.saveArticles(page), {
+        start: () => this.setLoading(true),
+        end: () => this.setLoading(false)
+      })
     },
-    async submitArticle(article) {
+    submitArticle(article) {
+      let p
       if (this.articleMode === 'add') {
-        await this.addArticle(article)
+        p = this.addArticle(article)
       } else {
-        await this.editArticle(article)
+        p = this.editArticle(article)
       }
 
-      this.$uiv_notify({
-        type: 'success',
-        content: this.articleMode === 'add' ? '发布成功' : '编辑成功'
-      })
+      asyncHandler(() =>
+        p.then(() =>
+          this.$uiv_notify({
+            type: 'success',
+            content: this.articleMode === 'add' ? '发布成功' : '编辑成功'
+          })
+        )
+      )
     },
     removeArticle(id) {
       this.$uiv_confirm({
@@ -115,12 +122,18 @@ export default {
         })
         .catch(() => {})
     },
-    async showEditArticle(id) {
-      this.setLoading(true)
-      await this.saveArticle(id)
-      this.setLoading(false)
-      this.changeMode('edit')
-      this.changeTab(1)
+    showEditArticle(id) {
+      asyncHandler(
+        () =>
+          this.saveArticle(id).then(() => {
+            this.changeMode('edit')
+            this.changeTab(1)
+          }),
+        {
+          start: () => this.setLoading(true),
+          end: () => this.setLoading(false)
+        }
+      )
     },
     changeTab(index) {
       if (index !== 1) {
@@ -132,10 +145,15 @@ export default {
     changeMode(mode) {
       this.articleMode = mode
     },
-    async search(title) {
-      if (!title.trim()) return this.saveArticles()
+    search(title) {
+      let p
+      if (!title.trim()) {
+        p = this.saveArticles()
+      } else {
+        p = this.searchArticlesByTitle({ title })
+      }
 
-      await this.searchArticlesByTitle({ title })
+      asyncHandler(() => p)
     },
     setLoading(isLoding) {
       this.loadingTable = isLoding
