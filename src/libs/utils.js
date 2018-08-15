@@ -173,10 +173,10 @@ export async function asyncHandler(func, steps = {}) {
     steps
   )
 
-  handles.start()
+  typeof handles.start === 'function' && handles.start()
 
   try {
-    await func()
+    return Promise.resolve(await func())
   } catch (e) {
     if (handles.error) return handles.error(e)
 
@@ -184,8 +184,9 @@ export async function asyncHandler(func, steps = {}) {
       type: 'danger',
       content: e.message
     })
+    return Promise.reject(e)
   } finally {
-    handles.end()
+    typeof handles.end === 'function' && handles.end()
   }
 }
 
