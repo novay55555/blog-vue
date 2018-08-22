@@ -96,14 +96,12 @@ export default {
         p = this.editArticle(article)
       }
 
-      asyncHandler(() =>
-        p.then(() =>
-          this.$uiv_notify({
-            type: 'success',
-            content: this.articleMode === 'add' ? '发布成功' : '编辑成功'
-          })
-        )
-      )
+      asyncHandler(() => p).then(() => {
+        this.$uiv_notify({
+          type: 'success',
+          content: this.articleMode === 'add' ? '发布成功' : '编辑成功'
+        })
+      })
     },
     removeArticle(id) {
       this.$uiv_confirm({
@@ -112,7 +110,7 @@ export default {
       })
         .then(() => {
           this.$uiv_notify('正在删除...')
-          this.deleteArticle(id)
+          return this.deleteArticle(id)
         })
         .then(() => {
           this.$uiv_notify({
@@ -123,17 +121,13 @@ export default {
         .catch(() => {})
     },
     showEditArticle(id) {
-      asyncHandler(
-        () =>
-          this.saveArticle(id).then(() => {
-            this.changeMode('edit')
-            this.changeTab(1)
-          }),
-        {
-          start: () => this.setLoading(true),
-          end: () => this.setLoading(false)
-        }
-      )
+      asyncHandler(() => this.saveArticle(id), {
+        start: () => this.setLoading(true),
+        end: () => this.setLoading(false)
+      }).then(() => {
+        this.changeMode('edit')
+        this.changeTab(1)
+      })
     },
     changeTab(index) {
       if (index !== 1) {
