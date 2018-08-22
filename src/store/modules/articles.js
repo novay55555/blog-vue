@@ -3,7 +3,7 @@ import { formatDate } from '../../libs/utils'
 
 export default {
   namespaced: true,
-  state: {
+  state: () => ({
     total: 0,
     page: 0,
     items: [],
@@ -11,7 +11,7 @@ export default {
     typesId: '',
     isSearch: false,
     current: {}
-  },
+  }),
   actions: {
     saveArticles({ state, commit }, page = 1) {
       page = Number(page)

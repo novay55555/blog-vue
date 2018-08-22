@@ -2,12 +2,12 @@ import * as Api from '../../apis/inside'
 
 export default {
   namespaced: true,
-  state: {
+  state: () => ({
     items: [],
     page: 0,
     total: 0,
     current: {}
-  },
+  }),
   actions: {
     saveUsers({ commit }, payload = {}) {
       let { page = 1, options } = payload

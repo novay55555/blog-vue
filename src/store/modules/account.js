@@ -7,11 +7,11 @@ import {
 
 export default {
   namespaced: true,
-  state: {
+  state: () => ({
     username: '',
     isAdmin: false,
     admin: {}
-  },
+  }),
   actions: {
     signin({ commit }, payload) {
       const { username, password } = payload
