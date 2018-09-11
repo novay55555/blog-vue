@@ -7,7 +7,10 @@
 </template>
 
 <script>
+import { disableScrollbarPostion } from './libs/utils.js'
 import Footer from './components/Footer.vue'
+
+disableScrollbarPostion()
 
 export default {
   name: 'app',

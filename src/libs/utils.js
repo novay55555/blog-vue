@@ -176,7 +176,7 @@ export async function asyncHandler(func, steps = {}) {
   typeof handles.start === 'function' && handles.start()
 
   try {
-    return Promise.resolve(await func())
+    return await func()
   } catch (e) {
     if (handles.error) return handles.error(e)
 
@@ -194,6 +194,16 @@ export function ManualError(message) {
   this.name = 'manualError'
   this.message = message
   this.stack = new Error().stack
+}
+
+export function disableScrollbarPostion() {
+  if (typeof window !== 'undefined') {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual'
+    } else {
+      window.onunload = () => window.scrollTo(0, 0)
+    }
+  }
 }
 
 ManualError.prototype = Object.create(Error.prototype)
