@@ -17,7 +17,6 @@ import { mapActions } from 'vuex'
 import { mixinArticle } from '../libs/mixins.js'
 import Layout from '../layouts/MainPage.vue'
 import Lists from '../components/ArticleLists.vue'
-import { asyncHandler } from '../libs/utils.js'
 
 export default {
   name: 'article-search',
@@ -44,28 +43,15 @@ export default {
       'searchArticlesByType'
     ]),
     changePage(page) {
-      let p
       let query = Object.assign({}, this.$route.query)
       const { type, title } = query
 
       query.page = page
 
-      if (type) {
-        p = this.searchArticlesByType(query)
-      }
-
-      if (title) {
-        p = this.searchArticlesByTitle(query)
-      }
-
-      asyncHandler(() =>
-        p.then(() =>
-          this.$router.push({
-            path: '/search',
-            query
-          })
-        )
-      )
+      this.$router.push({
+        path: '/search',
+        query
+      })
 
       document.title = `Search - ${type || title}`
     }

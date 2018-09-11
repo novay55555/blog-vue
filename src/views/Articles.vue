@@ -47,13 +47,9 @@ export default {
   methods: {
     ...mapActions('articles', ['saveArticles']),
     changePage(page) {
-      asyncHandler(() =>
-        this.saveArticles(page).then(() => {
-          this.$router.push({
-            path: `/articles/${page}`
-          })
-        })
-      )
+      this.$router.push({
+        path: `/articles/${page}`
+      })
     }
   }
 }
