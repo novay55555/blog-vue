@@ -16,6 +16,7 @@
       :maxlength="maxlength"
       :minlength="minlength"
       @input="change($event)"
+      @keyup.enter="enterKeyboard"
     />
   </div>
 </template>

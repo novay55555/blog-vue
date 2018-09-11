@@ -17,6 +17,7 @@
       :maxlength="12"
       :current-value="username"
       @get-info="getUsernameInfo"
+      @on-enter="submit"
     />
     <Input
       label="密码"
@@ -36,11 +37,12 @@
       ]"
       :maxlength="16"
       @get-info="getPasswordInfo"
+      @on-enter="submit"
     />
     <div slot="footer">
       <uiv-btn @click="value=false">取消</uiv-btn>
       <uiv-btn 
-        :disabled="!canSubmit"
+        :disabled="!canSubmit || isLoading"
         type="primary" 
         @click="submit"
       >
@@ -98,7 +100,7 @@ export default {
       this.canSubmit = canSubmit
     },
     submit() {
-      this.$emit('signin', this.username, this.password)
+      this.canSubmit && this.$emit('signin', this.username, this.password)
     }
   }
 }

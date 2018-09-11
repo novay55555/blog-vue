@@ -22,10 +22,12 @@
     </div>
     <SigninModal 
       :visible.sync="signinModalVisible"
+      :isLoading="isLoading"
       @signin="login" 
     />
     <SignupModal 
       :visible.sync="signupModalVisible" 
+      :isLoading="isLoading"
       @signup="register"
     />
   </div>
@@ -72,7 +74,8 @@ export default {
         }
       ],
       signinModalVisible: false,
-      signupModalVisible: false
+      signupModalVisible: false,
+      isLoading: false
     }
   },
   computed: {
@@ -206,32 +209,38 @@ export default {
           })
         })
       }
-      console.log('end')
     },
     login(username, password) {
-      this.signin({
-        username,
-        password
+      asyncHandler(() => this.signin({ username, password }), {
+        start: () => (this.isLoading = true),
+        end: () => (this.isLoading = false)
+      }).then(() => {
+        this.$uiv_notify({
+          type: 'success',
+          content: '登录成功'
+        })
+        this.signinModalVisible = false
       })
-        .then(() => {
-          this.$uiv_notify({
-            type: 'success',
-            content: '登录成功'
-          })
-          this.signinModalVisible = false
-        })
-        .catch(err => {
-          this.$uiv_notify({
-            type: 'danger',
-            content: err.message
-          })
-        })
     },
     register(username, password, email) {
-      this.signup({
-        username,
-        password,
-        email
+      asyncHandler(
+        () => {
+          return this.signup({
+            username,
+            password,
+            email
+          })
+        },
+        {
+          start: () => (this.isLoading = true),
+          end: () => (this.isLoading = false)
+        }
+      ).then(() => {
+        this.$uiv_notify({
+          type: 'success',
+          content: '注册成功'
+        })
+        this.signupModalVisible = false
       })
     }
   }

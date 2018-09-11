@@ -7,6 +7,10 @@ export const mixinModal = {
       type: Boolean,
       required: true,
       default: false
+    },
+    isLoading: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -127,6 +131,9 @@ export const mixinInput = {
         value,
         errMsg: this.errMsg
       })
+    },
+    enterKeyboard() {
+      this.$emit('on-enter')
     }
   }
 }
