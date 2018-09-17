@@ -63,13 +63,7 @@ export default {
   methods: {
     ...mapActions('account', ['getCaptcha']),
     refreshCaptcha() {
-      this.getCaptcha({
-        width: 100,
-        height: 34,
-        fontSize: 40,
-        color: '#fff',
-        background: '#dddddd'
-      })
+      this.$emit('refresh')
     }
   }
 }

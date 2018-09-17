@@ -43,6 +43,7 @@
       :current-value="captchaVal"
       @get-info="getCaptchaInfo"
       @on-enter="submit"
+      @refresh="getCaptcha"
     />
     <div slot="footer">
       <uiv-btn @click="value=false">取消</uiv-btn>
@@ -60,7 +61,7 @@
 <script>
 import Input from './FormInput.vue'
 import InputCaptcha from './FormCaptcha.vue'
-import { mixinAccountModal } from '../libs/mixins.js'
+import { mixinModal } from '../libs/mixins.js'
 import { each } from '../libs/utils.js'
 
 export default {
@@ -69,7 +70,13 @@ export default {
     Input,
     InputCaptcha
   },
-  mixins: [mixinAccountModal],
+  props: {
+    captcha: {
+      type: String,
+      require: true
+    }
+  },
+  mixins: [mixinModal],
   data() {
     return {
       username: '',
@@ -79,6 +86,18 @@ export default {
       passwordErrMsg: '',
       captchaErrMsg: '',
       canSubmit: false
+    }
+  },
+  watch: {
+    visible(v) {
+      this.value = v
+
+      if (v && !this.captcha) {
+        this.getCaptcha()
+      }
+    },
+    value(v) {
+      this.$emit('update:visible', v)
     }
   },
   methods: {
@@ -119,6 +138,15 @@ export default {
     submit() {
       this.canSubmit &&
         this.$emit('signin', this.username, this.password, this.captchaVal)
+    },
+    getCaptcha() {
+      this.$emit('get-captcha', {
+        width: 100,
+        height: 34,
+        fontSize: 40,
+        color: '#fff',
+        background: '#dddddd'
+      })
     }
   }
 }

@@ -31,34 +31,6 @@ export const mixinModal = {
   }
 }
 
-export const mixinAccountModal = Object.assign({}, mixinModal, {
-  props: {
-    ...mixinModal.props,
-    captcha: {
-      type: String,
-      require: true
-    }
-  },
-  watch: {
-    visible(v) {
-      this.value = v
-
-      if (v && !this.captcha) {
-        this.$emit('get-captcha', {
-          width: 100,
-          height: 34,
-          fontSize: 40,
-          color: '#fff',
-          background: '#dddddd'
-        })
-      }
-    },
-    value(v) {
-      this.$emit('update:visible', v)
-    }
-  }
-})
-
 export const mixinArticle = Object.assign(
   {
     computed: mapState('articles', {
