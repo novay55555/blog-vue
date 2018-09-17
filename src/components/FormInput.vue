@@ -26,12 +26,6 @@ import { mixinInput } from '../libs/mixins.js'
 
 export default {
   name: 'form-input',
-  props: {
-    type: {
-      type: String,
-      default: 'text'
-    }
-  },
   mixins: [mixinInput]
 }
 </script>

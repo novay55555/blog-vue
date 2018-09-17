@@ -23,12 +23,16 @@
     <SigninModal 
       :visible.sync="signinModalVisible"
       :isLoading="isLoading"
-      @signin="login" 
+      :captcha="captcha"
+      @signin="login"
+      @get-captcha="getCaptcha"
     />
     <SignupModal 
       :visible.sync="signupModalVisible" 
       :isLoading="isLoading"
+      :captcha="captcha"
       @signup="register"
+      @get-captcha="getCaptcha"
     />
   </div>
 </template>
@@ -118,7 +122,7 @@ export default {
         return types
       }
     }),
-    ...mapState('account', ['admin', 'isAdmin', 'username']),
+    ...mapState('account', ['admin', 'isAdmin', 'username', 'captcha']),
     routeMap() {
       let arr = [
         {
@@ -174,7 +178,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('account', ['signin', 'signup', 'signout']),
+    ...mapActions('account', ['signin', 'signup', 'signout', 'getCaptcha']),
     ...mapActions('articles', [
       'searchArticlesByTitle',
       'searchArticlesByType',
@@ -210,8 +214,8 @@ export default {
         })
       }
     },
-    login(username, password) {
-      asyncHandler(() => this.signin({ username, password }), {
+    login(username, password, captcha) {
+      asyncHandler(() => this.signin({ username, password, captcha }), {
         start: () => (this.isLoading = true),
         end: () => (this.isLoading = false)
       }).then(() => {
@@ -222,13 +226,14 @@ export default {
         this.signinModalVisible = false
       })
     },
-    register(username, password, email) {
+    register(username, password, email, captcha) {
       asyncHandler(
         () => {
           return this.signup({
             username,
             password,
-            email
+            email,
+            captcha
           })
         },
         {

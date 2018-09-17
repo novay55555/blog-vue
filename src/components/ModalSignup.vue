@@ -58,6 +58,11 @@
       @get-info="getEmailInfo"
       @on-enter="submit"
     />
+    <InputCaptcha
+      :current-value="captchaVal"
+      @get-info="getCaptchaInfo"
+      @on-enter="submit"
+    />
     <div slot="footer">
       <uiv-btn @click="value=false">取消</uiv-btn>
       <uiv-btn 
@@ -92,14 +97,22 @@ export default {
     },
     checkSubmit() {
       let canSubmit = true
-      each([this.username, this.password, this.email], value => {
-        if (!value.trim()) {
-          canSubmit = false
-          return false
-        }
-      })
       each(
-        [this.usernameErrMsg, this.passwordMsg, this.emailErrMsg],
+        [this.username, this.password, this.email, this.captchaVal],
+        value => {
+          if (!value.trim()) {
+            canSubmit = false
+            return false
+          }
+        }
+      )
+      each(
+        [
+          this.usernameErrMsg,
+          this.passwordMsg,
+          this.emailErrMsg,
+          this.captchaErrMsg
+        ],
         errMsg => {
           if (errMsg) {
             canSubmit = false
@@ -111,7 +124,13 @@ export default {
     },
     submit() {
       this.canSubmit &&
-        this.$emit('signup', this.username, this.password, this.email)
+        this.$emit(
+          'signup',
+          this.username,
+          this.password,
+          this.email,
+          this.captchaVal
+        )
     }
   }
 }

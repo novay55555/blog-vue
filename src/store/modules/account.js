@@ -10,21 +10,29 @@ export default {
   state: () => ({
     username: '',
     isAdmin: false,
-    admin: {}
+    admin: {},
+    captcha: ''
   }),
   actions: {
     signin({ commit }, payload) {
-      const { username, password } = payload
-      return Api.fetchSignin(username, password).then(result =>
+      const { username, password, captcha } = payload
+      return Api.fetchSignin(username, password, captcha).then(result => {
         commit('SIGNIN', {
           username: result.username,
           isAdmin: result.isAdmin
         })
-      )
+        commit('CLEAR_CAPTCHA')
+      })
     },
-    signup(store, payload) {
-      const { username, password, email } = payload
-      return Api.fetchRegister(username, password, email)
+    signup({ commit }, payload) {
+      const { username, password, email, captcha } = payload
+      return Api.fetchRegister(username, password, email, captcha).then(() => {
+        commit('SIGN', {
+          username,
+          isAdmin: false
+        })
+        commit('CLEAR_CAPTCHA')
+      })
     },
     signout({ commit }) {
       return Api.fetchSignout().then(() => commit('SIGNOUT'))
@@ -65,6 +73,11 @@ export default {
           { root: true }
         )
       })
+    },
+    getCaptcha({ commit }, payload) {
+      return Api.fetchCaptcha(payload).then(result =>
+        commit('GET_CAPTCHA', result)
+      )
     }
   },
   mutations: {
@@ -81,6 +94,12 @@ export default {
         ...state.admin,
         ...payload
       }
+    },
+    GET_CAPTCHA(state, data) {
+      state.captcha = data
+    },
+    CLEAR_CAPTCHA(state) {
+      state.captcha = ''
     }
   }
 }

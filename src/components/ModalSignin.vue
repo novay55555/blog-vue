@@ -39,6 +39,11 @@
       @get-info="getPasswordInfo"
       @on-enter="submit"
     />
+    <InputCaptcha
+      :current-value="captchaVal"
+      @get-info="getCaptchaInfo"
+      @on-enter="submit"
+    />
     <div slot="footer">
       <uiv-btn @click="value=false">取消</uiv-btn>
       <uiv-btn 
@@ -54,21 +59,25 @@
 
 <script>
 import Input from './FormInput.vue'
-import { mixinModal } from '../libs/mixins.js'
+import InputCaptcha from './FormCaptcha.vue'
+import { mixinAccountModal } from '../libs/mixins.js'
 import { each } from '../libs/utils.js'
 
 export default {
   name: 'modal-signin',
   components: {
-    Input
+    Input,
+    InputCaptcha
   },
-  mixins: [mixinModal],
+  mixins: [mixinAccountModal],
   data() {
     return {
       username: '',
       password: '',
+      captchaVal: '',
       usernameErrMsg: '',
       passwordErrMsg: '',
+      captchaErrMsg: '',
       canSubmit: false
     }
   },
@@ -83,24 +92,33 @@ export default {
       this.passwordErrMsg = o.errMsg
       this.checkSubmit()
     },
+    getCaptchaInfo(o) {
+      this.captchaVal = o.value
+      this.captchaErrMsg = o.errMsg
+      this.checkSubmit()
+    },
     checkSubmit() {
       let canSubmit = true
-      each([this.username, this.password], value => {
+      each([this.username, this.password, this.captchaVal], value => {
         if (!value.trim()) {
           canSubmit = false
           return false
         }
       })
-      each([this.usernameErrMsg, this.passwordErrMsg], errMsg => {
-        if (errMsg) {
-          canSubmit = false
-          return false
+      each(
+        [this.usernameErrMsg, this.passwordErrMsg, this.captchaErrMsg],
+        errMsg => {
+          if (errMsg) {
+            canSubmit = false
+            return false
+          }
         }
-      })
+      )
       this.canSubmit = canSubmit
     },
     submit() {
-      this.canSubmit && this.$emit('signin', this.username, this.password)
+      this.canSubmit &&
+        this.$emit('signin', this.username, this.password, this.captchaVal)
     }
   }
 }
