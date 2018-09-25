@@ -1,12 +1,21 @@
 <template>
   <div class="user-table">
-    <Table :columns="columns" :datasource="data">
+    <Table 
+      :columns="columns" 
+      :datasource="data"
+    >
       <template slot-scope="props">
         <span v-if="props.text === 'operate'">
-          <a @click.prevent="editUser(props.record._id)" href="#">编辑</a>
-          <a @click.prevent="deleteUser(props.record._id)" href="#">删除</a>
+          <a 
+            href="#" 
+            @click.prevent="editUser(props.record._id)"
+          >编辑</a>
+          <a 
+            href="#" 
+            @click.prevent="deleteUser(props.record._id)"
+          >删除</a>
         </span>
-        <span v-else>{{props.value}}</span>
+        <span v-else>{{ props.value }}</span>
       </template>
     </Table>
   </div>
@@ -16,7 +25,7 @@
 import Table from './Table.vue'
 
 export default {
-  name: 'user-table',
+  name: 'UserTable',
   components: {
     Table
   },

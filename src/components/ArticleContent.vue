@@ -1,9 +1,11 @@
 <template>
   <div class="article-content">
-    <h2>{{data.title}}</h2>
+    <h2>{{ data.title }}</h2>
     <Intro :data="data" />
-    <div v-html="markedContent(data.content)" class="text">
-    </div>
+    <div 
+      class="text" 
+      v-html="markedContent(data.content)"
+    />
   </div>
 </template>
 
@@ -13,7 +15,7 @@ import { loadPlugin, querySelectors } from '../libs/utils.js'
 import Intro from './ArticleIntro.vue'
 
 export default {
-  name: 'article-content',
+  name: 'ArticleContent',
   components: {
     Intro
   },

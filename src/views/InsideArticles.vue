@@ -1,6 +1,9 @@
 <template>
   <Layout class="inside-articles">
-    <uiv-tabs v-model="activeTabIndex" @change="changeTab">
+    <uiv-tabs 
+      v-model="activeTabIndex" 
+      @change="changeTab"
+    >
       <uiv-tab title="文章列表">
         <div class="clearfix">
           <Search 
@@ -46,7 +49,7 @@ import Table from '../components/ArticleTable.vue'
 import Form from '../components/ArticleForm.vue'
 
 export default {
-  name: 'inside-articles',
+  name: 'InsideArticles',
   components: {
     Layout,
     Search,

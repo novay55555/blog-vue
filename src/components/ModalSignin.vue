@@ -7,23 +7,19 @@
     size="sm"
   >
     <Input 
-      label="用户名"
-      placeholder="请输入用户名"
-      name="username"
       :validates="[{
         rule: 'isNotEmpty',
         errMsg: '用户名不能为空'
       }]"
       :maxlength="12"
       :current-value="username"
+      label="用户名"
+      placeholder="请输入用户名"
+      name="username"
       @get-info="getUsernameInfo"
       @on-enter="submit"
-    />
+    >
     <Input
-      label="密码"
-      name="password"
-      type="password"
-      placeholder="请输入密码"
       :current-value="password"
       :validates="[
         {
@@ -36,9 +32,13 @@
         }
       ]"
       :maxlength="16"
+      label="密码"
+      name="password"
+      type="password"
+      placeholder="请输入密码"
       @get-info="getPasswordInfo"
       @on-enter="submit"
-    />
+    >
     <InputCaptcha
       :current-value="captchaVal"
       @get-info="getCaptchaInfo"
@@ -65,18 +65,18 @@ import { mixinModal } from '../libs/mixins.js'
 import { each } from '../libs/utils.js'
 
 export default {
-  name: 'modal-signin',
+  name: 'ModalSignin',
   components: {
     Input,
     InputCaptcha
   },
+  mixins: [mixinModal],
   props: {
     captcha: {
       type: String,
       require: true
     }
   },
-  mixins: [mixinModal],
   data() {
     return {
       username: '',

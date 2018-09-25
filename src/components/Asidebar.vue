@@ -8,10 +8,13 @@
           :class="activeIndex === index ? 'active' : ''"
           @click="stopPropagationClick"
         >
-          <span :class="'glyphicon ' + item.icon" @click.stop="toggleChildren(index)"></span>
+          <span 
+            :class="'glyphicon ' + item.icon" 
+            @click.stop="toggleChildren(index)"
+          />
           <div 
-            class="children" 
-            :style="{top: index === 0 ? index : (index * liHeight + liPaddingTop) + 'px'}"
+            :style="{top: index === 0 ? index : (index * liHeight + liPaddingTop) + 'px'}" 
+            class="children"
           >
             <slot :name="item.slotName || ''" />
           </div>
@@ -29,7 +32,7 @@
 import $ from 'jquery'
 
 export default {
-  name: 'asidebar',
+  name: 'Asidebar',
   props: {
     data: Array
   },

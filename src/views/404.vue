@@ -4,18 +4,18 @@
       <h1>Never Mind :P</h1>
       <h4>The longest distance in the world is not just only 404</h4>
       <p>I'll find it out sooner or later</p>
-      <div class='progress'>
+      <div class="progress">
         <div 
-          :style="{ width: `${progress}%` }" 
-          ref="progressBar"
-          class='progress-bar progress-bar-info' 
-          role='progressbar' 
-          aria-valuenow={progress} 
-          aria-valuemin='0' 
-          aria-valuemax='100' 
+          ref="progressBar" 
+          :style="{ width: `${progress}%` }"
+          class="progress-bar progress-bar-info" 
+          role="progressbar" 
+          aria-valuenow="{progress}" 
+          aria-valuemin="0" 
+          aria-valuemax="100" 
         />
-        <div class='progress-text'>
-          {{isBack ? 'Holy shit :(' : `${progress}%`}}
+        <div class="progress-text">
+          {{ isBack ? 'Holy shit :(' : `${progress}%` }}
         </div>
       </div>
     </div>
@@ -29,10 +29,11 @@ import { mixinSeo } from '../libs/mixins.js'
 let timer = null
 
 export default {
-  name: 'not-found',
+  name: 'NotFound',
   components: {
     Layout
   },
+  mixins: [mixinSeo],
   data() {
     return {
       progress: 0,
@@ -40,7 +41,6 @@ export default {
       isBack: false
     }
   },
-  mixins: [mixinSeo],
   mounted() {
     const progressBar = this.$refs.progressBar
     const animateFunc = () => {

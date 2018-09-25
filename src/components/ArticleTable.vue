@@ -1,16 +1,31 @@
 <template>
   <div class="article-table">
-    <Table :columns="columns" :datasource="data">
+    <Table 
+      :columns="columns" 
+      :datasource="data"
+    >
       <template slot-scope="props">
-        <router-link v-if="props.text === 'title'" :to="props.record.link">{{props.record.title}}</router-link>
+        <router-link 
+          v-if="props.text === 'title'" 
+          :to="props.record.link"
+        >{{ props.record.title }}</router-link>
         <span v-else-if="props.text === 'operate'">
-          <a @click.prevent="editArticle(props.record._id)" href='#'>编辑</a>
-          <a @click.prevent="deleteArticle(props.record._id)" href='#'>删除</a>
+          <a 
+            href="#" 
+            @click.prevent="editArticle(props.record._id)"
+          >编辑</a>
+          <a 
+            href="#" 
+            @click.prevent="deleteArticle(props.record._id)"
+          >删除</a>
         </span>
-        <span v-else>{{props.value}}</span>
+        <span v-else>{{ props.value }}</span>
       </template>
     </Table>
-    <div class="loading" v-if="loading"></div>
+    <div 
+      v-if="loading" 
+      class="loading"
+    />
   </div>
 </template>
 
@@ -18,7 +33,7 @@
 import Table from './Table.vue'
 
 export default {
-  name: 'article-table',
+  name: 'ArticleTable',
   components: {
     Table
   },

@@ -7,10 +7,6 @@
     size="sm"
   >
     <Input
-      label="密码"
-      name="password"
-      type="password"
-      placeholder="请输入密码"
       :current-value="password"
       :validates="[
         {
@@ -19,12 +15,13 @@
         }
       ]"
       :maxlength="16"
+      label="密码"
+      name="password"
+      type="password"
+      placeholder="请输入密码"
       @get-info="getPasswordInfo"
-    />
+    >
     <Input
-      label="邮箱"
-      name="email"
-      placeholder="请输入邮箱"
       :current-value="email"
       :validates="[
         {
@@ -37,8 +34,11 @@
         }
       ]"
       :maxlength="16"
+      label="邮箱"
+      name="email"
+      placeholder="请输入邮箱"
       @get-info="getEmailInfo"
-    />
+    >
     <div slot="footer">
       <uiv-btn @click="value=false">取消</uiv-btn>
       <uiv-btn 
@@ -58,17 +58,17 @@ import { each } from '../libs/utils.js'
 import Input from './FormInput.vue'
 
 export default {
-  name: 'user-modal',
+  name: 'UserModal',
   components: {
     Input
   },
+  mixins: [mixinModal],
   props: {
     data: {
       type: Object,
       required: true
     }
   },
-  mixins: [mixinModal],
   data() {
     return {
       password: '',

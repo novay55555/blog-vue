@@ -1,19 +1,22 @@
 <template>
   <div class="author">
-    <div class='photo'>
-      <img :src="data.photoUrl" :alt="data.name" />
+    <div class="photo">
+      <img 
+        :src="data.photoUrl" 
+        :alt="data.name"
+      >
     </div>
-    <div class='intro'>
-      <p>{{data.name}}</p>
-      <p>{{data.job}}</p>
-      <p>{{data.intro}}</p>
+    <div class="intro">
+      <p>{{ data.name }}</p>
+      <p>{{ data.job }}</p>
+      <p>{{ data.intro }}</p>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'author',
+  name: 'Author',
   props: {
     data: {
       type: Object,

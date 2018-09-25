@@ -1,14 +1,14 @@
 <template>
   <div class="search-input form-group">
     <input
-      class="form-control" 
-      type="text"
-      v-model="value"
+      v-model="value" 
       :placeholder="placeholder"
+      class="form-control"
+      type="text"
       @keyup.enter="search"
       @focus="focus($event)"
       @blur="blur($event)"
-    />
+    >
     <a 
       href="#" 
       class="glyphicon glyphicon-search"
@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: 'search-input',
+  name: 'SearchInput',
   props: {
     placeholder: {
       type: String,

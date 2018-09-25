@@ -7,23 +7,19 @@
     size="sm"
   >
     <Input 
-      label="用户名"
-      placeholder="请输入用户名"
-      name="username"
       :current-value="username"
       :validates="[{
         rule: 'isNotEmpty',
         errMsg: '用户名不能为空'
       }]"
       :maxlength="12"
+      label="用户名"
+      placeholder="请输入用户名"
+      name="username"
       @get-info="getUsernameInfo"
       @on-enter="submit"
-    />
+    >
     <Input
-      label="密码"
-      name="password"
-      type="password"
-      placeholder="请输入密码"
       :current-value="password"
       :validates="[
         {
@@ -36,13 +32,14 @@
         }
       ]"
       :maxlength="16"
+      label="密码"
+      name="password"
+      type="password"
+      placeholder="请输入密码"
       @get-info="getPasswordInfo"
       @on-enter="submit"
-    />
+    >
     <Input
-      label="邮箱"
-      name="email"
-      placeholder="请输入邮箱"
       :current-value="email"
       :validates="[
         {
@@ -55,9 +52,12 @@
         }
       ]"
       :maxlength="16"
+      label="邮箱"
+      name="email"
+      placeholder="请输入邮箱"
       @get-info="getEmailInfo"
       @on-enter="submit"
-    />
+    >
     <InputCaptcha
       :current-value="captchaVal"
       @get-info="getCaptchaInfo"
@@ -81,7 +81,7 @@ import SigninModal from './ModalSignin.vue'
 import { each } from '../libs/utils.js'
 
 export default {
-  name: 'modal-signup',
+  name: 'ModalSignup',
   extends: SigninModal,
   data() {
     return {

@@ -1,14 +1,14 @@
 <template>
   <div class="article-intro">
-    <span>作者: {{data.author}}</span>
-    <span>时间: {{data.date}}</span>
-    <span :class="'label label-' + randomLabelType()">{{data.articleType}}</span>
+    <span>作者: {{ data.author }}</span>
+    <span>时间: {{ data.date }}</span>
+    <span :class="'label label-' + randomLabelType()">{{ data.articleType }}</span>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'acticle-intro',
+  name: 'ActicleIntro',
   props: {
     data: Object
   },

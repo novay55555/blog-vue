@@ -1,11 +1,17 @@
 <template>
   <div class="article-lists">
     <ul class="list-group">
-      <li v-for="(item, index) in data" :key="index">
-        <router-link :to="'/article/' + item._id" class="list-group-item">
-          <h3>{{item.title}}</h3>
+      <li 
+        v-for="(item, index) in data" 
+        :key="index"
+      >
+        <router-link 
+          :to="'/article/' + item._id" 
+          class="list-group-item"
+        >
+          <h3>{{ item.title }}</h3>
           <Intro :data="item" />
-          <p>{{item.description}}</p>
+          <p>{{ item.description }}</p>
         </router-link>
       </li>
     </ul>
@@ -16,7 +22,7 @@
 import Intro from './ArticleIntro.vue'
 
 export default {
-  name: 'article-lists',
+  name: 'ArticleLists',
   components: {
     Intro
   },

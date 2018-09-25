@@ -1,32 +1,37 @@
 <template>
   <div class="article-form">
     <Input
-      label="文章标题"
-      placeholder="请输入文章标题"
       :validates="[{
         rule: 'isNotEmpty',
         errMsg: '文章标题不能为空'
       }]"
       :current-value="title"
+      label="文章标题"
+      placeholder="请输入文章标题"
       @get-info="getTitleInfo"
-    />
+    >
     <Input 
-      label="作者"
-      placeholder="请输入作者"
       :validates="[{
         rule: 'isNotEmpty',
         errMsg: '作者不能为空'
       }]"
       :current-value="author"
+      label="作者"
+      placeholder="请输入作者"
       @get-info="getAuthorInfo"
-    />
+    >
     <uiv-dropdown class="form-group">
       <label for="date">请选择时间</label>
       <div class="input-group">
         <div class="input-group-btn">
-          <uiv-btn class="dropdown-toggle"><i class="glyphicon glyphicon-calendar"></i></uiv-btn>
+          <uiv-btn class="dropdown-toggle"><i class="glyphicon glyphicon-calendar"/></uiv-btn>
         </div>
-        <input class="form-control" type="text" v-model="date" readonly>
+        <input 
+          v-model="date" 
+          class="form-control" 
+          type="text" 
+          readonly
+        >
       </div>
       <template slot="dropdown">
         <li>
@@ -35,45 +40,45 @@
       </template>
     </uiv-dropdown>
     <Input 
-      label="文章描述"
-      placeholder="请输入文章描述"
       :validates="[{
         rule: 'isNotEmpty',
         errMsg: '文章描述不能为空'
       }]"
       :current-value="description"
+      label="文章描述"
+      placeholder="请输入文章描述"
       @get-info="getDescriptionInfo"
-    />
+    >
     <div class="form-group types">
       <label for="article-types">文章类型</label>
       <p>
         <button 
           v-for="(item, index) in articleTypes" 
           :key="index"
-          class="btn"
           :class="articleType === item ? 'btn-primary' : 'btn-default'"
+          class="btn"
           @click="changeType(item)"
         >
-          {{item}}
+          {{ item }}
         </button>
       </p>
     </div>
     <Textarea 
-      class-name='editor'
-      label='文章内容'
-      placeholder='Write something...'
-      readonly="readonly"
       :validates="[{
         rule: 'isNotEmpty',
         errMsg: '文章内容不能为空'
       }]"
       :current-value="content"
+      class-name="editor"
+      label="文章内容"
+      placeholder="Write something..."
+      readonly="readonly"
       @get-info="getContentInfo"
     />
     <div class="form-group">
       <button 
-        class="btn btn-info" 
-        :disabled="!canSubmit"
+        :disabled="!canSubmit" 
+        class="btn btn-info"
         @click="submit"
       >
         Submit
@@ -90,7 +95,7 @@ import Input from './FormInput.vue'
 import Textarea from './FormTextarea.vue'
 
 export default {
-  name: 'article-form',
+  name: 'ArticleForm',
   components: {
     Input,
     Textarea

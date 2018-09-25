@@ -1,7 +1,10 @@
 <template>
   <Layout class="inside-users">
     <div class="clearfix">
-      <Search @on-search="findUsers" placeholder="search user..." />
+      <Search 
+        placeholder="search user..." 
+        @on-search="findUsers"
+      />
     </div>
     <Table 
       :data="users" 
@@ -31,7 +34,7 @@ import Modal from '../components/UserModal.vue'
 import { asyncHandler } from '../libs/utils.js'
 
 export default {
-  name: 'inside-users',
+  name: 'InsideUsers',
   components: {
     Layout,
     Table,
@@ -44,12 +47,12 @@ export default {
       ctx ? { options: { headers: ctx.headers } } : {}
     )
   },
+  mixins: [mixinSeo],
   data() {
     return {
       modalVisible: false
     }
   },
-  mixins: [mixinSeo],
   computed: mapState('users', {
     users: state => state.items,
     currentPage: state => state.page,

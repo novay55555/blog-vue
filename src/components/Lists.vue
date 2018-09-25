@@ -1,15 +1,18 @@
 <template>
   <dl class="lists">
-    <dt>{{title}}</dt>
-    <dd v-for="(item, index) in data" :key="index">
-      <a :href="item.url">{{item.name}}</a>
+    <dt>{{ title }}</dt>
+    <dd 
+      v-for="(item, index) in data" 
+      :key="index"
+    >
+      <a :href="item.url">{{ item.name }}</a>
     </dd>
   </dl>
 </template>
 
 <script>
 export default {
-  name: 'lists',
+  name: 'Lists',
   props: {
     title: {
       type: String,

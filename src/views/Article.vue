@@ -13,7 +13,7 @@ import Layout from '../layouts/MainPage.vue'
 import ArticleContent from '../components/ArticleContent.vue'
 
 export default {
-  name: 'one-article',
+  name: 'OneArticle',
   components: {
     Layout,
     ArticleContent

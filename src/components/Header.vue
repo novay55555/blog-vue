@@ -1,8 +1,14 @@
 <template>
   <div class="header">
     <uiv-navbar inverse>
-      <router-link class='navbar-brand' to='/'>
-        <img :src="logo || ''" alt='' />
+      <router-link 
+        class="navbar-brand" 
+        to="/"
+      >
+        <img 
+          :src="logo || ''" 
+          alt=""
+        >
       </router-link>
       <template slot="collapse">
         <uiv-navbar-nav>
@@ -11,7 +17,7 @@
             :key="index"
             :class="$route.path === item.path ? 'active' : ''"
           >
-            <router-link :to="item.path">{{item.text}}</router-link>
+            <router-link :to="item.path">{{ item.text }}</router-link>
           </li>
         </uiv-navbar-nav>
       </template>
@@ -21,7 +27,7 @@
 
 <script>
 export default {
-  name: 'nav-header',
+  name: 'NavHeader',
   props: {
     data: {
       type: Array,

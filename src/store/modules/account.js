@@ -27,7 +27,7 @@ export default {
     signup({ commit }, payload) {
       const { username, password, email, captcha } = payload
       return Api.fetchRegister(username, password, email, captcha).then(() => {
-        commit('SIGN', {
+        commit('SIGNIN', {
           username,
           isAdmin: false
         })

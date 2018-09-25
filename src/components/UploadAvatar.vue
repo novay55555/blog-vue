@@ -1,25 +1,34 @@
 <template>
   <div class="upload-avatar">
     <div class="photo">
-      <img :src="photo" alt="">
+      <img 
+        :src="photo" 
+        alt=""
+      >
       <input 
-        type='file' 
-        title='更换头像' 
-        accept='image/*' 
+        type="file" 
+        title="更换头像" 
+        accept="image/*" 
         @change="changePhoto($event)"
-      />
-      <div class="preview"></div>
+      >
+      <div class="preview"/>
     </div>
     <div 
-      class="cropper"
       :style="{
         display: isUploadMode ? 'block' : 'none'
       }"
+      class="cropper"
     >
-      <img ref="image" />
+      <img ref="image" >
       <div class="cropper-btns">
-        <button class="btn btn-success" @click="upload">确定</button>
-        <button class="btn btn-danger" @click="cancel($event)">取消</button>
+        <button 
+          class="btn btn-success" 
+          @click="upload"
+        >确定</button>
+        <button 
+          class="btn btn-danger" 
+          @click="cancel($event)"
+        >取消</button>
       </div>
     </div>
   </div>
@@ -30,7 +39,7 @@ import $ from 'jquery'
 import { loadPlugin } from '../libs/utils.js'
 
 export default {
-  name: 'upload-avatar',
+  name: 'UploadAvatar',
   props: {
     photo: {
       type: String,

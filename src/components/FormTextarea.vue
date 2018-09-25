@@ -2,10 +2,10 @@
   <div :class="'form-textarea form-group ' + status">
     <label 
       v-if="label"
-      class="control-label" 
-      :for="name"
+      :for="name" 
+      class="control-label"
     >
-      {{errMsg || label}}
+      {{ errMsg || label }}
     </label>
     <textarea 
       ref="input"
@@ -24,12 +24,12 @@
 import { mixinInput } from '../libs/mixins.js'
 
 export default {
-  name: 'form-textarea',
+  name: 'FormTextarea',
+  mixins: [mixinInput],
   props: {
     className: String,
     readonly: String
-  },
-  mixins: [mixinInput]
+  }
 }
 </script>
 

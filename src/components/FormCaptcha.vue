@@ -2,30 +2,30 @@
   <div :class="'form-input form-group form-captcha ' + status">
     <label 
       v-if="label"
-      class="control-label" 
-      :for="name"
+      :for="name" 
+      class="control-label"
     >
-      {{errMsg || label}}
+      {{ errMsg || label }}
     </label>
     <div class="clearfix">
       <span 
-        class="captcha" 
-        v-html="captcha" 
-        @click="refreshCaptcha"
         v-uiv-tooltip.top="'看不清点我'" 
+        class="captcha" 
+        @click="refreshCaptcha"
+        v-html="captcha" 
       />
       <div class="inline-input">
         <input
           ref="input"
-          class="form-control" 
-          :type="type"
+          :type="type" 
           :value="currentValue"
           :placeholder="placeholder"
           :maxlength="maxlength"
           :minlength="minlength"
+          class="form-control"
           @input="change($event)"
           @keyup.enter="enterKeyboard"
-        />
+        >
       </div>
     </div>
   </div>
@@ -36,7 +36,8 @@ import { mapState, mapActions } from 'vuex'
 import { mixinInput } from '../libs/mixins.js'
 
 export default {
-  name: 'form-captcha',
+  name: 'FormCaptcha',
+  mixins: [mixinInput],
   props: {
     label: {
       type: String,
@@ -58,7 +59,6 @@ export default {
       default: '请输入验证码'
     }
   },
-  mixins: [mixinInput],
   computed: mapState('account', ['captcha']),
   methods: {
     ...mapActions('account', ['getCaptcha']),

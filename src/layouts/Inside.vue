@@ -1,8 +1,11 @@
 <template>
   <div class="layout-inside">
-    <Header :data="navs" :logo="logo" />
+    <Header 
+      :data="navs" 
+      :logo="logo"
+    />
     <div class="container">
-      <slot></slot>
+      <slot/>
     </div>
   </div>
 </template>
@@ -12,7 +15,7 @@ import { mapState } from 'vuex'
 import Header from '../components/Header.vue'
 
 export default {
-  name: 'layout-inside',
+  name: 'LayoutInside',
   components: {
     Header
   },

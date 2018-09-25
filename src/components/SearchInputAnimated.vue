@@ -1,9 +1,9 @@
 <template>
   <div 
-    class="search-input-animated"
     :style="{
       width: animated ? resolveWidth(animatedWidth) : resolveWidth(width)
     }"
+    class="search-input-animated"
   >
     <Search 
       :placeholder="placeholder" 
@@ -18,7 +18,7 @@
 import Search from './SearchInput.vue'
 
 export default {
-  name: 'search-input-animated',
+  name: 'SearchInputAnimated',
   components: {
     Search
   },

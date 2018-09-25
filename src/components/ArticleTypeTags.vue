@@ -1,15 +1,21 @@
 <template>
   <div class="article-type-tags form-group">
     <label for="">文章类型</label>
-    <p class="types-add" :class="inputShow ? 'active' : ''">
+    <p 
+      :class="inputShow ? 'active' : ''" 
+      class="types-add"
+    >
       <input 
         v-model="value"
         type="text" 
         class="form-control" 
         placeholder="输入文章类型, 回车以保存" 
         @keyup.enter="addType"
-      />
-      <a href="#" @click.prevent="toggleInputShow">新增类型</a>
+      >
+      <a 
+        href="#" 
+        @click.prevent="toggleInputShow"
+      >新增类型</a>
     </p>
     <p>
       <span
@@ -17,7 +23,7 @@
         :key="index" 
         class="label"
       >
-        {{item}}
+        {{ item }}
         <a 
           href="#" 
           class="glyphicon glyphicon-remove"
@@ -30,7 +36,7 @@
 
 <script>
 export default {
-  name: 'article-type-tags',
+  name: 'ArticleTypeTags',
   props: {
     data: {
       type: Array,

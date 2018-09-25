@@ -1,6 +1,9 @@
 <template>
   <Layout>
-    <div v-if="articles.length" class="article-search">
+    <div 
+      v-if="articles.length" 
+      class="article-search"
+    >
       <Lists :data="articles" />
       <uiv-pagination 
         :value="currentPage" 
@@ -19,7 +22,7 @@ import Layout from '../layouts/MainPage.vue'
 import Lists from '../components/ArticleLists.vue'
 
 export default {
-  name: 'article-search',
+  name: 'ArticleSearch',
   components: {
     Layout,
     Lists

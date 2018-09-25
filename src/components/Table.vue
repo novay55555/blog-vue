@@ -1,15 +1,30 @@
 <template>
-  <table class="table bs-table" :class="align">
+  <table 
+    :class="align" 
+    class="table bs-table"
+  >
     <thead>
       <tr>
-        <th v-for="(item, index) in columns" :key="index">{{item.title}}</th>
+        <th 
+          v-for="(item, index) in columns" 
+          :key="index"
+        >{{ item.title }}</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="data in datasource" :key="data.id">
-        <td v-for="column in columns" :key="column.key">
-          <slot :text="column.key" :value="data[column.key]" :record="data">
-          </slot>
+      <tr 
+        v-for="data in datasource" 
+        :key="data.id"
+      >
+        <td 
+          v-for="column in columns" 
+          :key="column.key"
+        >
+          <slot 
+            :text="column.key" 
+            :value="data[column.key]" 
+            :record="data"
+          />
         </td>
       </tr>
     </tbody>
@@ -18,7 +33,7 @@
 
 <script>
 export default {
-  name: 'bootstrap-table',
+  name: 'BootstrapTable',
   props: {
     columns: {
       type: Array,

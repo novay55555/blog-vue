@@ -1,35 +1,44 @@
 <template>
   <div class="main-page">
     <Asidebar :data="asidebarIcons">
-      <ListGroup slot="glyphicon-folder-open" :data="articleTypes" />
+      <ListGroup 
+        slot="glyphicon-folder-open" 
+        :data="articleTypes"
+      />
       <Search 
         slot="glyphicon-search" 
         class="feature-search"
         @on-search="search"
       />
-      <ListGroup slot="glyphicon-send" :data="routeMap" />
-      <ListGroup slot="glyphicon-th" :data="userCtrls" />
+      <ListGroup 
+        slot="glyphicon-send" 
+        :data="routeMap"
+      />
+      <ListGroup 
+        slot="glyphicon-th" 
+        :data="userCtrls"
+      />
     </Asidebar>
     <div class="container-fluid">
       <div class="row">
-        <div class='col-lg-2 col-sm-3'>
+        <div class="col-lg-2 col-sm-3">
           <Author :data="admin" />
         </div>
-        <div class='col-lg-10 col-sm-9'>
-          <slot></slot>
+        <div class="col-lg-10 col-sm-9">
+          <slot/>
         </div>
       </div>
     </div>
     <SigninModal 
       :visible.sync="signinModalVisible"
-      :isLoading="isLoading"
+      :is-loading="isLoading"
       :captcha="captcha"
       @signin="login"
       @get-captcha="getCaptcha"
     />
     <SignupModal 
       :visible.sync="signupModalVisible" 
-      :isLoading="isLoading"
+      :is-loading="isLoading"
       :captcha="captcha"
       @signup="register"
       @get-captcha="getCaptcha"
@@ -48,7 +57,7 @@ import SignupModal from '../components/ModalSignup.vue'
 import Author from '../components/Author.vue'
 
 export default {
-  name: 'main-page',
+  name: 'MainPage',
   components: {
     Asidebar,
     ListGroup,

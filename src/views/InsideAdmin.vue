@@ -1,25 +1,31 @@
 <template>
   <Layout class="inside-admin">
     <div class="photo">
-      <img :src="photoUrl" alt="">
+      <img 
+        :src="photoUrl" 
+        alt=""
+      >
     </div>
     <div class="form-group">
       <label for="">管理员头像</label>
-      <input v-model="photoUrl" type="text" class="form-control" placeholder="请输入头像链接">
+      <input 
+        v-model="photoUrl" 
+        type="text" 
+        class="form-control" 
+        placeholder="请输入头像链接"
+      >
     </div>
     <Input 
-      label="管理员帐号"
-      placeholder="请输入管理员帐号"
       :current-value="name"
       :validates="[{
         rule: 'isNotEmpty',
         errMsg: '管理员帐号不能为空'
       }]"
+      label="管理员帐号"
+      placeholder="请输入管理员帐号"
       @get-info="getAccountInfo"
-    />
+    >
     <Input 
-      label="管理员密码"
-      placeholder="请输入管理员密码"
       :current-value="password"
       :validates="[
         {
@@ -28,11 +34,11 @@
         }
       ]"
       :maxlength="16"
+      label="管理员密码"
+      placeholder="请输入管理员密码"
       @get-info="getPasswordInfo"
-    />
+    >
     <Input 
-      label="管理员邮箱"
-      placeholder="请输入管理员邮箱"
       :current-value="email"
       :validates="[
         {
@@ -44,23 +50,29 @@
           errMsg: '邮箱格式不正确'
         }
       ]"
+      label="管理员邮箱"
+      placeholder="请输入管理员邮箱"
       @get-info="getEmailInfo"
-    />
+    >
     <Input 
+      :current-value="job"
       label="职业"
       placeholder="输入职业则会显示在首页"
-      :current-value="job"
       @get-info="getJobInfo"
-    />
+    >
     <Input 
+      :current-value="intro"
       label="简介"
       placeholder="输入简介则会显示在首页"
-      :current-value="intro"
       @get-info="getIntroInfo"
-    />
+    >
     <ArticleTypes :data.sync="articleTypes" />
     <div class="form-group">
-      <button class="btn btn-info" :disabled="!canSubmit" @click="renewBlog">Submit</button>
+      <button 
+        :disabled="!canSubmit" 
+        class="btn btn-info" 
+        @click="renewBlog"
+      >Submit</button>
     </div>
   </Layout>
 </template>
@@ -75,7 +87,7 @@ import Upload from '../components/UploadAvatar.vue'
 import ArticleTypes from '../components/ArticleTypeTags.vue'
 
 export default {
-  name: 'inside-admin',
+  name: 'InsideAdmin',
   components: {
     Layout,
     Input,
@@ -88,6 +100,7 @@ export default {
       ctx ? { headers: ctx.headers } : {}
     )
   },
+  mixins: [mixinSeo],
   data() {
     return {
       name: '',
@@ -103,7 +116,6 @@ export default {
       canSubmit: true
     }
   },
-  mixins: [mixinSeo],
   computed: {
     ...mapState('account', {
       admin: state => state.admin

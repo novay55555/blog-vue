@@ -6,15 +6,18 @@
       class="list-group-item"
       @click.prevent="handler(item.link, item.handler)"
     >
-      <span v-if="item.count" class='badge'>{{item.count}}</span>
-      {{item.text}}
+      <span 
+        v-if="item.count" 
+        class="badge"
+      >{{ item.count }}</span>
+      {{ item.text }}
     </a>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'list-group',
+  name: 'ListGroup',
   props: {
     data: {
       type: Array,

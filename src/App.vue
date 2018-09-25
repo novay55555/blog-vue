@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <router-view/>
     <vue-progress-bar />
-    <Footer></Footer>
+    <Footer/>
   </div>
 </template>
 
@@ -13,7 +13,7 @@ import Footer from './components/Footer.vue'
 disableScrollbarPostion()
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
     Footer
   }

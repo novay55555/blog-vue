@@ -2,22 +2,22 @@
   <div :class="'form-input form-group ' + status">
     <label 
       v-if="label"
-      class="control-label" 
-      :for="name"
+      :for="name" 
+      class="control-label"
     >
-      {{errMsg || label}}
+      {{ errMsg || label }}
     </label>
     <input
       ref="input"
-      class="form-control" 
-      :type="type"
+      :type="type" 
       :value="currentValue"
       :placeholder="placeholder"
       :maxlength="maxlength"
       :minlength="minlength"
+      class="form-control"
       @input="change($event)"
       @keyup.enter="enterKeyboard"
-    />
+    >
   </div>
 </template>
 
@@ -25,7 +25,7 @@
 import { mixinInput } from '../libs/mixins.js'
 
 export default {
-  name: 'form-input',
+  name: 'FormInput',
   mixins: [mixinInput]
 }
 </script>

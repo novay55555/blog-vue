@@ -1,6 +1,9 @@
 <template>
   <Layout>
-    <div v-if="articles.length" class="articles">
+    <div 
+      v-if="articles.length" 
+      class="articles"
+    >
       <Lists :data="articles" />
       <uiv-pagination 
         :value="currentPage" 
@@ -24,7 +27,7 @@ const fetchInitData = function(store, route) {
 }
 
 export default {
-  name: 'articles',
+  name: 'Articles',
   components: {
     Layout,
     Lists
