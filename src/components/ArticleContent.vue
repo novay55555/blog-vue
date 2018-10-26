@@ -4,8 +4,7 @@
     <Intro :data="data" />
     <div 
       class="text" 
-      v-html="markedContent(data.content)"
-    />
+      v-html="markedContent(data.content)"/>
   </div>
 </template>
 

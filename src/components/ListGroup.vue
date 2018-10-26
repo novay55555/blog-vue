@@ -4,12 +4,10 @@
       v-for="(item, index) in data" 
       :key="index"
       class="list-group-item"
-      @click.prevent="handler(item.link, item.handler)"
-    >
+      @click.prevent="handler(item.link, item.handler)">
       <span 
         v-if="item.count" 
-        class="badge"
-      >{{ item.count }}</span>
+        class="badge">{{ item.count }}</span>
       {{ item.text }}
     </a>
   </div>

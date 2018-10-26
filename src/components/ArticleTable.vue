@@ -2,30 +2,25 @@
   <div class="article-table">
     <Table 
       :columns="columns" 
-      :datasource="data"
-    >
+      :datasource="data">
       <template slot-scope="props">
         <router-link 
           v-if="props.text === 'title'" 
-          :to="props.record.link"
-        >{{ props.record.title }}</router-link>
+          :to="props.record.link">{{ props.record.title }}</router-link>
         <span v-else-if="props.text === 'operate'">
           <a 
             href="#" 
-            @click.prevent="editArticle(props.record._id)"
-          >编辑</a>
+            @click.prevent="editArticle(props.record._id)">编辑</a>
           <a 
             href="#" 
-            @click.prevent="deleteArticle(props.record._id)"
-          >删除</a>
+            @click.prevent="deleteArticle(props.record._id)">删除</a>
         </span>
         <span v-else>{{ props.value }}</span>
       </template>
     </Table>
     <div 
       v-if="loading" 
-      class="loading"
-    />
+      class="loading"/>
   </div>
 </template>
 

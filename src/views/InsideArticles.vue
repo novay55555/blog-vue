@@ -2,28 +2,24 @@
   <Layout class="inside-articles">
     <uiv-tabs 
       v-model="activeTabIndex" 
-      @change="changeTab"
-    >
+      @change="changeTab">
       <uiv-tab title="文章列表">
         <div class="clearfix">
           <Search 
             class="search"
             placeholder="search articles..." 
-            @on-search="search"
-          />
+            @on-search="search"/>
         </div>
         <Table 
           :data="articles" 
           :loading="loadingTable"
           @on-delete="removeArticle" 
-          @on-edit="showEditArticle"
-        />
+          @on-edit="showEditArticle"/>
         <uiv-pagination 
           :value="currentPage" 
           :total-page="total"
           align="center"
-          @change="changePage"
-        />
+          @change="changePage"/>
       </uiv-tab>
       <uiv-tab title="文章发布">
         <Form 
@@ -32,8 +28,7 @@
           :current-index="1"
           :article="currentArticle"
           :mode="articleMode"
-          @submit-article="submitArticle"
-        />
+          @submit-article="submitArticle"/>
       </uiv-tab>
     </uiv-tabs>
   </Layout>

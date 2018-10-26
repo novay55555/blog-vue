@@ -3,21 +3,17 @@
     <Asidebar :data="asidebarIcons">
       <ListGroup 
         slot="glyphicon-folder-open" 
-        :data="articleTypes"
-      />
+        :data="articleTypes"/>
       <Search 
         slot="glyphicon-search" 
         class="feature-search"
-        @on-search="search"
-      />
+        @on-search="search"/>
       <ListGroup 
         slot="glyphicon-send" 
-        :data="routeMap"
-      />
+        :data="routeMap"/>
       <ListGroup 
         slot="glyphicon-th" 
-        :data="userCtrls"
-      />
+        :data="userCtrls"/>
     </Asidebar>
     <div class="container-fluid">
       <div class="row">
@@ -34,15 +30,13 @@
       :is-loading="isLoading"
       :captcha="captcha"
       @signin="login"
-      @get-captcha="getCaptcha"
-    />
+      @get-captcha="getCaptcha"/>
     <SignupModal 
       :visible.sync="signupModalVisible" 
       :is-loading="isLoading"
       :captcha="captcha"
       @signup="register"
-      @get-captcha="getCaptcha"
-    />
+      @get-captcha="getCaptcha"/>
   </div>
 </template>
 

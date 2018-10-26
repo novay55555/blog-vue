@@ -12,8 +12,7 @@
           role="progressbar" 
           aria-valuenow="{progress}" 
           aria-valuemin="0" 
-          aria-valuemax="100" 
-        />
+          aria-valuemax="100"/>
         <div class="progress-text">
           {{ isBack ? 'Holy shit :(' : `${progress}%` }}
         </div>

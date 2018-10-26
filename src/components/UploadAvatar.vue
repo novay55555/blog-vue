@@ -3,32 +3,27 @@
     <div class="photo">
       <img 
         :src="photo" 
-        alt=""
-      >
+        alt="">
       <input 
         type="file" 
         title="更换头像" 
         accept="image/*" 
-        @change="changePhoto($event)"
-      >
+        @change="changePhoto($event)">
       <div class="preview"/>
     </div>
     <div 
       :style="{
         display: isUploadMode ? 'block' : 'none'
       }"
-      class="cropper"
-    >
+      class="cropper">
       <img ref="image" >
       <div class="cropper-btns">
         <button 
           class="btn btn-success" 
-          @click="upload"
-        >确定</button>
+          @click="upload">确定</button>
         <button 
           class="btn btn-danger" 
-          @click="cancel($event)"
-        >取消</button>
+          @click="cancel($event)">取消</button>
       </div>
     </div>
   </div>

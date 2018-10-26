@@ -1,21 +1,23 @@
 <template>
-  <Layout class="inside-admin">
-    <div class="photo">
+  <Layout 
+    class="inside-admin">
+    <div 
+      class="photo">
       <img 
         :src="photoUrl" 
-        alt=""
-      >
+        alt="">
     </div>
-    <div class="form-group">
-      <label for="">管理员头像</label>
+    <div 
+      class="form-group">
+      <label 
+        for="">管理员头像</label>
       <input 
         v-model="photoUrl" 
         type="text" 
         class="form-control" 
-        placeholder="请输入头像链接"
-      >
+        placeholder="请输入头像链接">
     </div>
-    <Input 
+    <InputGroup 
       :current-value="name"
       :validates="[{
         rule: 'isNotEmpty',
@@ -23,9 +25,8 @@
       }]"
       label="管理员帐号"
       placeholder="请输入管理员帐号"
-      @get-info="getAccountInfo"
-    >
-    <Input 
+      @get-info="getAccountInfo"/>
+    <InputGroup 
       :current-value="password"
       :validates="[
         {
@@ -36,9 +37,8 @@
       :maxlength="16"
       label="管理员密码"
       placeholder="请输入管理员密码"
-      @get-info="getPasswordInfo"
-    >
-    <Input 
+      @get-info="getPasswordInfo"/>
+    <InputGroup 
       :current-value="email"
       :validates="[
         {
@@ -52,27 +52,25 @@
       ]"
       label="管理员邮箱"
       placeholder="请输入管理员邮箱"
-      @get-info="getEmailInfo"
-    >
-    <Input 
+      @get-info="getEmailInfo"/>
+    <InputGroup 
       :current-value="job"
       label="职业"
       placeholder="输入职业则会显示在首页"
-      @get-info="getJobInfo"
-    >
-    <Input 
+      @get-info="getJobInfo"/>
+    <InputGroup 
       :current-value="intro"
       label="简介"
       placeholder="输入简介则会显示在首页"
-      @get-info="getIntroInfo"
-    >
-    <ArticleTypes :data.sync="articleTypes" />
-    <div class="form-group">
+      @get-info="getIntroInfo"/>
+    <ArticleTypes 
+      :data.sync="articleTypes"/>
+    <div 
+      class="form-group">
       <button 
         :disabled="!canSubmit" 
         class="btn btn-info" 
-        @click="renewBlog"
-      >Submit</button>
+        @click="renewBlog">Submit</button>
     </div>
   </Layout>
 </template>
@@ -90,7 +88,7 @@ export default {
   name: 'InsideAdmin',
   components: {
     Layout,
-    Input,
+    InputGroup: Input,
     Upload,
     ArticleTypes
   },

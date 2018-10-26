@@ -3,16 +3,13 @@
     <h5>Powered by&nbsp;
       <a 
         href="https://vuejs.org/" 
-        target="_blank"
-      >Vue</a>&nbsp;
+        target="_blank">Vue</a>&nbsp;
       <a 
         href="https://uiv.wxsm.space/" 
-        target="_blank"
-      >Uiv</a>&nbsp;
+        target="_blank">Uiv</a>&nbsp;
       <a 
         href="https://jquery.com/" 
-        target="_blank"
-      >jQuery</a>&nbsp;
+        target="_blank">jQuery</a>&nbsp;
     </h5>
     <p>Coding with my faith!</p>
   </div>

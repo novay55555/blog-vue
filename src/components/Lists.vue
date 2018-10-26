@@ -3,8 +3,7 @@
     <dt>{{ title }}</dt>
     <dd 
       v-for="(item, index) in data" 
-      :key="index"
-    >
+      :key="index">
       <a :href="item.url">{{ item.name }}</a>
     </dd>
   </dl>

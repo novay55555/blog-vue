@@ -2,8 +2,7 @@
   <div class="layout-inside">
     <Header 
       :data="navs" 
-      :logo="logo"
-    />
+      :logo="logo"/>
     <div class="container">
       <slot/>
     </div>

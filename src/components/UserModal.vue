@@ -4,9 +4,8 @@
     title="修改用户"
     cancel-text="取消"
     ok-text="确定"
-    size="sm"
-  >
-    <Input
+    size="sm">
+    <InputGroup
       :current-value="password"
       :validates="[
         {
@@ -19,9 +18,8 @@
       name="password"
       type="password"
       placeholder="请输入密码"
-      @get-info="getPasswordInfo"
-    >
-    <Input
+      @get-info="getPasswordInfo"/>
+    <InputGroup
       :current-value="email"
       :validates="[
         {
@@ -37,15 +35,15 @@
       label="邮箱"
       name="email"
       placeholder="请输入邮箱"
-      @get-info="getEmailInfo"
-    >
-    <div slot="footer">
-      <uiv-btn @click="value=false">取消</uiv-btn>
+      @get-info="getEmailInfo"/>
+    <div 
+      slot="footer">
+      <uiv-btn 
+        @click="value=false">取消</uiv-btn>
       <uiv-btn 
         :disabled="!canSubmit"
         type="primary" 
-        @click="submit"
-      >
+        @click="submit">
         确定
       </uiv-btn>
     </div>
@@ -60,7 +58,7 @@ import Input from './FormInput.vue'
 export default {
   name: 'UserModal',
   components: {
-    Input
+    InputGroup: Input
   },
   mixins: [mixinModal],
   props: {

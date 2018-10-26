@@ -11,10 +11,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'vue/require-default-prop': "never",
-    "vue/html-closing-bracket-newline": ["error", {
-      "singleline": "never",
-      "multiline": "always"
-    }]
+    "vue/html-closing-bracket-newline": ["error", { multiline: 'never' }]
   },
   parserOptions: {
     parser: 'babel-eslint'

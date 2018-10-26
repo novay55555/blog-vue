@@ -3,20 +3,17 @@
     <uiv-navbar inverse>
       <router-link 
         class="navbar-brand" 
-        to="/"
-      >
+        to="/">
         <img 
           :src="logo || ''" 
-          alt=""
-        >
+          alt="">
       </router-link>
       <template slot="collapse">
         <uiv-navbar-nav>
           <li 
             v-for="(item, index) in data" 
             :key="index"
-            :class="$route.path === item.path ? 'active' : ''"
-          >
+            :class="$route.path === item.path ? 'active' : ''">
             <router-link :to="item.path">{{ item.text }}</router-link>
           </li>
         </uiv-navbar-nav>

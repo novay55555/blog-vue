@@ -1,30 +1,25 @@
 <template>
   <table 
     :class="align" 
-    class="table bs-table"
-  >
+    class="table bs-table">
     <thead>
       <tr>
         <th 
           v-for="(item, index) in columns" 
-          :key="index"
-        >{{ item.title }}</th>
+          :key="index">{{ item.title }}</th>
       </tr>
     </thead>
     <tbody>
       <tr 
         v-for="data in datasource" 
-        :key="data.id"
-      >
+        :key="data.id">
         <td 
           v-for="column in columns" 
-          :key="column.key"
-        >
+          :key="column.key">
           <slot 
             :text="column.key" 
             :value="data[column.key]" 
-            :record="data"
-          />
+            :record="data"/>
         </td>
       </tr>
     </tbody>

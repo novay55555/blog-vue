@@ -2,15 +2,13 @@
   <Layout>
     <div 
       v-if="articles.length" 
-      class="articles"
-    >
+      class="articles">
       <Lists :data="articles" />
       <uiv-pagination 
         :value="currentPage" 
         :total-page="total"
         align="center"
-        @change="changePage"
-      />
+        @change="changePage"/>
     </div>
   </Layout>
 </template>

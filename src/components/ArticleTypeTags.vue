@@ -3,32 +3,27 @@
     <label for="">文章类型</label>
     <p 
       :class="inputShow ? 'active' : ''" 
-      class="types-add"
-    >
+      class="types-add">
       <input 
         v-model="value"
         type="text" 
         class="form-control" 
         placeholder="输入文章类型, 回车以保存" 
-        @keyup.enter="addType"
-      >
+        @keyup.enter="addType">
       <a 
         href="#" 
-        @click.prevent="toggleInputShow"
-      >新增类型</a>
+        @click.prevent="toggleInputShow">新增类型</a>
     </p>
     <p>
       <span
         v-for="(item, index) in data"
         :key="index" 
-        class="label"
-      >
+        class="label">
         {{ item }}
         <a 
           href="#" 
           class="glyphicon glyphicon-remove"
-          @click.prevent="deleteType(item)"
-        />
+          @click.prevent="deleteType(item)"/>
       </span>
     </p>
   </div>

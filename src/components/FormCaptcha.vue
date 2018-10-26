@@ -3,8 +3,7 @@
     <label 
       v-if="label"
       :for="name" 
-      class="control-label"
-    >
+      class="control-label">
       {{ errMsg || label }}
     </label>
     <div class="clearfix">
@@ -12,8 +11,7 @@
         v-uiv-tooltip.top="'看不清点我'" 
         class="captcha" 
         @click="refreshCaptcha"
-        v-html="captcha" 
-      />
+        v-html="captcha"/>
       <div class="inline-input">
         <input
           ref="input"
@@ -24,8 +22,7 @@
           :minlength="minlength"
           class="form-control"
           @input="change($event)"
-          @keyup.enter="enterKeyboard"
-        >
+          @keyup.enter="enterKeyboard">
       </div>
     </div>
   </div>

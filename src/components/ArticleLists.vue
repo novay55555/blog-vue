@@ -3,12 +3,10 @@
     <ul class="list-group">
       <li 
         v-for="(item, index) in data" 
-        :key="index"
-      >
+        :key="index">
         <router-link 
           :to="'/article/' + item._id" 
-          class="list-group-item"
-        >
+          class="list-group-item">
           <h3>{{ item.title }}</h3>
           <Intro :data="item" />
           <p>{{ item.description }}</p>

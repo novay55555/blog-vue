@@ -3,8 +3,7 @@
     <label 
       v-if="label"
       :for="name" 
-      class="control-label"
-    >
+      class="control-label">
       {{ errMsg || label }}
     </label>
     <textarea 
@@ -15,8 +14,7 @@
       :maxlength="maxlength"
       :minlength="minlength"
       :readonly="readonly"
-      @input="change($event)"
-    />
+      @input="change($event)"/>
   </div>
 </template>
 

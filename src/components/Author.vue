@@ -3,8 +3,7 @@
     <div class="photo">
       <img 
         :src="data.photoUrl" 
-        :alt="data.name"
-      >
+        :alt="data.name">
     </div>
     <div class="intro">
       <p>{{ data.name }}</p>

@@ -3,14 +3,12 @@
     :style="{
       width: animated ? resolveWidth(animatedWidth) : resolveWidth(width)
     }"
-    class="search-input-animated"
-  >
+    class="search-input-animated">
     <Search 
       :placeholder="placeholder" 
       @on-focus="focus"
       @on-blur="blur"
-      @on-search="search"
-    />
+      @on-search="search"/>
   </div>
 </template>
 

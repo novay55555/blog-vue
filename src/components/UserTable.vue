@@ -2,18 +2,15 @@
   <div class="user-table">
     <Table 
       :columns="columns" 
-      :datasource="data"
-    >
+      :datasource="data">
       <template slot-scope="props">
         <span v-if="props.text === 'operate'">
           <a 
             href="#" 
-            @click.prevent="editUser(props.record._id)"
-          >编辑</a>
+            @click.prevent="editUser(props.record._id)">编辑</a>
           <a 
             href="#" 
-            @click.prevent="deleteUser(props.record._id)"
-          >删除</a>
+            @click.prevent="deleteUser(props.record._id)">删除</a>
         </span>
         <span v-else>{{ props.value }}</span>
       </template>

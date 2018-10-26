@@ -6,16 +6,13 @@
           v-for="(item, index) in data" 
           :key="index"
           :class="activeIndex === index ? 'active' : ''"
-          @click="stopPropagationClick"
-        >
+          @click="stopPropagationClick">
           <span 
             :class="'glyphicon ' + item.icon" 
-            @click.stop="toggleChildren(index)"
-          />
+            @click.stop="toggleChildren(index)"/>
           <div 
             :style="{top: index === 0 ? index : (index * liHeight + liPaddingTop) + 'px'}" 
-            class="children"
-          >
+            class="children">
             <slot :name="item.slotName || ''" />
           </div>
         </li>
@@ -23,8 +20,7 @@
     </div>
     <span 
       class="glyphicon glyphicon-align-justify btn-mobile"
-      @click="toggleMobileAside"
-    />
+      @click="toggleMobileAside"/>
   </div>
 </template>
 

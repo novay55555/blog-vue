@@ -3,24 +3,20 @@
     <div class="clearfix">
       <Search 
         placeholder="search user..." 
-        @on-search="findUsers"
-      />
+        @on-search="findUsers"/>
     </div>
     <Table 
       :data="users" 
       @on-delete="removeUser"
-      @on-edit="getUser"
-    />
+      @on-edit="getUser"/>
     <uiv-pagination 
       :value="currentPage" 
       :total-page="total"
-      align="center"
-    />
+      align="center"/>
     <Modal 
       :data="currentUser" 
       :visible.sync="modalVisible" 
-      @on-submit="editUserInfo"
-    />
+      @on-submit="editUserInfo"/>
   </Layout>
 </template>
 

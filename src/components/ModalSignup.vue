@@ -4,9 +4,8 @@
     title="注册"
     cancel-text="取消"
     ok-text="确定"
-    size="sm"
-  >
-    <Input 
+    size="sm">
+    <InputGroup 
       :current-value="username"
       :validates="[{
         rule: 'isNotEmpty',
@@ -17,9 +16,8 @@
       placeholder="请输入用户名"
       name="username"
       @get-info="getUsernameInfo"
-      @on-enter="submit"
-    >
-    <Input
+      @on-enter="submit"/>
+    <InputGroup
       :current-value="password"
       :validates="[
         {
@@ -37,9 +35,8 @@
       type="password"
       placeholder="请输入密码"
       @get-info="getPasswordInfo"
-      @on-enter="submit"
-    >
-    <Input
+      @on-enter="submit"/>
+    <InputGroup
       :current-value="email"
       :validates="[
         {
@@ -56,20 +53,19 @@
       name="email"
       placeholder="请输入邮箱"
       @get-info="getEmailInfo"
-      @on-enter="submit"
-    >
+      @on-enter="submit"/>
     <InputCaptcha
       :current-value="captchaVal"
       @get-info="getCaptchaInfo"
-      @on-enter="submit"
-    />
-    <div slot="footer">
-      <uiv-btn @click="value=false">取消</uiv-btn>
+      @on-enter="submit"/>
+    <div 
+      slot="footer">
+      <uiv-btn 
+        @click="value=false">取消</uiv-btn>
       <uiv-btn 
         :disabled="!canSubmit || isLoading"
         type="primary" 
-        @click="submit"
-      >
+        @click="submit">
         确定
       </uiv-btn>
     </div>

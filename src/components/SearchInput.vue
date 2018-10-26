@@ -7,13 +7,11 @@
       type="text"
       @keyup.enter="search"
       @focus="focus($event)"
-      @blur="blur($event)"
-    >
+      @blur="blur($event)">
     <a 
       href="#" 
       class="glyphicon glyphicon-search"
-      @click.prevent="search"
-    />
+      @click.prevent="search"/>
   </div>
 </template>
 

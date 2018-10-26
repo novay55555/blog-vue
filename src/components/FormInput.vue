@@ -3,8 +3,7 @@
     <label 
       v-if="label"
       :for="name" 
-      class="control-label"
-    >
+      class="control-label">
       {{ errMsg || label }}
     </label>
     <input
@@ -16,8 +15,7 @@
       :minlength="minlength"
       class="form-control"
       @input="change($event)"
-      @keyup.enter="enterKeyboard"
-    >
+      @keyup.enter="enterKeyboard">
   </div>
 </template>
 
