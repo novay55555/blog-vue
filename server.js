@@ -71,7 +71,7 @@ router.get('*', async ctx => {
     return
   }
 
-  let hit = pageCache.get(ctx.path)
+  let hit = pageCache.get(ctx.href)
 
   if (!hit) {
     hit = await render(ctx)
@@ -98,12 +98,7 @@ function render(ctx) {
   }
 
   return renderer.renderToString(context).then(result => {
-    // search路由是根据query动态获取页面数据的, 缓存时间需要大幅缩短
-    pageCache.set(
-      ctx.path,
-      result,
-      getLruMaxAge(context.url !== '/search' ? 7777 : 250)
-    )
+    pageCache.set(ctx.href, result)
 
     return Promise.resolve(result)
   })
@@ -116,7 +111,7 @@ function createRenderer(bundle, options = {}) {
       inject: false,
       runInNewContext: false,
       cache: LRU({
-        max: isProd ? 0 : 1000
+        max: isProd ? 1000 : 0
       })
     })
   )
